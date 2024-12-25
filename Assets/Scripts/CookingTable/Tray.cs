@@ -94,7 +94,7 @@ public class Tray : MonoBehaviour
     private IEnumerator SpawItems(Player player)
     {
         for (int i = 0; i < maxStackNumber; i++)
-        {
+        {   
             player.ReleaseItems(itemsPosition, maxStackNumber);
             yield return new WaitForSeconds(0.5f);
         }

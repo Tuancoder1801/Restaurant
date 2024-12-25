@@ -8,6 +8,7 @@ public class Machine : MonoBehaviour
 {   
     public Timer timer;
     public Transform cookIndex;
+    public Tray tray;
     public Plate plate;
     public BaseItem baseItem;
 
@@ -24,8 +25,6 @@ public class Machine : MonoBehaviour
 
     private void StartCooking()
     {
-        Tray tray = CookingTable.Instance.tray;
-
         if (!tray.HasItem())
         {
             return;
@@ -86,8 +85,6 @@ public class Machine : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         List<Transform> itemsToAdd = new List<Transform>();
-
-        Tray tray = CookingTable.Instance.tray;
 
         for(int i = 0; i < tray.itemsPosition.Count; i++)
         {
