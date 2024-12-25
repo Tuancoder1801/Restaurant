@@ -48,8 +48,7 @@ public class RawBin : MonoBehaviour
             if(player.currentItemNumber < player.maxStackNumber)
             {
                 BaseItem item = Instantiate(baseItem, itemIndex.position, itemIndex.rotation);
-                player.ReceiveItems(item.transform);
-                //yield return new WaitForSeconds(0.5f);
+                player.ReceiveItems(item);
             }
 
             yield return new WaitForSeconds(0.5f);

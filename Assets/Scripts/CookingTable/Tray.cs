@@ -16,15 +16,6 @@ public class Tray : MonoBehaviour
 
     private void Awake()
     {
-        /*for (int i = 0; i < itemsPosition.Count; i++)
-        {
-            ItemId itemId = itemsPosition[i].itemId;
-
-            if (!currentItemPos.ContainsKey(itemId))
-            {
-                currentItemPos[itemId] = 0;
-            }
-        }*/
     }
 
     public bool HasItem()

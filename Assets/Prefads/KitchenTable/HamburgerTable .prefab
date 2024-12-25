@@ -71,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: {fileID: 3990867706604785033}
   cookIndex: {fileID: 8156885695486416125}
+  tray: {fileID: 8872460233659286997}
   plate: {fileID: 7937640853490147623}
   baseItem: {fileID: 5899547259091055303, guid: bc3c55982b1392b4f844982c62aa8191, type: 3}
   processing: {fileID: 6417848525891526702}
@@ -1671,6 +1672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackNumberText: {fileID: 8149851259985286839}
   itemId: 5
+  tray: {fileID: 8872460233659286997}
 --- !u!1 &6808170776268640026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,6 +1734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackNumberText: {fileID: 7311449812433198244}
   itemId: 3
+  tray: {fileID: 8872460233659286997}
 --- !u!1 &6999348076708308068
 GameObject:
   m_ObjectHideFlags: 0

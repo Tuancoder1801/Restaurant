@@ -67,7 +67,7 @@ public class Plate : MonoBehaviour
     {
         while (currentStackNumber > 0 && player.currentItemNumber < player.maxStackNumber)
         {
-            Transform item = itemsTransform[currentStackNumber - 1].GetChild(0);
+            BaseItem item = itemsTransform[currentStackNumber - 1].GetComponent<BaseItem>();
             player.ReceiveItems(item);
             currentStackNumber--;
             yield return new WaitForSeconds(0.5f);

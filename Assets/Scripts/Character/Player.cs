@@ -21,7 +21,7 @@ public class Player : Character
 
     private Queue<System.Action> actionQueue = new Queue<System.Action>();
     private bool isProcessing = false;
-    public bool isHolding => currentItemNumber > 0;
+    public bool isHolding = false;
 
 
     public override void Awake()
@@ -155,120 +155,89 @@ public class Player : Character
 
     #endregion
 
-    private void EnqueueAction(System.Action action)
+    public void ReceiveItems(BaseItem item)
     {
-        actionQueue.Enqueue(action);
-
-        if (!isProcessing)
+        if (itemTransforms[currentItemNumber].childCount > 0)
         {
-            ProcessNextAction();
-        }
-    }
-
-    private void ProcessNextAction()
-    {
-        if (actionQueue.Count == 0)
-        {
-            isProcessing = false;
             return;
         }
 
-        isProcessing = true;
-        System.Action action = actionQueue.Dequeue();
-        action.Invoke();
-    }
-
-    public void ReceiveItems(Transform item)
-    {
-        EnqueueAction(() =>
+        isHolding = true;
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(
+        item.transform.DOJump(itemTransforms[currentItemNumber].position, 2f, 1, 0.5f).OnComplete(() =>
         {
-            if (itemTransforms[currentItemNumber].childCount > 0)
-            {
-                ProcessNextAction();
-                return;
-            }
+            item.transform.SetParent(itemTransforms[currentItemNumber]);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+            item.transform.localScale = Vector3.one;
 
-            //isHolding = true;
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(
-            item.DOJump(itemTransforms[currentItemNumber].position, 2f, 1, 0.5f).OnComplete(() =>
-            {
-                item.SetParent(itemTransforms[currentItemNumber]);
-                item.localPosition = Vector3.zero;
-                item.localRotation = Quaternion.identity;
-                item.localScale = Vector3.one;
+            currentItemNumber++;
 
-                currentItemNumber++;
-                ProcessNextAction();
-            })
-            );
-        });
+        })
+        );
+
     }
 
     public void ReleaseItems(List<ItemPosition> itemPositions, int maxStack)
     {
-        EnqueueAction(() =>
+
+        if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count)
         {
-            if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count)
+            Debug.LogWarning("Invalid currentItemNumber or out of range.");
+            return;
+        }
+
+        Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
+
+        ItemId itemId = item.GetComponent<BaseItem>().itemId;
+        Sequence sequence = DOTween.Sequence();
+
+        foreach (var itemPosition in itemPositions)
+        {
+            if (itemPosition.itemId == itemId)
             {
-                Debug.LogWarning("Invalid currentItemNumber or out of range.");
-                ProcessNextAction();
-                return;
-            }
-
-            Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
-
-            ItemId itemId = item.GetComponent<BaseItem>().itemId;
-            Sequence sequence = DOTween.Sequence();
-
-            foreach (var itemPosition in itemPositions)
-            {
-                if (itemPosition.itemId == itemId)
+                if (itemPosition.currentStackNumber < maxStack)
                 {
-                    if (itemPosition.currentStackNumber < maxStack)
+                    sequence.Append(
+                    item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 2f, 1, 0.5f).OnComplete(() =>
                     {
-                        sequence.Append(
-                        item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 2f, 1, 0.5f).OnComplete(() =>
-                        {
-                            item.SetParent(itemPosition.itemPositions[itemPosition.currentStackNumber]);
-                            item.localPosition = Vector3.zero;
-                            item.localRotation = Quaternion.identity;
-                            item.localScale = Vector3.one;
+                        item.SetParent(itemPosition.itemPositions[itemPosition.currentStackNumber]);
+                        item.localPosition = Vector3.zero;
+                        item.localRotation = Quaternion.identity;
+                        item.localScale = Vector3.one;
 
-                            currentItemNumber--;
-                            itemPosition.currentStackNumber++;
-                            ProcessNextAction();
-                        })
-                        );
-                    }
+                        currentItemNumber--;
+                        itemPosition.currentStackNumber++;
+
+                        if(currentItemNumber == 0) isHolding = false;
+                    })
+                    );
                 }
             }
-            ProcessNextAction();
-        });
+        }
     }
 
     public void DropItems(Transform targetTransform)
     {
-        EnqueueAction(() =>
+        if (currentItemNumber < 0)
         {
-            if (currentItemNumber < 0) 
-            {
-                ProcessNextAction();
-                return; 
-            }
+            return;
+        }
 
-            Sequence sequence = DOTween.Sequence();
-            Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
+        Sequence sequence = DOTween.Sequence();
+        Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
 
-            sequence.Append(
-            item.DOJump(targetTransform.position, 2f, 1, 0.5f).OnComplete(() =>
-            {
-                Destroy(item.gameObject);
-                currentItemNumber--;
-                ProcessNextAction();
-            })
-            );
-        });
+        sequence.Append(
+        item.DOJump(targetTransform.position, 2f, 1, 0.5f).OnComplete(() =>
+        {
+            Destroy(item.gameObject);
+            currentItemNumber--;
+
+            if (currentItemNumber == 0) isHolding = false;
+        })
+        );
+
     }
 
 }
