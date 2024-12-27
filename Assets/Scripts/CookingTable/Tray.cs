@@ -9,7 +9,6 @@ public class Tray : MonoBehaviour
 {
     public int maxStackNumber = 4;
     public List<ItemPosition> itemsPosition = new List<ItemPosition>();
-    //public Dictionary<ItemId, int> currentItemPos = new Dictionary<ItemId, int>();
 
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
@@ -20,30 +19,16 @@ public class Tray : MonoBehaviour
 
     public bool HasItem()
     {
-        int validItemPositionCount = 0;
-
-        for (int i = 0; i < itemsPosition.Count; i++)
+        for(int i = 0; i < itemsPosition.Count; i++)
         {
-            bool hasItemInThisPosition = false;
-            List<Transform> pos = itemsPosition[i].itemPositions;
+            List<Transform> items = itemsPosition[i].itemPositions;
 
-            for (int j = 0; j < pos.Count; j++)
+            for(int j =  0; j < items.Count; j++)
             {
-                if (pos[j].childCount > 0)
+                if (items[j].childCount > 0)
                 {
-                    hasItemInThisPosition = true;
-                    break;
+                    return true;
                 }
-            }
-
-            if (hasItemInThisPosition)
-            {
-                validItemPositionCount++;
-            }
-
-            if (validItemPositionCount >= 2)
-            {
-                return true;
             }
         }
 
