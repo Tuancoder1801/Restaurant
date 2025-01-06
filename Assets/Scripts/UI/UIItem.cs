@@ -1,40 +1,30 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIItem : MonoBehaviour
 {
-    public Text stackNumberText;
-    public ItemId itemId;
-    public Tray tray;
+    public ItemId item;
+    public Image imgIcon;
+    public Text txtNumber;
 
-    private int currentStackNumber;
-    private int maxStackNumber;
-
-    private void Awake()
-    {   
-        for (int i = 0; i < tray.itemsPosition.Count; i++)
+    public void LoadItem(ItemId itemId)
+    {
+        item = itemId; 
+        
+        for(int i = 0; i < GameDataConstant.items.Count; i++)
         {
-            if (tray.itemsPosition[i].itemId == itemId)
+            if (itemId == GameDataConstant.items[i].itemId)
             {
-                currentStackNumber = tray.itemsPosition[i].currentStackNumber;
+                imgIcon.sprite = GameDataConstant.items[i].icon;
+                imgIcon.SetNativeSize();
             }
         }
-
-
-        maxStackNumber = tray.maxStackNumber;
     }
 
-    private void Update()
+    public void SetNumber(int num, int max)
     {
-        for (int i = 0; i < tray.itemsPosition.Count; i++)
-        {
-            if (tray.itemsPosition[i].itemId == itemId)
-            {
-                currentStackNumber = tray.itemsPosition[i].currentStackNumber;
-            }
-        }
-        stackNumberText.text = currentStackNumber.ToString() + "/" + maxStackNumber.ToString();
+        txtNumber.text = num + "/" + max;
     }
 }

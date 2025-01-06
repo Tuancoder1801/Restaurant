@@ -15,10 +15,9 @@ public class Character : MonoBehaviour
     public float moveSpeed;
     public float rotationSpeed;
     public CharacterState state = CharacterState.Idle;
-    public Rigidbody rb;
+    //public Rigidbody rb;
 
     private Animator animator;
-
 
     public virtual void Awake()
     {

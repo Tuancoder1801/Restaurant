@@ -10,4 +10,5 @@ public class StaticValue
     public static string ANIM_TRIGGER_RUN_HOLD = "isRunHold";
 
     public static string CHARACTER_NAME_TAG = "Player";
+    public static string OBSTACLE_NAME_TAG = "Obstacle";
 }

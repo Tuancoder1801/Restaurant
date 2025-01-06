@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using static UnityEditor.Progress;
+using UnityEngine.TextCore.Text;
+using DG.Tweening.Core.Easing;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : Character
 {
     public Joystick joystick;
+    public CharacterController character;
 
     public int maxStackNumber = 3;
     public List<Transform> itemTransforms = new List<Transform>();
-
-    //public bool isHolding = false;
     public int currentItemNumber = 0;
 
     private bool isMoving = false;
-    private Vector3 moveVector;
     private float valueVertical;
     private float valueHorizontal;
-
-    private Queue<System.Action> actionQueue = new Queue<System.Action>();
-    private bool isProcessing = false;
-    public bool isHolding = false;
+    private bool isHolding = false;
 
 
     public override void Awake()
@@ -42,7 +40,6 @@ public class Player : Character
         valueHorizontal = joystick.Horizontal;
 
         isMoving = valueVertical != 0 || valueHorizontal != 0;
-        //isHolding = currentItemNumber > 0;
     }
 
     #region Idle
@@ -144,13 +141,20 @@ public class Player : Character
 
     private void HandleMovement()
     {
-        moveVector = Vector3.zero;
-        moveVector.x = valueHorizontal * moveSpeed * Time.deltaTime;
-        moveVector.z = valueVertical * moveSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + moveVector);
+        Vector3 direction = Vector3.forward * valueVertical + Vector3.right * valueHorizontal;
+        direction = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
 
-        Vector3 direction = Vector3.RotateTowards(transform.forward, moveVector, rotationSpeed * Time.deltaTime, 0.0f);
-        transform.rotation = Quaternion.LookRotation(direction);
+        character.Move(direction * Time.deltaTime * moveSpeed);
+
+        if (direction != Vector3.zero)
+        {
+            var targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = targetRotation;
+        }
+
+        var tempVector3 = transform.position;
+        tempVector3.y = 0;
+        transform.position = tempVector3;
     }
 
     #endregion
@@ -164,19 +168,36 @@ public class Player : Character
 
         isHolding = true;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(
-        item.transform.DOJump(itemTransforms[currentItemNumber].position, 2f, 1, 0.5f).OnComplete(() =>
+
+        float accumulatedHeight = 0f;
+
+        if (currentItemNumber > 0)
         {
-            item.transform.SetParent(itemTransforms[currentItemNumber]);
-            item.transform.localPosition = Vector3.zero;
-            item.transform.localRotation = Quaternion.identity;
-            item.transform.localScale = Vector3.one;
+            for (int i = 0; i < currentItemNumber; i++)
+            {
+                BaseItem placedItem = itemTransforms[i].GetComponentInChildren<BaseItem>();
+                if (placedItem != null)
+                {
+                    accumulatedHeight += placedItem.height;
+                }
+            }
+        }
 
-            currentItemNumber++;
+        Vector3 currentTransformPosition = itemTransforms[currentItemNumber].localPosition;
+        currentTransformPosition.y = itemTransforms[0].localPosition.y + accumulatedHeight;
+        itemTransforms[currentItemNumber].localPosition = new Vector3(currentTransformPosition.x, currentTransformPosition.y, currentTransformPosition.z);
 
-        })
+        sequence.Append(
+            item.transform.DOJump(itemTransforms[currentItemNumber].position, 2f, 1, 0.5f).OnComplete(() =>
+            {
+                item.transform.SetParent(itemTransforms[currentItemNumber]);
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localRotation = Quaternion.identity;
+                item.transform.localScale = Vector3.one;
+
+                currentItemNumber++;
+            })
         );
-
     }
 
     public void ReleaseItems(List<ItemPosition> itemPositions, int maxStack)
@@ -189,7 +210,6 @@ public class Player : Character
         }
 
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
-
         ItemId itemId = item.GetComponent<BaseItem>().itemId;
         Sequence sequence = DOTween.Sequence();
 
@@ -209,13 +229,27 @@ public class Player : Character
 
                         currentItemNumber--;
                         itemPosition.currentStackNumber++;
+                        ResetItemPositions(currentItemNumber);
 
-                        if(currentItemNumber == 0) isHolding = false;
+                        if (currentItemNumber == 0) isHolding = false;
                     })
                     );
                 }
             }
         }
+    }
+
+    private void ResetItemPositions(int index)
+    {
+        if (index < 0 || index >= itemTransforms.Count)
+        {
+            Debug.LogWarning("Invalid itemIndex or out of range.");
+            return;
+        }
+
+        Vector3 resetPosition = itemTransforms[index].localPosition;
+        resetPosition.y = itemTransforms[0].localPosition.y;
+        itemTransforms[index].localPosition = resetPosition;
     }
 
     public void DropItems(Transform targetTransform)
@@ -234,10 +268,11 @@ public class Player : Character
             Destroy(item.gameObject);
             currentItemNumber--;
 
+            ResetItemPositions(currentItemNumber);
+
             if (currentItemNumber == 0) isHolding = false;
         })
         );
 
     }
-
 }

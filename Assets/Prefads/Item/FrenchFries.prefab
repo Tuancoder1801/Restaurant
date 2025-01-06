@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemId: 11
+  height: 1.4
 --- !u!1001 &2399427965858938048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54,6 +55,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 421565010297770196}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d36a0108c739729419494e1f6b0d0a5d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d36a0108c739729419494e1f6b0d0a5d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d36a0108c739729419494e1f6b0d0a5d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d36a0108c739729419494e1f6b0d0a5d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

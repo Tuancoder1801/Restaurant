@@ -13,27 +13,30 @@ public class Tray : MonoBehaviour
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
-    private void Awake()
-    {
-    }
-
     public bool HasItem()
     {
-        for(int i = 0; i < itemsPosition.Count; i++)
+        foreach (var positionList in itemsPosition)
         {
-            List<Transform> items = itemsPosition[i].itemPositions;
+            List<Transform> items = positionList.itemPositions;
 
-            for(int j =  0; j < items.Count; j++)
+            bool hasItemInList = false;
+
+            foreach (var position in items)
             {
-                if (items[j].childCount > 0)
+                if (position.childCount > 0)
                 {
-                    return true;
+                    hasItemInList = true;
+                    break;
                 }
+            }
+
+            if (!hasItemInList)
+            {
+                return false;
             }
         }
 
-
-        return false;
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)

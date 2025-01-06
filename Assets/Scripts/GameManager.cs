@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        GameDataConstant.Load();
+
         smoothCamera.SetTarget(player.transform);
     }
 }

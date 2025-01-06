@@ -67,7 +67,12 @@ public class Plate : MonoBehaviour
     {
         while (currentStackNumber > 0 && player.currentItemNumber < player.maxStackNumber)
         {
-            BaseItem item = itemsTransform[currentStackNumber - 1].GetComponent<BaseItem>();
+            BaseItem item = itemsTransform[currentStackNumber - 1].GetChild(0).GetComponent<BaseItem>();
+            if (item == null)
+            {
+                Debug.LogError("BaseItem component is missing on " + itemsTransform[currentStackNumber - 1].name);
+                break;
+            }
             player.ReceiveItems(item);
             currentStackNumber--;
             yield return new WaitForSeconds(0.5f);

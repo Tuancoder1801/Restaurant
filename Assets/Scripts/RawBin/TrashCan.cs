@@ -10,9 +10,9 @@ public class TrashCan : MonoBehaviour
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Player player = collision.transform.root.GetComponent<Player>();
+        Player player = other.GetComponentInParent<Player>();
 
         if (player != null)
         {
@@ -25,9 +25,9 @@ public class TrashCan : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        Player player = collision.transform.root.GetComponent<Player>();
+        Player player = other.GetComponentInParent<Player>();
 
         if (player != null)
         {

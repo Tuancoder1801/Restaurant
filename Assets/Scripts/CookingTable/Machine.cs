@@ -30,11 +30,6 @@ public class Machine : MonoBehaviour
             return;
         }
 
-        //if(plate.currentItemIndex >= plate.maxItem)
-        //{
-        //    return;
-        //}
-
         if (!isCooking)
         {
             isCooking = true; 
@@ -145,19 +140,8 @@ public class Machine : MonoBehaviour
         {
             if(!timer.isActiveAndEnabled)
             {
-                // timer.StartTimer();
                 StartCooking();
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Player player = other.transform.root.GetComponent<Player>();
-
-        if (player != null)
-        {   
-            //timer.StopTimer();
         }
     }
 }
