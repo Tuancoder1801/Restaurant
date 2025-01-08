@@ -21,7 +21,6 @@ public class Player : Character
     private float valueHorizontal;
     private bool isHolding = false;
 
-
     public override void Awake()
     {
         base.Awake();
@@ -161,8 +160,9 @@ public class Player : Character
 
     public void ReceiveItems(BaseItem item)
     {
-        if (itemTransforms[currentItemNumber].childCount > 0)
+        if (currentItemNumber >= maxStackNumber)
         {
+            Debug.LogWarning("Cannot receive more items, stack is full.");
             return;
         }
 
@@ -171,15 +171,12 @@ public class Player : Character
 
         float accumulatedHeight = 0f;
 
-        if (currentItemNumber > 0)
+        for (int i = 0; i < currentItemNumber; i++)
         {
-            for (int i = 0; i < currentItemNumber; i++)
+            BaseItem placedItem = itemTransforms[i].GetComponentInChildren<BaseItem>();
+            if (placedItem != null)
             {
-                BaseItem placedItem = itemTransforms[i].GetComponentInChildren<BaseItem>();
-                if (placedItem != null)
-                {
-                    accumulatedHeight += placedItem.height;
-                }
+                accumulatedHeight += placedItem.height;
             }
         }
 
@@ -188,7 +185,7 @@ public class Player : Character
         itemTransforms[currentItemNumber].localPosition = new Vector3(currentTransformPosition.x, currentTransformPosition.y, currentTransformPosition.z);
 
         sequence.Append(
-            item.transform.DOJump(itemTransforms[currentItemNumber].position, 2f, 1, 0.5f).OnComplete(() =>
+            item.transform.DOJump(itemTransforms[currentItemNumber].position, 1f, 1, 0.2f).OnComplete(() =>
             {
                 item.transform.SetParent(itemTransforms[currentItemNumber]);
                 item.transform.localPosition = Vector3.zero;
@@ -209,18 +206,16 @@ public class Player : Character
             return;
         }
 
+        Sequence sequence = DOTween.Sequence();
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
         ItemId itemId = item.GetComponent<BaseItem>().itemId;
-        Sequence sequence = DOTween.Sequence();
 
         foreach (var itemPosition in itemPositions)
         {
-            if (itemPosition.itemId == itemId)
+            if (itemPosition.itemId == itemId && itemPosition.currentStackNumber < maxStack)
             {
-                if (itemPosition.currentStackNumber < maxStack)
-                {
-                    sequence.Append(
-                    item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 2f, 1, 0.5f).OnComplete(() =>
+                sequence.Append(
+                    item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 1f, 1, 0.2f).OnComplete(() =>
                     {
                         item.SetParent(itemPosition.itemPositions[itemPosition.currentStackNumber]);
                         item.localPosition = Vector3.zero;
@@ -230,11 +225,9 @@ public class Player : Character
                         currentItemNumber--;
                         itemPosition.currentStackNumber++;
                         ResetItemPositions(currentItemNumber);
-
                         if (currentItemNumber == 0) isHolding = false;
                     })
                     );
-                }
             }
         }
     }
@@ -243,7 +236,6 @@ public class Player : Character
     {
         if (index < 0 || index >= itemTransforms.Count)
         {
-            Debug.LogWarning("Invalid itemIndex or out of range.");
             return;
         }
 
@@ -263,7 +255,7 @@ public class Player : Character
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
 
         sequence.Append(
-        item.DOJump(targetTransform.position, 2f, 1, 0.5f).OnComplete(() =>
+        item.DOJump(targetTransform.position, 1f, 1, 0.2f).OnComplete(() =>
         {
             Destroy(item.gameObject);
             currentItemNumber--;

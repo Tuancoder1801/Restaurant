@@ -6,7 +6,7 @@ using static UnityEditor.Progress;
 
 public class Plate : MonoBehaviour
 {
-    public int maxStackNumber = 6;
+    public int maxStackNumber = 4;
     public List<Transform> itemsTransform;
 
     private bool isColliding = false;
@@ -15,9 +15,13 @@ public class Plate : MonoBehaviour
 
     public void ReceiveItems(Transform item)
     {
+        if(IsExcessStackNumber())
+        {
+            return;
+        }
+
         ItemId itemId = item.GetComponent<BaseItem>().itemId;
         Sequence sequence = DOTween.Sequence();
-
 
         sequence.Append(
         item.DOJump(itemsTransform[currentStackNumber].position, 2f, 1, 0.5f).OnComplete(() =>
@@ -30,6 +34,16 @@ public class Plate : MonoBehaviour
             currentStackNumber++;
         })
         );
+    }
+
+    public bool IsExcessStackNumber()
+    {
+        if (currentStackNumber >= maxStackNumber)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -68,11 +82,6 @@ public class Plate : MonoBehaviour
         while (currentStackNumber > 0 && player.currentItemNumber < player.maxStackNumber)
         {
             BaseItem item = itemsTransform[currentStackNumber - 1].GetChild(0).GetComponent<BaseItem>();
-            if (item == null)
-            {
-                Debug.LogError("BaseItem component is missing on " + itemsTransform[currentStackNumber - 1].name);
-                break;
-            }
             player.ReceiveItems(item);
             currentStackNumber--;
             yield return new WaitForSeconds(0.5f);

@@ -586,6 +586,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &775925280 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7937640853490147623, guid: 45547dfb2a0d4db4cafd22f0d284bc8b, type: 3}
+  m_PrefabInstance: {fileID: 2014838748}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e516454d0f1a5814fa35d538081772eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &777884138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1252,6 +1263,18 @@ PrefabInstance:
     - target: {fileID: 1556422397014253143, guid: 7c9510915240aca439407f3ac0a308b9, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610694646365311156, guid: 7c9510915240aca439407f3ac0a308b9, type: 3}
+      propertyPath: plate
+      value: 
+      objectReference: {fileID: 2067295693}
+    - target: {fileID: 1610694646365311156, guid: 7c9510915240aca439407f3ac0a308b9, type: 3}
+      propertyPath: stockTrayNumber
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610694646365311156, guid: 7c9510915240aca439407f3ac0a308b9, type: 3}
+      propertyPath: stockPlateNumber
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1713229821324789898, guid: 7c9510915240aca439407f3ac0a308b9, type: 3}
       propertyPath: m_Layer
@@ -2674,6 +2697,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1610694646365311156, guid: 45547dfb2a0d4db4cafd22f0d284bc8b, type: 3}
+      propertyPath: plate
+      value: 
+      objectReference: {fileID: 775925280}
+    - target: {fileID: 1610694646365311156, guid: 45547dfb2a0d4db4cafd22f0d284bc8b, type: 3}
+      propertyPath: stockTrayNumber
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610694646365311156, guid: 45547dfb2a0d4db4cafd22f0d284bc8b, type: 3}
+      propertyPath: stockPlateNumber
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1713229821324789898, guid: 45547dfb2a0d4db4cafd22f0d284bc8b, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -2931,6 +2966,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45547dfb2a0d4db4cafd22f0d284bc8b, type: 3}
+--- !u!114 &2067295693 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7937640853490147623, guid: 7c9510915240aca439407f3ac0a308b9, type: 3}
+  m_PrefabInstance: {fileID: 988437372}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e516454d0f1a5814fa35d538081772eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &283250987908263824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3060,6 +3106,14 @@ PrefabInstance:
     - target: {fileID: 1303827469562249761, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610694646365311156, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
+      propertyPath: stockTrayNumber
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610694646365311156, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
+      propertyPath: stockPlateNumber
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3916084183100431227, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
       propertyPath: m_Camera

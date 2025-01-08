@@ -30,10 +30,7 @@ public class Tray : MonoBehaviour
                 }
             }
 
-            if (!hasItemInList)
-            {
-                return false;
-            }
+            if (!hasItemInList) return false;
         }
 
         return true;
@@ -73,7 +70,7 @@ public class Tray : MonoBehaviour
     private IEnumerator SpawItems(Player player)
     {
         for (int i = 0; i < maxStackNumber; i++)
-        {   
+        {
             player.ReleaseItems(itemsPosition, maxStackNumber);
             yield return new WaitForSeconds(0.5f);
         }

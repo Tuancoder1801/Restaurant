@@ -30,6 +30,11 @@ public class Machine : MonoBehaviour
             return;
         }
 
+        if(plate.IsExcessStackNumber())
+        {
+            return;
+        }
+
         if (!isCooking)
         {
             isCooking = true; 

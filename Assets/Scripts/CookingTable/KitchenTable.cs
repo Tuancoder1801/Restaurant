@@ -8,11 +8,15 @@ public class KitchenTable : MonoBehaviour
     public Machine machine;
     public Plate plate;
 
+    public int stockTrayNumber;
+    public int stockPlateNumber;
+
     public UILocation uiLocation;
 
-    void Start()
+    private void Awake()
     {
-        
+        tray.maxStackNumber = stockTrayNumber;
+        plate.maxStackNumber = stockPlateNumber;
     }
     
 
