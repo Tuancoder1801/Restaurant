@@ -18,3 +18,14 @@ public enum ItemId
     FrenchFries = 11,
     CocaCola = 12
 }
+
+public enum HumanId
+{   
+    None = 0,
+    Player = 1,
+    Chef = 2,
+    Waiter = 3,
+    Porter = 4,
+    Customer = 5,
+    Collecter = 6
+}

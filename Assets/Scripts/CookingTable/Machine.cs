@@ -43,11 +43,11 @@ public class Machine : MonoBehaviour
             timer.StartCount();
             processing.gameObject.SetActive(true);
             processing.Play();
-            StartCoroutine(CheckCookingProgress());
+            StartCoroutine(CookingProgress());
         }
     }
 
-    private IEnumerator CheckCookingProgress()
+    private IEnumerator CookingProgress()
     {
         while(isCooking)
         {

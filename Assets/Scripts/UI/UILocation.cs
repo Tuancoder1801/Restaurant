@@ -6,7 +6,6 @@ public class UILocation : MonoBehaviour
 {   
     public UIItem uiItem;
     public Transform itemContent;
-
     public Tray tray;
 
     private void Start()
@@ -37,10 +36,7 @@ public class UILocation : MonoBehaviour
     private void UpdateUIItemNumbers()
     {
         for (int i = 0; i < tray.itemsPosition.Count; i++)
-        {
-            ItemId itemId = tray.itemsPosition[i].itemId;
-
-            // Cập nhật UIItem tương ứng
+        { 
             if (i < itemContent.childCount)
             {
                 UIItem uiItem = itemContent.GetChild(i).GetComponent<UIItem>();

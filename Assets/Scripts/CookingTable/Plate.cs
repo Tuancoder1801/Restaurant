@@ -13,14 +13,20 @@ public class Plate : MonoBehaviour
     private Coroutine itemSpawnCoroutine;
     public int currentStackNumber;
 
+    public void Initialize(int stackNumber)
+    {
+        maxStackNumber = stackNumber;
+        currentStackNumber = 0;
+    }
+
+    public bool IsExcessStackNumber()
+    {
+        return currentStackNumber >= maxStackNumber;
+    }
+
     public void ReceiveItems(Transform item)
     {
-        if(IsExcessStackNumber())
-        {
-            return;
-        }
-
-        ItemId itemId = item.GetComponent<BaseItem>().itemId;
+        if(IsExcessStackNumber()) return;       
         Sequence sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -34,16 +40,6 @@ public class Plate : MonoBehaviour
             currentStackNumber++;
         })
         );
-    }
-
-    public bool IsExcessStackNumber()
-    {
-        if (currentStackNumber >= maxStackNumber)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private void OnTriggerEnter(Collider other)

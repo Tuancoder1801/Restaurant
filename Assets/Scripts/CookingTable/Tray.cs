@@ -13,15 +13,19 @@ public class Tray : MonoBehaviour
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
+    public void Initialize(int stackNumber)
+    {
+        maxStackNumber = stackNumber;
+        itemsPosition.Clear();
+    }
+
     public bool HasItem()
     {
         foreach (var positionList in itemsPosition)
         {
-            List<Transform> items = positionList.itemPositions;
-
             bool hasItemInList = false;
 
-            foreach (var position in items)
+            foreach (var position in positionList.itemPositions)
             {
                 if (position.childCount > 0)
                 {
