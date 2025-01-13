@@ -8,7 +8,12 @@ public enum CharacterState
     Idle,
     Run,
     IdleHold,
-    RunHold
+    RunHold,
+    Walk,
+    WalkHold,
+    Sit,
+    Eat,
+    Cook,
 }
 
 public class Character : MonoBehaviour
@@ -32,9 +37,6 @@ public class Character : MonoBehaviour
     public virtual void Update()
     {
         UpdateIdle();
-        UpdateRun();
-        UpdateIdleHold();
-        UpdateRunHold();
     }
 
     public virtual void ChangeState(CharacterState newState)
@@ -55,6 +57,21 @@ public class Character : MonoBehaviour
                 case CharacterState.RunHold:
                     BeginRunHold();
                     break;
+                case CharacterState.Walk:
+                    BeginWalk();
+                    break;
+                case CharacterState.WalkHold:
+                    BeginWalkHold();
+                    break;
+                case CharacterState.Sit:
+                    BeginSit();
+                    break;
+                case CharacterState.Eat:
+                    BeginEat();
+                    break;
+                case CharacterState.Cook:
+                    BeginCook();
+                    break;
             }
 
         }
@@ -66,11 +83,14 @@ public class Character : MonoBehaviour
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_RUN);
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_IDLE_HOLD);
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_RUN_HOLD);
+        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK);
+        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK_HOLD);
+        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_SIT);
     }
 
     #region Idle
 
-    public virtual void BeginIdle()
+    public void BeginIdle()
     {
         ResetAllTriggers();
         state = CharacterState.Idle;
@@ -82,7 +102,7 @@ public class Character : MonoBehaviour
 
     }
 
-    public virtual void BeginIdleHold()
+    public void BeginIdleHold()
     {
         ResetAllTriggers();
         state = CharacterState.IdleHold;
@@ -97,7 +117,7 @@ public class Character : MonoBehaviour
 
     #region Run
 
-    public virtual void BeginRun()
+    public void BeginRun()
     {
         ResetAllTriggers();
         state = CharacterState.Run;
@@ -109,7 +129,7 @@ public class Character : MonoBehaviour
 
     }
 
-    public virtual void BeginRunHold()
+    public void BeginRunHold()
     {
         ResetAllTriggers();
         state = CharacterState.RunHold;
@@ -118,6 +138,82 @@ public class Character : MonoBehaviour
 
     public virtual void UpdateRunHold()
     {
+    }
+
+    #endregion
+
+    #region Walk
+
+    public void BeginWalk()
+    {
+        ResetAllTriggers();
+        state = CharacterState.Walk;
+        animator.SetTrigger(StaticValue.ANIM_TRIGGER_WALK);
+    }
+
+    public virtual void UpdateWalk()
+    {
+
+    }
+
+    public void BeginWalkHold()
+    {
+        ResetAllTriggers();
+        state = CharacterState.WalkHold;
+        animator.SetTrigger(StaticValue.ANIM_TRIGGER_WALK_HOLD);
+    }
+
+    public virtual void UpdateWalkHold()
+    {
+
+    }
+
+    #endregion
+
+    #region Sit
+
+    public void BeginSit()
+    {
+        ResetAllTriggers();
+        state = CharacterState.Sit;
+        animator.SetTrigger(StaticValue.ANIM_TRIGGER_SIT);
+    }
+
+    public virtual void UpdateSit()
+    {
+
+    }
+
+    #endregion
+
+    #region Eat
+
+    public void BeginEat()
+    {
+        ResetAllTriggers();
+        state = CharacterState.Eat;
+        animator.SetTrigger(StaticValue.ANIM_TRIGGER_EAT);
+    }
+
+    public virtual void UpdateEat()
+    {
+
+    }
+
+    #endregion
+
+    #region Cook
+
+    public void BeginCook()
+    {
+        ResetAllTriggers();
+        state = CharacterState.Cook;
+        animator.SetTrigger(StaticValue.ANIM_TRIGGER_COOK);
+    }
+
+    public virtual void UpdateCook()
+    {
+
     }
 
     #endregion

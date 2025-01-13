@@ -29,3 +29,10 @@ public enum HumanId
     Customer = 5,
     Collecter = 6
 }
+
+public enum PositionId
+{
+    None = 0,
+    Sitting = 1,
+}
+

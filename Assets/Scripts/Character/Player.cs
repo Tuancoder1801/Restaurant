@@ -26,6 +26,9 @@ public class Player : Character
     {
         CheckInput();
         base.Update();
+        UpdateRun();
+        UpdateIdleHold();
+        UpdateRunHold();
     }
 
     private void CheckInput()
@@ -37,11 +40,6 @@ public class Player : Character
     }
 
     #region Idle
-
-    public override void BeginIdle()
-    {
-        base.BeginIdle();
-    }
 
     public override void UpdateIdle()
     {
@@ -56,11 +54,6 @@ public class Player : Character
         {
             ChangeState(CharacterState.IdleHold);
         }
-    }
-
-    public override void BeginIdleHold()
-    {
-        base.BeginIdleHold();
     }
 
     public override void UpdateIdleHold()
@@ -81,11 +74,6 @@ public class Player : Character
     #endregion  
 
     #region Run
-
-    public override void BeginRun()
-    {
-        base.BeginRun();
-    }
 
     public override void UpdateRun()
     {
@@ -109,11 +97,6 @@ public class Player : Character
 
         HandleMovement();
 
-    }
-
-    public override void BeginRunHold()
-    {
-        base.BeginRunHold();
     }
 
     public override void UpdateRunHold()
