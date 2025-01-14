@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class UIItem : MonoBehaviour
 {
-    public ItemId item;
+    public ItemId itemId;
     public Image imgIcon;
     public Text txtNumber;
 
     public void LoadItem(ItemId itemId)
     {
-        item = itemId; 
+        this.itemId = itemId; 
         
         for(int i = 0; i < GameDataConstant.items.Count; i++)
         {
@@ -23,8 +23,11 @@ public class UIItem : MonoBehaviour
         }
     }
 
-    public void SetNumber(int num, int max)
+    public void SetNumber(ItemId itemId,int num, int max)
     {
-        txtNumber.text = num + "/" + max;
+        if (this.itemId == itemId)
+        {
+            txtNumber.text = num + "/" + max;
+        }
     }
 }

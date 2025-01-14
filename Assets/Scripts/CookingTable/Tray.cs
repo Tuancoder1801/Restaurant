@@ -13,10 +13,12 @@ public class Tray : MonoBehaviour
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
-    public void Initialize(int stackNumber)
+    private void Awake()
     {
-        maxStackNumber = stackNumber;
-        itemsPosition.Clear();
+        for(int i = 0; i < itemsPosition.Count; i++)
+        {
+            itemsPosition[i].maxStackNumber = maxStackNumber;
+        }
     }
 
     public bool HasItem()

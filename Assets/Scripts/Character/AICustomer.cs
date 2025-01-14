@@ -13,6 +13,7 @@ public class AICustomer : Character
 
     private NavMeshAgent agent;
     private bool isStartPos = false;
+    private bool isBackStart = false;
 
     public override void Awake()
     {
@@ -69,7 +70,7 @@ public class AICustomer : Character
 
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
-                isStartPos = true; // Đánh dấu đã đến startPos
+                isStartPos = true;
                 ChangeState(CharacterState.Idle);
             }
         }
@@ -79,9 +80,10 @@ public class AICustomer : Character
             GetToTargetPos(targetPos, sittingPos, CharacterState.Sit);
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (isBackStart)
         {
-            Debug.Log("a");
+            isStartPos = false;
+            agent.isStopped = false;
             GetToTargetPos(startPos, startPos, CharacterState.Idle);
         }
     }
@@ -91,7 +93,7 @@ public class AICustomer : Character
         agent.SetDestination(target.position);
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {   
-            //agent.isStopped = true;
+            agent.isStopped = true;
             transform.position = actionPos.position;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, actionPos.rotation, agent.angularSpeed * Time.deltaTime);
             Debug.Log(Quaternion.Angle(transform.rotation, actionPos.rotation));
@@ -112,7 +114,7 @@ public class AICustomer : Character
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("Key A Pressed");
+            isBackStart = true;
             transform.position = departurePos.position;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, departurePos.rotation, agent.angularSpeed * Time.deltaTime);
             Debug.Log(Quaternion.Angle(transform.rotation, departurePos.rotation));

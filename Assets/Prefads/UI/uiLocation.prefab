@@ -230,6 +230,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a826e85f8bdba4389997bdbd05c620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiItem: {fileID: 7179245321887855350, guid: d9a6eb474cb7b9a47a045e1a05f10b28, type: 3}
-  itemContent: {fileID: 6036523261774788725}
-  tray: {fileID: 0}
+  uiItem: {fileID: 8064087171389773234, guid: d9a6eb474cb7b9a47a045e1a05f10b28, type: 3}
+  itemContent: {fileID: 1740773436338863199}
