@@ -15,7 +15,10 @@ public class KitchenTable : MonoBehaviour
 
     private void Start()
     {
-        tray.maxStackNumber = stockTrayNumber;
+        for (int i = 0; i < tray.itemsPosition.Count; i++)
+        {
+            tray.itemsPosition[i].maxStackNumber = stockTrayNumber;
+        }
         plate.maxStackNumber = stockPlateNumber;
 
         if (uiLocation != null)

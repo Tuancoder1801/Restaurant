@@ -7,19 +7,10 @@ using static UnityEditor.Progress;
 
 public class Tray : MonoBehaviour
 {
-    public int maxStackNumber = 4;
     public List<ItemPosition> itemsPosition = new List<ItemPosition>();
 
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
-
-    private void Awake()
-    {
-        for(int i = 0; i < itemsPosition.Count; i++)
-        {
-            itemsPosition[i].maxStackNumber = maxStackNumber;
-        }
-    }
 
     public bool HasItem()
     {
@@ -49,11 +40,18 @@ public class Tray : MonoBehaviour
         if (player != null && !isColliding)
         {
             isColliding = true;
+            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
+        }
+    }
 
-            if (itemSpawnCoroutine == null)
-            {
-                itemSpawnCoroutine = StartCoroutine(SpawItems(player));
-            }
+    private void OnTriggerStay(Collider other)
+    {
+        Player player = other.transform.root.GetComponent<Player>();
+
+        if (player != null && !isColliding)
+        {
+            isColliding = true;
+            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
         }
     }
 
@@ -64,22 +62,19 @@ public class Tray : MonoBehaviour
         if (player != null)
         {
             isColliding = false;
-
             if (itemSpawnCoroutine != null)
             {
                 StopCoroutine(itemSpawnCoroutine);
-                itemSpawnCoroutine = null;
             }
         }
     }
 
-    private IEnumerator SpawItems(Player player)
+    private IEnumerator SpawnItemsCoroutine(Player player)
     {
-        for (int i = 0; i < maxStackNumber; i++)
-        {
-            player.ReleaseItems(itemsPosition, maxStackNumber);
+        while (isColliding)
+        {            
+            player.ReleaseItems(itemsPosition);
             yield return new WaitForSeconds(0.5f);
         }
-        itemSpawnCoroutine = null;
     }
 }

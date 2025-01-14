@@ -8,4 +8,12 @@ public class ItemPosition : MonoBehaviour
     public List<Transform> itemPositions;
     public int currentStackNumber = 0;
     public int maxStackNumber = 4;
+
+    public bool CheckMaxStack()
+    {
+        if (currentStackNumber < maxStackNumber) return true;
+
+        return false;
+    }
 }
+

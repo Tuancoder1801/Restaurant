@@ -25,15 +25,11 @@ public class Machine : MonoBehaviour
 
     private void StartCooking()
     {
-        if (!tray.HasItem())
-        {
-            return;
-        }
+        if (!tray.HasItem()) return;
+        
 
-        if(plate.IsExcessStackNumber())
-        {
-            return;
-        }
+        if(plate.IsExcessStackNumber()) return;
+        
 
         if (!isCooking)
         {

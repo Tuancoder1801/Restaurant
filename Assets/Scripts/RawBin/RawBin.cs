@@ -12,17 +12,23 @@ public class RawBin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"OnCollisionEnter: {other.name}");
         Player player = other.GetComponentInParent<Player>();
 
         if (player != null && !isColliding)
         {
             isColliding = true;
+            itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
+        }
+    }
 
-            if (itemSpawnCoroutine == null)
-            {
-                itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
-            }
+    private void OnTriggerStay(Collider other)
+    {
+        Player player = other.GetComponentInParent<Player>();
+
+        if (player != null && !isColliding)
+        {
+            isColliding = true;
+            itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
         }
     }
 
@@ -33,20 +39,19 @@ public class RawBin : MonoBehaviour
         if (player != null)
         {
             isColliding = false;
-
             if (itemSpawnCoroutine != null)
             {
                 StopCoroutine(itemSpawnCoroutine);
-                itemSpawnCoroutine = null;
+
             }
         }
     }
 
     private IEnumerator SpawnItems(Player player)
     {
-        for (int i = 0; i < player.maxStackNumber; i++)
-        {   
-            if(player.currentItemNumber < player.maxStackNumber)
+        while (isColliding)
+        {
+            if (player.currentItemNumber < player.maxStackNumber)
             {
                 BaseItem item = Instantiate(baseItem, itemIndex.position, itemIndex.rotation);
                 player.ReceiveItems(item);
@@ -54,7 +59,5 @@ public class RawBin : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
         }
-
-        itemSpawnCoroutine = null;
     }
 }

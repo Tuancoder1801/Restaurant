@@ -220,12 +220,8 @@ public class Character : MonoBehaviour
 
     public void ReceiveItems(BaseItem item)
     {
-        if (currentItemNumber >= maxStackNumber)
-        {
-            Debug.LogWarning("Cannot receive more items, stack is full.");
-            return;
-        }
-
+        if (currentItemNumber >= maxStackNumber) return;
+        
         isHolding = true;
         Sequence sequence = DOTween.Sequence();
 
@@ -257,13 +253,13 @@ public class Character : MonoBehaviour
         );
     }
 
-    public void ReleaseItems(List<ItemPosition> itemPositions, int maxStack)
+    public void ReleaseItems(List<ItemPosition> itemPositions)
     {
+        if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count) return;
 
-        if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count)
+        for(int i = 0; i < itemPositions.Count; i++)
         {
-            Debug.LogWarning("Invalid currentItemNumber or out of range.");
-            return;
+            if (!itemPositions[i].CheckMaxStack()) return;
         }
 
         Sequence sequence = DOTween.Sequence();
@@ -272,7 +268,7 @@ public class Character : MonoBehaviour
 
         foreach (var itemPosition in itemPositions)
         {
-            if (itemPosition.itemId == itemId && itemPosition.currentStackNumber < maxStack)
+            if (itemPosition.itemId == itemId)
             {
                 sequence.Append(
                     item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 1f, 1, 0.2f).OnComplete(() =>
