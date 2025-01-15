@@ -8,7 +8,7 @@ public class UILocation : MonoBehaviour
     public GameObject uiItem;
     public GameObject itemContent;
     
-    private List<UIItem> uiItems;
+    public List<UIItem> uiItems;
 
     private void Start()
     {
@@ -35,15 +35,43 @@ public class UILocation : MonoBehaviour
 
             uiItem.gameObject.SetActive(true);
             uiItem.LoadItem(materials[i].itemId);
-            uiItem.SetNumber(materials[i].itemId, materials[i].currentStackNumber, materials[i].maxStackNumber);
+            uiItem.SetNumber(materials[i].currentStackNumber, materials[i].maxStackNumber);
         }
+
+        itemContent.SetActive(true);
+    }
+
+    public void LoadItem(List<ItemOrder> itemOrders)
+    {
+        if (uiItems == null) uiItems = new List<UIItem>();
+        else uiItems.ForEach(x => x.gameObject.SetActive(false));
+
+        for (int i = 0; i < itemOrders.Count; i++)
+        {
+            UIItem uiItem = null;
+            if (i < uiItems.Count)
+            {
+                uiItem = uiItems[i];
+            }
+            else
+            {
+                uiItem = CreateUIItem();
+                uiItems.Add(uiItem);
+            }
+
+            uiItem.gameObject.SetActive(true);
+            uiItem.LoadItem(itemOrders[i].itemId);
+            uiItem.SetNumber(itemOrders[i].currentItemNumber, itemOrders[i].quantity);
+        }
+
+        itemContent.SetActive(true);
     }
 
     public bool HasItem(ItemId itemType)
     {
         if (uiItems != null)
         {
-            return uiItems.FirstOrDefault(x => x.gameObject.activeSelf && x.itemId == itemType);
+            return uiItems.FirstOrDefault(x => x.gameObject.activeSelf && x.item == itemType);
         }
         return false;
     }
@@ -61,7 +89,23 @@ public class UILocation : MonoBehaviour
     
     public void SetNumber(ItemId itemId, int num, int max)
     {
-        var ui = uiItems.FirstOrDefault(x => x.itemId == itemId);
-        if(ui != null) ui.SetNumber(itemId ,num, max);
+        var ui = uiItems.FirstOrDefault(x => x.item == itemId);
+        if (ui != null)
+        {
+            ui.SetNumber(num, max);
+        }
+        else
+        {
+            Debug.LogWarning($"UIItem with ItemId {itemId} not found.");
+        }
+    }
+
+    public void HideUIItem(ItemId itemId)
+    {
+        var ui = uiItems.FirstOrDefault(x => x.item == itemId);
+
+        if(ui != null) ui.gameObject.SetActive(false);
+
+        if(uiItems.All(x => !x.gameObject.activeSelf)) itemContent.SetActive(false);
     }
 }

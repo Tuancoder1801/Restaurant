@@ -125,6 +125,11 @@ public class AICustomer : Character
         }
     }
 
+    private void OrderItem()
+    {
+
+    }
+
     #endregion
 
     #region Eat

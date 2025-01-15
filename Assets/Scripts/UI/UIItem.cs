@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class UIItem : MonoBehaviour
 {
-    public ItemId itemId;
+    public ItemId item;
     public Image imgIcon;
     public Text txtNumber;
 
     public void LoadItem(ItemId itemId)
     {
-        this.itemId = itemId; 
-        
-        for(int i = 0; i < GameDataConstant.items.Count; i++)
+        this.item = itemId;
+        Debug.Log($"UIItem initialized with ItemId: {itemId}");
+        for (int i = 0; i < GameDataConstant.items.Count; i++)
         {
             if (itemId == GameDataConstant.items[i].itemId)
             {
@@ -23,11 +23,8 @@ public class UIItem : MonoBehaviour
         }
     }
 
-    public void SetNumber(ItemId itemId,int num, int max)
+    public void SetNumber(int num, int max)
     {
-        if (this.itemId == itemId)
-        {
-            txtNumber.text = num + "/" + max;
-        }
+        txtNumber.text = num + "/" + max;
     }
 }

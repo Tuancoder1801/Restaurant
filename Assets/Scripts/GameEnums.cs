@@ -30,9 +30,12 @@ public enum HumanId
     Collecter = 6
 }
 
-public enum PositionId
+public enum TableId
 {
     None = 0,
-    Sitting = 1,
+    HotDog = 1,
+    Hamburger = 2,
+    FrenchFries = 3
 }
+
 

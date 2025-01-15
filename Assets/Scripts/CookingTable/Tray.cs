@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using static UnityEditor.Progress;
+using static UnityEditor.FilePathAttribute;
 
 public class Tray : MonoBehaviour
 {
@@ -72,7 +73,7 @@ public class Tray : MonoBehaviour
     private IEnumerator SpawnItemsCoroutine(Player player)
     {
         while (isColliding)
-        {            
+        {
             player.ReleaseItems(itemsPosition);
             yield return new WaitForSeconds(0.5f);
         }
