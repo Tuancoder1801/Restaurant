@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +6,12 @@ public class Table : MonoBehaviour
 {
     public UILocation uiLocation;
 
-    private AICustomer customer;
+    public List<ItemOrder> itemOrders;
 
     private void Start()
     {
-        uiLocation.gameObject.SetActive(true); 
+        uiLocation.gameObject.SetActive(true);
+
     }
 
     private void Update()
@@ -20,11 +21,11 @@ public class Table : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        customer = GetComponent<AICustomer>();
+        AICustomer customer = other.GetComponent<AICustomer>();
 
         if(customer != null)
         {
-
+            Debug.Log("cham");
         }
     }
 

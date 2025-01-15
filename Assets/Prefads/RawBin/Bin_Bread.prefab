@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bin_Bread
       objectReference: {fileID: 0}
+    - target: {fileID: 7003578563614788354, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: baseItem
       value: 
