@@ -41,7 +41,7 @@ public class UILocation : MonoBehaviour
         itemContent.SetActive(true);
     }
 
-    public void LoadItem(List<ItemOrder> itemOrders)
+    public void LoadProduct(List<ItemOrder> itemOrders)
     {
         if (uiItems == null) uiItems = new List<UIItem>();
         else uiItems.ForEach(x => x.gameObject.SetActive(false));
@@ -60,7 +60,7 @@ public class UILocation : MonoBehaviour
             }
 
             uiItem.gameObject.SetActive(true);
-            uiItem.LoadItem(itemOrders[i].itemId);
+            uiItem.LoadProduct(itemOrders[i].itemId);
             uiItem.SetNumber(itemOrders[i].currentItemNumber, itemOrders[i].quantity);
         }
 

@@ -10,18 +10,14 @@ public class TrashCan : MonoBehaviour
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         Player player = other.GetComponentInParent<Player>();
 
-        if (player != null)
+        if (player != null && !isColliding)
         {
             isColliding = true;
-
-            if (itemSpawnCoroutine == null)
-            {
-                itemSpawnCoroutine = StartCoroutine(SpawItems(player));
-            }
+            itemSpawnCoroutine = StartCoroutine(SpawItems(player));
         }
     }
 
@@ -36,24 +32,16 @@ public class TrashCan : MonoBehaviour
             if (itemSpawnCoroutine != null)
             {
                 StopCoroutine(itemSpawnCoroutine);
-                itemSpawnCoroutine = null;
             }
         }
     }
 
     private IEnumerator SpawItems(Player player)
     {
-        for (int i = 0; i < player.maxStackNumber; i++)
-        {
-            if (player.currentItemNumber <= 0)
-            {
-                break;
-            }
-
+        while(isColliding)
+        {         
             player.DropItems(dropItemIndex);
             yield return new WaitForSeconds(0.5f);
         }
-
-        itemSpawnCoroutine = null;
     }
 }

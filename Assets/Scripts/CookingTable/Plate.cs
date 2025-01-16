@@ -26,7 +26,7 @@ public class Plate : MonoBehaviour
 
     public void ReceiveItems(Transform item)
     {
-        if(IsExcessStackNumber()) return;       
+        if (IsExcessStackNumber()) return;
         Sequence sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -42,18 +42,14 @@ public class Plate : MonoBehaviour
         );
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         Player player = other.GetComponent<Player>();
 
         if (player != null && !isColliding)
         {
             isColliding = true;
-
-            if (itemSpawnCoroutine == null)
-            {
-                itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
-            }
+            itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
         }
     }
 
@@ -68,21 +64,18 @@ public class Plate : MonoBehaviour
             if (itemSpawnCoroutine != null)
             {
                 StopCoroutine(itemSpawnCoroutine);
-                itemSpawnCoroutine = null;
             }
         }
     }
 
     private IEnumerator SpawnItems(Player player)
     {
-        while (currentStackNumber > 0 && player.currentItemNumber < player.maxStackNumber)
+        while (isColliding && currentStackNumber > 0 && player.currentItemNumber < player.maxStackNumber)
         {
             BaseItem item = itemsTransform[currentStackNumber - 1].GetChild(0).GetComponent<BaseItem>();
             player.ReceiveItems(item);
             currentStackNumber--;
             yield return new WaitForSeconds(0.5f);
         }
-
-        itemSpawnCoroutine = null;
     }
 }

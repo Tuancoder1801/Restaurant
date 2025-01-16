@@ -221,7 +221,7 @@ public class Character : MonoBehaviour
     public void ReceiveItems(BaseItem item)
     {
         if (currentItemNumber >= maxStackNumber) return;
-        
+
         isHolding = true;
         Sequence sequence = DOTween.Sequence();
 
@@ -257,7 +257,7 @@ public class Character : MonoBehaviour
     {
         if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count) return;
 
-        for(int i = 0; i < itemPositions.Count; i++)
+        for (int i = 0; i < itemPositions.Count; i++)
         {
             if (!itemPositions[i].CheckMaxStack()) return;
         }
@@ -300,9 +300,37 @@ public class Character : MonoBehaviour
         itemTransforms[index].localPosition = resetPosition;
     }
 
+    public void ReleaseItems(ItemOrder itemOrder, List<Transform> itemPos)
+    {
+        if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count) return;
+
+        Sequence sequence = DOTween.Sequence();
+        Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
+        ItemId itemId = item.GetComponent<BaseItem>().itemId;
+
+
+        if (itemOrder.itemId == itemId)
+        {
+            sequence.Append(
+                item.DOJump(itemPos[itemOrder.currentItemNumber].position, 1f, 1, 0.2f).OnComplete(() =>
+                {
+                    item.SetParent(itemPos[itemOrder.currentItemNumber]);
+                    item.localPosition = Vector3.zero;
+                    item.localRotation = Quaternion.identity;
+                    item.localScale = Vector3.one;
+
+                    currentItemNumber--;
+                    itemOrder.currentItemNumber++;
+                    ResetItemPositions(currentItemNumber);
+                    if (currentItemNumber == 0) isHolding = false;
+                })
+                );
+        }
+    }
+
     public void DropItems(Transform targetTransform)
     {
-        if (currentItemNumber < 0)
+        if (currentItemNumber - 1 < 0)
         {
             return;
         }

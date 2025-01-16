@@ -11,12 +11,12 @@ public enum ItemId
     Tomato = 4,
     MincedMeat = 5,
     cabbage = 6,
-    Hotdog = 7,
-    Hamburger = 8,
-    Potato = 9,
-    Glass = 10,
+    Potato = 7,
+    Glass = 8,
+    Hotdog = 9,
+    Hamburger = 10,
     FrenchFries = 11,
-    CocaCola = 12
+    CocaCola = 12,
 }
 
 public enum HumanId

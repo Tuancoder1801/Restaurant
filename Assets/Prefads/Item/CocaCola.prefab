@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemId: 12
+  height: 0
 --- !u!1 &5545794670251910815
 GameObject:
   m_ObjectHideFlags: 0

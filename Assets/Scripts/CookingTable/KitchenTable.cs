@@ -33,11 +33,4 @@ public class KitchenTable : MonoBehaviour
             uiLocation.SetNumber(item.itemId, item.currentStackNumber, stockTrayNumber);
         }
     }
-
-    //private void CreateUILocation()
-    //{
-    //    UILocation ui = Instantiate(uiLocation, uiIndex.position, uiIndex.rotation);
-    //    ui.transform.SetParent(this.transform);
-    //    ui.LoadItem(tray.itemsPosition);
-    //}
 }

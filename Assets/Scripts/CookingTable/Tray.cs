@@ -34,17 +34,6 @@ public class Tray : MonoBehaviour
         return true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Player player = other.transform.root.GetComponent<Player>();
-
-        if (player != null && !isColliding)
-        {
-            isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
-        }
-    }
-
     private void OnTriggerStay(Collider other)
     {
         Player player = other.transform.root.GetComponent<Player>();

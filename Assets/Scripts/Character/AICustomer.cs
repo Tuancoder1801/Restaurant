@@ -11,6 +11,8 @@ public class AICustomer : Character
     public Transform targetPos;
     public Transform departurePos;
 
+    public List<ItemOrder> itemOrders = new List<ItemOrder>();
+
     private NavMeshAgent agent;
     private bool isStartPos = false;
     private bool isBackStart = false;
@@ -38,6 +40,8 @@ public class AICustomer : Character
     public override void UpdateIdle()
     {
         if (state != CharacterState.Idle) return;
+
+        agent.baseOffset = 0f;
         
         if(startPos != null && !isStartPos)
         {
@@ -64,7 +68,9 @@ public class AICustomer : Character
     {
         if (state != CharacterState.Walk) return;
 
-        if(!isStartPos && startPos != null)
+        agent.baseOffset = 0f;
+
+        if (!isStartPos && startPos != null)
         {   
             GetToTargetPos(startPos, startPos, CharacterState.Idle);
 
@@ -112,6 +118,13 @@ public class AICustomer : Character
     {
         if (state != CharacterState.Sit) return;
 
+        agent.baseOffset = -0.3f;
+
+        if (itemOrders.Count == 0)
+        {
+            OrderItem();
+        }
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             isBackStart = true;
@@ -127,7 +140,26 @@ public class AICustomer : Character
 
     private void OrderItem()
     {
+        itemOrders.Clear();
 
+        for(int i = 0; i < Random.Range(1,2); i++)
+        {
+            int randomIndex = Random.Range(0, GameDataConstant.products.Count);
+
+            ItemOrder newOrder = new ItemOrder
+            {
+                itemId = GameDataConstant.products[randomIndex].itemId,
+                quantity = Random.Range(2, 6),
+                currentItemNumber = 0,
+            };
+
+            itemOrders.Add(newOrder);
+        }
+    }
+
+    public List<ItemOrder> GetOrder()
+    {
+        return itemOrders;
     }
 
     #endregion

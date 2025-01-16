@@ -10,16 +10,16 @@ public class RawBin : MonoBehaviour
     private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Player player = other.GetComponentInParent<Player>();
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Player player = other.GetComponentInParent<Player>();
 
-        if (player != null && !isColliding)
-        {
-            isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
-        }
-    }
+    //    if (player != null && !isColliding)
+    //    {
+    //        isColliding = true;
+    //        itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
+    //    }
+    //}
 
     private void OnTriggerStay(Collider other)
     {

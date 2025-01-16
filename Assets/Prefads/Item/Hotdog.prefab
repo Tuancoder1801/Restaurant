@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3418861687084312240}
-  - component: {fileID: 258020764601837988}
+  - component: {fileID: 2366440734955136371}
   m_Layer: 0
   m_Name: Hotdog
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 699365807073640456}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &258020764601837988
+--- !u!114 &2366440734955136371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0308d7fb95de1194e859f007c22a9fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 7
-  height: 0.97
+  itemId: 9
+  height: 0
 --- !u!1001 &1026288562084030435
 PrefabInstance:
   m_ObjectHideFlags: 0

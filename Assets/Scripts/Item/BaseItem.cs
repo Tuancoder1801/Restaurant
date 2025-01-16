@@ -7,10 +7,4 @@ public class BaseItem : MonoBehaviour
 {
     public ItemId itemId;
     public float height;
-
-    private void Start()
-    {
-        float height = gameObject.GetComponentInChildren<MeshRenderer>().bounds.size.y;
-        Debug.Log("Chiều cao của vật thể là: " + height);
-    }
 }

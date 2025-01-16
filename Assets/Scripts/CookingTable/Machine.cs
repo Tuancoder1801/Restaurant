@@ -123,16 +123,6 @@ public class Machine : MonoBehaviour
         plate.ReceiveItems(item.transform);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Player player = other.transform.root.GetComponent<Player>();
-
-        if(player != null)
-        {
-            StartCooking();
-        }
-    }
-
     private void OnTriggerStay(Collider other)
     {
         Player player = other.transform.root.GetComponent<Player>();
