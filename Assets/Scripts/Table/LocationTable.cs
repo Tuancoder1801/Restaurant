@@ -7,8 +7,11 @@ public class LocationTable : MonoBehaviour
     public UILocation uiLocation;
     public List<ItemOrder> itemOrders;
     public List<Transform> transforms;
-
-    public AICustomer currentCustomer = null;
+    
+    public bool isOccupied = false;
+    public Transform destination;
+    public Transform sittingPos;
+    public Transform departurePos;
 
     private bool isPlayer = false;
     private Coroutine itemSpawnCoroutine;
@@ -21,18 +24,10 @@ public class LocationTable : MonoBehaviour
 
     private void Update()
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        AICustomer customer = other.GetComponent<AICustomer>();
-
-        if (customer != null)
+        if(itemOrders != null)
         {
-            currentCustomer = customer;
-            itemOrders = customer.GetOrder();
             DisplayOrders();
+            HideOrders();
         }
     }
 
@@ -41,18 +36,18 @@ public class LocationTable : MonoBehaviour
         AICustomer customer = other.GetComponent<AICustomer>();
         Player player = other.GetComponent<Player>();
 
-        if (customer != null && customer.state == CharacterState.Sit && customer == currentCustomer)
-        {   
+        if (customer != null && customer.state == CharacterState.Sit)
+        {
+            customer.locationTable = this;
             itemOrders = customer.GetOrder();
             DisplayOrders();
         }
 
-        if(player != null && !isPlayer)
+        if (player != null && !isPlayer)
         {
             isPlayer = true;
             itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
         }
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -60,12 +55,10 @@ public class LocationTable : MonoBehaviour
         AICustomer customer = other.GetComponent<AICustomer>();
         Player player = other.GetComponent<Player>();
 
-        if (customer != null && customer == currentCustomer)
-        {
-            currentCustomer = null;
-            itemOrders.Clear();
-            HideOrders();
-            Debug.Log("Customer left the table.");
+        if (customer != null)
+        {   
+            uiLocation.gameObject.SetActive(false);
+            isOccupied = false;
         }
 
         if (player != null)
@@ -78,29 +71,47 @@ public class LocationTable : MonoBehaviour
         }
     }
 
+    public bool AllOrdersCompleted()
+    {
+        if (itemOrders != null)
+        {
+            foreach (var order in itemOrders)
+            {
+                if (order.currentItemNumber < order.quantity)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private void DisplayOrders()
     {
-        uiLocation.gameObject.SetActive(true);
-        uiLocation.LoadProduct(itemOrders);
+        if (itemOrders != null)
+        {
+            uiLocation.gameObject.SetActive(true);
+            uiLocation.LoadProduct(itemOrders);
+        }
     }
 
     private void HideOrders()
     {
-        uiLocation.gameObject.SetActive(false);
+        for(int i = 0; i < itemOrders.Count; i++)
+        {
+            if (itemOrders[i].currentItemNumber >= itemOrders[i].quantity)
+            {
+                uiLocation.HideUIItem(itemOrders[i].itemId);
+            }
+        }
     }
 
     private IEnumerator SpawnItemsCoroutine(Player player)
     {
         while (isPlayer)
         {
-            for (int i = 0; i < itemOrders.Count; i++)
-            {
-                if (itemOrders[i].currentItemNumber < itemOrders[i].quantity)
-                {
-                    player.ReleaseItems(itemOrders[i], transforms);
-                }
-            }
-            yield return new WaitForSeconds(0.5f);
+            player.ReleaseItems(itemOrders, transforms);
+            yield return new WaitForSeconds(0.3f);
         }
     }
 }

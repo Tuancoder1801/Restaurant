@@ -86,6 +86,7 @@ public class Character : MonoBehaviour
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK);
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK_HOLD);
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_SIT);
+        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_EAT);
     }
 
     #region Idle
@@ -195,11 +196,6 @@ public class Character : MonoBehaviour
         animator.SetTrigger(StaticValue.ANIM_TRIGGER_EAT);
     }
 
-    public virtual void UpdateEat()
-    {
-
-    }
-
     #endregion
 
     #region Cook
@@ -241,7 +237,7 @@ public class Character : MonoBehaviour
         itemTransforms[currentItemNumber].localPosition = new Vector3(currentTransformPosition.x, currentTransformPosition.y, currentTransformPosition.z);
 
         sequence.Append(
-            item.transform.DOJump(itemTransforms[currentItemNumber].position, 1f, 1, 0.2f).OnComplete(() =>
+            item.transform.DOJump(itemTransforms[currentItemNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
             {
                 item.transform.SetParent(itemTransforms[currentItemNumber]);
                 item.transform.localPosition = Vector3.zero;
@@ -255,12 +251,7 @@ public class Character : MonoBehaviour
 
     public void ReleaseItems(List<ItemPosition> itemPositions)
     {
-        if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count) return;
-
-        for (int i = 0; i < itemPositions.Count; i++)
-        {
-            if (!itemPositions[i].CheckMaxStack()) return;
-        }
+        if (currentItemNumber <= 0) return;
 
         Sequence sequence = DOTween.Sequence();
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
@@ -268,10 +259,10 @@ public class Character : MonoBehaviour
 
         foreach (var itemPosition in itemPositions)
         {
-            if (itemPosition.itemId == itemId)
+            if (itemPosition.itemId == itemId && itemPosition.currentStackNumber < itemPosition.maxStackNumber)
             {
                 sequence.Append(
-                    item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 1f, 1, 0.2f).OnComplete(() =>
+                    item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
                     {
                         item.SetParent(itemPosition.itemPositions[itemPosition.currentStackNumber]);
                         item.localPosition = Vector3.zero;
@@ -300,31 +291,33 @@ public class Character : MonoBehaviour
         itemTransforms[index].localPosition = resetPosition;
     }
 
-    public void ReleaseItems(ItemOrder itemOrder, List<Transform> itemPos)
+    public void ReleaseItems(List<ItemOrder> itemOrders, List<Transform> itemPos)
     {
-        if (currentItemNumber <= 0 || currentItemNumber > itemTransforms.Count) return;
+        if (currentItemNumber <= 0) return;
 
         Sequence sequence = DOTween.Sequence();
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
         ItemId itemId = item.GetComponent<BaseItem>().itemId;
 
-
-        if (itemOrder.itemId == itemId)
+        foreach (ItemOrder itemTransform in itemOrders)
         {
-            sequence.Append(
-                item.DOJump(itemPos[itemOrder.currentItemNumber].position, 1f, 1, 0.2f).OnComplete(() =>
-                {
-                    item.SetParent(itemPos[itemOrder.currentItemNumber]);
-                    item.localPosition = Vector3.zero;
-                    item.localRotation = Quaternion.identity;
-                    item.localScale = Vector3.one;
+            if (itemTransform.itemId == itemId && itemTransform.currentItemNumber < itemTransform.quantity)
+            {
+                sequence.Append(
+                    item.DOJump(itemPos[itemTransform.currentItemNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
+                    {
+                        item.SetParent(itemPos[itemTransform.currentItemNumber]);
+                        item.localPosition = Vector3.zero;
+                        item.localRotation = Quaternion.identity;
+                        item.localScale = Vector3.one;
 
-                    currentItemNumber--;
-                    itemOrder.currentItemNumber++;
-                    ResetItemPositions(currentItemNumber);
-                    if (currentItemNumber == 0) isHolding = false;
-                })
-                );
+                        currentItemNumber--;
+                        itemTransform.currentItemNumber++;
+                        ResetItemPositions(currentItemNumber);
+                        if (currentItemNumber == 0) isHolding = false;
+                    })
+                    );
+            }
         }
     }
 
@@ -339,7 +332,7 @@ public class Character : MonoBehaviour
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
 
         sequence.Append(
-        item.DOJump(targetTransform.position, 1f, 1, 0.2f).OnComplete(() =>
+        item.DOJump(targetTransform.position, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             Destroy(item.gameObject);
             currentItemNumber--;

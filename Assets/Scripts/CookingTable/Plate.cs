@@ -30,7 +30,7 @@ public class Plate : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence.Append(
-        item.DOJump(itemsTransform[currentStackNumber].position, 2f, 1, 0.5f).OnComplete(() =>
+        item.DOJump(itemsTransform[currentStackNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             item.SetParent(itemsTransform[currentStackNumber]);
             item.localPosition = Vector3.zero;
@@ -75,7 +75,7 @@ public class Plate : MonoBehaviour
             BaseItem item = itemsTransform[currentStackNumber - 1].GetChild(0).GetComponent<BaseItem>();
             player.ReceiveItems(item);
             currentStackNumber--;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
     }
 }

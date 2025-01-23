@@ -21,17 +21,17 @@ public class GameManager : MonoBehaviour
 
         smoothCamera.SetTarget(player.transform);
 
-        CreateCustomer();
+        //CreateCustomer();
     }
 
-    private void CreateCustomer()
-    {
+    //private void CreateCustomer()
+    //{
 
-        Transform randomSpawnPoint = spawnPosList[Random.Range(0, spawnPosList.Count)];
-        AICustomer cus = Instantiate(customer, randomSpawnPoint.position, randomSpawnPoint.rotation);
-        cus.ChangePos(startPosList[0]);
-        //cus.targetPos = targetTransform;
-        cus.sittingPos = sitTransform;
-        cus.departurePos = departurePos;
-    }
+    //    Transform randomSpawnPoint = spawnPosList[Random.Range(0, spawnPosList.Count)];
+    //    AICustomer cus = Instantiate(customer, randomSpawnPoint.position, randomSpawnPoint.rotation);
+    //    cus.ChangePos(startPosList[0]);
+    //    //cus.targetPos = targetTransform;
+    //    cus.sittingPos = sitTransform;
+    //    cus.departurePos = departurePos;
+    //}
 }

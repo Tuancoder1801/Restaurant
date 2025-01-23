@@ -6,6 +6,6 @@ public class ItemOrder
 {
     public ItemId itemId;
     public int quantity;
-    public int currentItemNumber;
+    public int currentItemNumber = 0;
 }
 

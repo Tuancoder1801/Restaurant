@@ -1,21 +1,27 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
+using static UnityEngine.GraphicsBuffer;
 
 public class AICustomer : Character
 {
-    public Transform sittingPos;
-    public Transform startPos;
     public Transform targetPos;
-    public Transform departurePos;
+    public Transform backPos;
+    public Transform itemIndex;
 
     public List<ItemOrder> itemOrders = new List<ItemOrder>();
+    public LocationTable locationTable = null;
+
+    public bool isInQueue = true;
 
     private NavMeshAgent agent;
-    private bool isStartPos = false;
-    private bool isBackStart = false;
+    private bool isBack = false;
+    private bool isEating = false;
 
     public override void Awake()
     {
@@ -26,13 +32,15 @@ public class AICustomer : Character
     public override void Update()
     {
         base.Update();
+
         UpdateWalk();
         UpdateSit();
+        UpdateEat();
     }
 
     public void ChangePos(Transform pos)
     {
-        startPos = pos;
+        targetPos = pos;
     }
 
     #region Idle
@@ -42,21 +50,10 @@ public class AICustomer : Character
         if (state != CharacterState.Idle) return;
 
         agent.baseOffset = 0f;
-        
-        if(startPos != null && !isStartPos)
+
+        if (targetPos != null)
         {
             ChangeState(CharacterState.Walk);
-        }
-
-        if (isStartPos && targetPos == null)
-        {
-            GameObject targetObject = GameObject.FindWithTag("target");
-            if (targetObject != null)
-            {
-                agent.isStopped = false;
-                targetPos = targetObject.transform;
-                ChangeState(CharacterState.Walk);
-            }
         }
     }
 
@@ -70,42 +67,45 @@ public class AICustomer : Character
 
         agent.baseOffset = 0f;
 
-        if (!isStartPos && startPos != null)
-        {   
-            GetToTargetPos(startPos, startPos, CharacterState.Idle);
-
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-            {
-                isStartPos = true;
-                ChangeState(CharacterState.Idle);
-            }
-        }
-
-        if (isStartPos && targetPos != null)
+        if (isBack)
         {
-            GetToTargetPos(targetPos, sittingPos, CharacterState.Sit);
-        }
-
-        if (isBackStart)
-        {
-            isStartPos = false;
             agent.isStopped = false;
-            GetToTargetPos(startPos, startPos, CharacterState.Idle);
+            GetToTargetPos(backPos);
+            return;
+        }
+
+        if (isInQueue)
+        {
+            agent.isStopped = false;
+            GetToTargetPos(targetPos);
+            return;
+        }
+
+        if (!isInQueue)
+        {
+            agent.isStopped = false;
+            GetToTargetPos(targetPos);
+            return;
         }
     }
 
-    private void GetToTargetPos(Transform target, Transform actionPos, CharacterState state)
+    private void GetToTargetPos(Transform target)
     {
         agent.SetDestination(target.position);
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {   
+        {
             agent.isStopped = true;
-            transform.position = actionPos.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, actionPos.rotation, agent.angularSpeed * Time.deltaTime);
-            Debug.Log(Quaternion.Angle(transform.rotation, actionPos.rotation));
-            if (Quaternion.Angle(transform.rotation, actionPos.rotation) < 1f)
+            targetPos = null;
+            transform.position = target.position;
+            transform.rotation = target.rotation;
+
+            if (!isInQueue)
             {
-                ChangeState(state);
+                ChangeState(CharacterState.Sit);
+            }
+            else
+            {
+                ChangeState(CharacterState.Idle);
             }
         }
     }
@@ -125,31 +125,58 @@ public class AICustomer : Character
             OrderItem();
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (locationTable != null && locationTable.AllOrdersCompleted() /*&& !isEating*/)
         {
-            isBackStart = true;
-            transform.position = departurePos.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, departurePos.rotation, agent.angularSpeed * Time.deltaTime);
-            Debug.Log(Quaternion.Angle(transform.rotation, departurePos.rotation));
-            if (Quaternion.Angle(transform.rotation, departurePos.rotation) < 1f)
+            if (!isBack)
             {
-                ChangeState(CharacterState.Walk);
+                StartCoroutine(LeaveAfterDelay());
             }
         }
+
+        if (locationTable != null && HasValidItems(locationTable.transforms))
+        {
+            Debug.Log("ngoi");
+            ChangeState(CharacterState.Eat);
+        }
+    }
+
+    private IEnumerator LeaveAfterDelay()
+    {
+        yield return new WaitForSeconds(0.4f);
+
+        targetPos = null;
+        transform.position = locationTable.departurePos.position;
+        transform.rotation = locationTable.departurePos.rotation;
+
+        isBack = true;
+
+        ChangeState(CharacterState.Walk);
+    }
+
+    private bool HasValidItems(List<Transform> items)
+    {
+        foreach (var item in items)
+        {
+            if (item.childCount > 0) // Kiểm tra item không null
+            {
+                return true; // Có ít nhất một item hợp lệ
+            }
+        }
+        return false; // Không có item nào hợp lệ
     }
 
     private void OrderItem()
     {
         itemOrders.Clear();
 
-        for(int i = 0; i < Random.Range(1,2); i++)
+        for (int i = 0; i < Random.Range(1, 2); i++)
         {
             int randomIndex = Random.Range(0, GameDataConstant.products.Count);
 
             ItemOrder newOrder = new ItemOrder
             {
                 itemId = GameDataConstant.products[randomIndex].itemId,
-                quantity = Random.Range(2, 6),
+                quantity = Random.Range(2, 2),
                 currentItemNumber = 0,
             };
 
@@ -166,10 +193,49 @@ public class AICustomer : Character
 
     #region Eat
 
-    public override void UpdateEat()
+    public void UpdateEat()
     {
+        if (state != CharacterState.Eat) return;
 
+        if (locationTable != null && !isEating)
+        {
+            isEating = true;
+            StartCoroutine(EatItems());
+        }
+    }
+
+    private IEnumerator EatItems()
+    {
+        for (int i = 0; i < locationTable.transforms.Count; i++)
+        {
+            if (locationTable.transforms[i].childCount > 0)
+            {
+                Transform itemTransform = locationTable.transforms[i].GetChild(0);
+                TakeItems(itemTransform);
+                yield return new WaitForSeconds(2f);
+            }
+        }
+
+        isEating = false;
+        ChangeState(CharacterState.Sit);
     }
 
     #endregion
+
+    public void TakeItems(Transform transform)
+    {
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
+        BaseItem item = transform.GetComponent<BaseItem>();
+
+        if (item == null) return;
+
+        sequence.Append(
+        item.transform.DOMove(itemIndex.position, 0.2f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            Destroy(item.gameObject);
+        })
+    );
+    }
 }
+
+
