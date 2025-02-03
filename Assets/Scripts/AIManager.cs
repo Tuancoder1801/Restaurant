@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AICustomerManager : MonoBehaviour
+public class AIManager : MonoBehaviour
 {
     public Transform spawnPos;
     public Transform backPos;
+    public Transform porterPos;
     public List<Transform> queuePos;
 
     public List<LocationTable> tables;
-    public AICustomer customer;
-    public float spawnInterval = 3f;
+    public List<KitchenTable> kitchenTables;
 
-    public List<AICustomer> customerQueue = new List<AICustomer>();
+    public AICustomer customer;
+    public AIChef chef;
+    public AIPorter porter;
+
+    private List<AICustomer> customerQueue = new List<AICustomer>();
 
     private void Start()
     {
-        SpawnCustomer();
+        //SpawnCustomer();
+        SpawnChef();
+        SpawnPorter();
     }
 
     private void Update()
@@ -27,6 +33,8 @@ public class AICustomerManager : MonoBehaviour
             CheckEmptyTable();
         }
     }
+
+    #region Customer
 
     private void SpawnCustomer()
     {   
@@ -87,4 +95,32 @@ public class AICustomerManager : MonoBehaviour
         }
         return false;
     }
+
+    #endregion
+
+    #region Chef
+
+    private void SpawnChef()
+    {
+        for (int i = 0; i < kitchenTables.Count; i++)
+        {
+            AIChef aIChef = Instantiate(chef, spawnPos.position, spawnPos.rotation);
+            aIChef.targetPos = kitchenTables[i].chefIndex;
+        }
+    }
+
+    #endregion
+
+    #region Porter
+
+    private void SpawnPorter()
+    {
+        for (int i = 0; i < kitchenTables.Count; i++)
+        {
+            AIPorter aIPorter = Instantiate(porter, spawnPos.position, spawnPos.rotation);
+            aIPorter.porterPos = porterPos;
+        }
+    }
+
+    #endregion
 }

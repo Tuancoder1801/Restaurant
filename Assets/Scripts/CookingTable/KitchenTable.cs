@@ -14,6 +14,8 @@ public class KitchenTable : MonoBehaviour
     public int stockTrayNumber;
     public int stockPlateNumber;
 
+    public Transform chefIndex;
+
     private void Start()
     {   
         for (int i = 0; i < tray.itemsPosition.Count; i++)

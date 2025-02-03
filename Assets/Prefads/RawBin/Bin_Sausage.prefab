@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2978245928362313187
+--- !u!1001 &5280556922962960104
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 00e30168cf023154ab34229ed78db584, type: 2}
     - target: {fileID: 1940815084656623450, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1940815084656623450, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1940815084656623450, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1940815084656623450, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56,41 +56,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1970117349440237727, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Size.x
-      value: 2.5771847
-      objectReference: {fileID: 0}
-    - target: {fileID: 1970117349440237727, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Size.y
-      value: 0.26199412
-      objectReference: {fileID: 0}
-    - target: {fileID: 1970117349440237727, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Center.x
-      value: -0.0037145615
-      objectReference: {fileID: 0}
-    - target: {fileID: 1970117349440237727, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Center.y
-      value: 1.1224631
-      objectReference: {fileID: 0}
     - target: {fileID: 5724473063706337184, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: m_Name
       value: Bin_Sausage
-      objectReference: {fileID: 0}
-    - target: {fileID: 5724473063706337184, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6364230652774906089, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7003578563614788354, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7323180725511480401, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: baseItem

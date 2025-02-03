@@ -1,20 +1,20 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
 
 public class Machine : MonoBehaviour
-{   
+{
     public Timer timer;
     public Transform cookIndex;
     public Tray tray;
     public Plate plate;
     public BaseItem baseItem;
+    public bool isCooking = false;
 
     public ParticleSystem processing;
-
-    private bool isCooking = false;
     private bool hasIngredient = false;
 
     private void Awake()
@@ -26,14 +26,11 @@ public class Machine : MonoBehaviour
     private void StartCooking()
     {
         if (!tray.HasItem()) return;
-        
-
-        if(plate.IsExcessStackNumber()) return;
-        
+        if (!plate.CanAddItem()) return;
 
         if (!isCooking)
         {
-            isCooking = true; 
+            isCooking = true;
             hasIngredient = false;
 
             timer.StartCount();
@@ -45,16 +42,24 @@ public class Machine : MonoBehaviour
 
     private IEnumerator CookingProgress()
     {
-        while(isCooking)
+        while (isCooking)
         {
-            if(!hasIngredient)
+            if (!plate.CanAddItem())
+            {
+                EndCooking();
+                yield break;
+            }
+
+            if (!hasIngredient)
             {
                 AddIngredientsToCook();
             }
 
-            if(timer.IsCookCompleted())
+            if (timer.IsCookCompleted())
             {
                 CookingCompleted();
+
+                if (!plate.CanAddItem()) yield break;
             }
 
             yield return null;
@@ -72,30 +77,37 @@ public class Machine : MonoBehaviour
     private void EndCooking()
     {
         isCooking = false;
-        timer.StopCount();
+        timer.StopCount(); // Dừng timer
+        timer.gameObject.SetActive(false); // Ẩn timer
+        processing.gameObject.SetActive(false);
     }
 
-    private void AddIngredientsToCook()
+    /*private void AddIngredientsToCook()
     {
+        if (!plate.IsExcessStackNumber()) // Nếu Plate đầy, không thêm nguyên liệu
+        {
+            return;
+        }
+
         hasIngredient = true;
 
         Sequence sequence = DOTween.Sequence();
         List<Transform> itemsToAdd = new List<Transform>();
 
-        for(int i = 0; i < tray.itemsPosition.Count; i++)
+        for (int i = 0; i < tray.itemsPosition.Count; i++)
         {
             ItemId itemId = tray.itemsPosition[i].itemId;
             ItemPosition itemPos = tray.itemsPosition[i];
 
             if (tray.HasItem() && itemPos.itemPositions.Count > 0)
             {
-                for(int j = itemPos.itemPositions.Count - 1; j >= 0; j--)
+                for (int j = itemPos.itemPositions.Count - 1; j >= 0; j--)
                 {
                     Transform position = itemPos.itemPositions[j];
 
                     if (position.childCount > 0)
                     {
-                        Transform item = position.GetChild(0); 
+                        Transform item = position.GetChild(0);
                         itemsToAdd.Add(item);
 
                         itemPos.currentStackNumber--;
@@ -105,15 +117,49 @@ public class Machine : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < itemsToAdd.Count; i++)
-        {   
+        if (!plate.IsExcessStackNumber())
+        {
+            return;
+        }
+
+        for (int i = 0; i < itemsToAdd.Count; i++)
+        {
             Transform item = itemsToAdd[i];
 
-            item.DOMove(cookIndex.position, 0.5f).SetEase(Ease.InOutQuad)
+            item.DOMove(cookIndex.position, 0.2f).SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
                     Destroy(item.gameObject);
                 });
+        }
+    }*/
+
+    private void AddIngredientsToCook()
+    {
+        hasIngredient = true;
+
+        foreach (var itemPos in tray.itemsPosition)
+        {
+            if (itemPos.itemPositions.Count == 0) continue;
+
+            for (int j = itemPos.itemPositions.Count - 1; j >= 0; j--)
+            {
+                Transform position = itemPos.itemPositions[j];
+                if (position.childCount > 0)
+                {
+                    Transform item = position.GetChild(0);
+
+                    itemPos.currentStackNumber--;
+
+                    item.DOMove(cookIndex.position, 0.2f).SetEase(Ease.InOutQuad)
+                        .OnComplete(() =>
+                        {
+                            Destroy(item.gameObject);
+                        });
+
+                    break;
+                }
+            }
         }
     }
 
@@ -126,10 +172,21 @@ public class Machine : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         Player player = other.transform.root.GetComponent<Player>();
+        AIChef chef = other.GetComponent<AIChef>();
 
         if (player != null)
         {
-            if(!timer.isActiveAndEnabled)
+            if (!timer.isActiveAndEnabled)
+            {
+                StartCooking();
+            }
+        }
+
+        if (chef != null)
+        {
+            chef.machine = this;
+
+            if (!timer.isActiveAndEnabled)
             {
                 StartCooking();
             }

@@ -87,6 +87,7 @@ public class Character : MonoBehaviour
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK_HOLD);
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_SIT);
         animator.ResetTrigger(StaticValue.ANIM_TRIGGER_EAT);
+        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_COOK);
     }
 
     #region Idle
