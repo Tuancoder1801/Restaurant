@@ -1,37 +1,97 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     public Player player;
-    public AICustomer customer;
+    public AIChef chef;
+    public AIPorter porter;
+    public AIWaiter waiter;
+
+    public Location location;
+
     public SmoothCamera smoothCamera;
-
-    public List<Transform> spawnPosList;
-    public List<Transform> startPosList;
-
-    public Transform targetTransform;
-    public Transform sitTransform;
-    public Transform departurePos;
+    public Transform playerPos;
+    public Transform spawnPos;
+    public Transform porterPos;
+    public Transform waiterPos;
 
     private void Awake()
     {
         GameDataConstant.Load();
 
-        smoothCamera.SetTarget(player.transform);
-
-        //CreateCustomer();
+        CreatePlayer();
+        SpawnChef();
+        SpawnPorter();
+        SpawnWaiter();
     }
 
-    //private void CreateCustomer()
-    //{
+    private void CreatePlayer()
+    {
+        Player newPlayer = Instantiate(player, playerPos.position, playerPos.rotation);
+        smoothCamera.SetTarget(newPlayer.transform);
+    }
 
-    //    Transform randomSpawnPoint = spawnPosList[Random.Range(0, spawnPosList.Count)];
-    //    AICustomer cus = Instantiate(customer, randomSpawnPoint.position, randomSpawnPoint.rotation);
-    //    cus.ChangePos(startPosList[0]);
-    //    //cus.targetPos = targetTransform;
-    //    cus.sittingPos = sitTransform;
-    //    cus.departurePos = departurePos;
-    //}
+    #region Chef
+
+    private void SpawnChef()
+    {
+        for (int i = 0; i < location.kitchenTables.Count; i++)
+        {
+            AIChef aIChef = Instantiate(chef, spawnPos.position, spawnPos.rotation);
+            aIChef.targetPos = location.kitchenTables[i].chefIndex;
+        }
+    }
+
+    #endregion
+
+    #region Porter
+
+    private void SpawnPorter()
+    {
+        for (int i = 0; i < location.kitchenTables.Count; i++)
+        {
+            AIPorter aIPorter = Instantiate(porter, spawnPos.position, spawnPos.rotation);
+            aIPorter.porterPos = porterPos;
+            aIPorter.kitchenTable = location.kitchenTables[i];
+
+            aIPorter.rawBins = GetRelevantRawbins(location.kitchenTables[i], location.rawBins);
+        }
+    }
+
+    private List<RawBin> GetRelevantRawbins(KitchenTable kitchenTable, List<RawBin> allRawbins)
+    {
+        List<RawBin> relevantRawbins = new List<RawBin>();
+
+        foreach (var itemPos in kitchenTable.tray.itemsPosition) // Lấy danh sách itemId từ Tray
+        {
+            foreach (var rawbin in allRawbins) // Duyệt qua danh sách Rawbin trong Location
+            {
+                if (!relevantRawbins.Contains(rawbin))
+                {
+                    relevantRawbins.Add(rawbin);
+                }
+            }
+        }
+        return relevantRawbins;
+    }
+
+    #endregion
+
+    #region Waiter
+
+    private void SpawnWaiter()
+    {
+        for (int i = 0; i < location.kitchenTables.Count; i++)
+        {
+            AIWaiter aiWaiter = Instantiate(waiter, spawnPos.position, spawnPos.rotation);
+            aiWaiter.waiterPos = waiterPos;
+            aiWaiter.kitchenTable = location.kitchenTables[i];
+            aiWaiter.locationTables = location.locationTables;
+        }
+    }
+
+
+    #endregion
 }

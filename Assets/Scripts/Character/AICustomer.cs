@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,12 +16,16 @@ public class AICustomer : Character
     public Transform itemIndex;
 
     public List<ItemOrder> itemOrders = new List<ItemOrder>();
-    public LocationTable locationTable = null;
+    public LocationTable locationTable;
 
     public bool isInQueue = true;
 
     private NavMeshAgent agent;
-    private bool isBack = false;
+
+    private bool isMoving = false;
+    private bool hasItem = false;
+
+    public bool isBack = false;
     private bool isEating = false;
 
     public override void Awake()
@@ -32,7 +37,7 @@ public class AICustomer : Character
     public override void Update()
     {
         base.Update();
-
+        CheckAnim();
         UpdateWalk();
         UpdateSit();
         UpdateEat();
@@ -43,6 +48,13 @@ public class AICustomer : Character
         targetPos = pos;
     }
 
+    private void CheckAnim()
+    {
+        isMoving = targetPos != null;
+
+        hasItem = HasItemInTable();
+    }
+
     #region Idle
 
     public override void UpdateIdle()
@@ -51,7 +63,7 @@ public class AICustomer : Character
 
         agent.baseOffset = 0f;
 
-        if (targetPos != null)
+        if (isMoving && !isBack)
         {
             ChangeState(CharacterState.Walk);
         }
@@ -67,45 +79,42 @@ public class AICustomer : Character
 
         agent.baseOffset = 0f;
 
-        if (isBack)
-        {
-            agent.isStopped = false;
-            GetToTargetPos(backPos);
-            return;
-        }
-
         if (isInQueue)
         {
-            agent.isStopped = false;
-            GetToTargetPos(targetPos);
-            return;
+            GetToTargetPos(targetPos, CharacterState.Idle);
         }
 
         if (!isInQueue)
         {
-            agent.isStopped = false;
-            GetToTargetPos(targetPos);
-            return;
-        }
-    }
-
-    private void GetToTargetPos(Transform target)
-    {
-        agent.SetDestination(target.position);
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            agent.isStopped = true;
-            targetPos = null;
-            transform.position = target.position;
-            transform.rotation = target.rotation;
-
-            if (!isInQueue)
+            if (isBack)
             {
-                ChangeState(CharacterState.Sit);
+                GetToTargetPos(backPos, CharacterState.Idle);
             }
             else
             {
-                ChangeState(CharacterState.Idle);
+                GetToTargetPos(targetPos, CharacterState.Sit);
+            }
+        }
+    }
+
+    private void GetToTargetPos(Transform target, CharacterState characterState)
+    {
+        agent.isStopped = false;
+        agent.SetDestination(target.position);
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            agent.isStopped = true;
+            transform.position = target.position;
+            transform.rotation = target.rotation;
+
+            if (target == backPos)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                ChangeState(characterState);
             }
         }
     }
@@ -120,67 +129,68 @@ public class AICustomer : Character
 
         agent.baseOffset = -0.3f;
 
-        if (itemOrders.Count == 0)
+        if (!isInQueue && !isBack)
         {
-            OrderItem();
-        }
-
-        if (locationTable != null && locationTable.AllOrdersCompleted() /*&& !isEating*/)
-        {
-            if (!isBack)
+            if (itemOrders.Count == 0)
             {
-                StartCoroutine(LeaveAfterDelay());
+                OrderItem();
+            }
+
+            if (hasItem)
+            {
+                ChangeState(CharacterState.Eat);
+            }
+
+            if (locationTable != null && locationTable.AllOrdersCompleted())
+            {
+                //isBack = true;
+                //transform.position = locationTable.departurePos.position;
+                //transform.rotation = locationTable.departurePos.rotation;
+                //ChangeState(CharacterState.Walk);
+
+                LeaveAfterDelay();
             }
         }
-
-        if (locationTable != null && HasValidItems(locationTable.transforms))
-        {
-            Debug.Log("ngoi");
-            ChangeState(CharacterState.Eat);
-        }
+        
     }
 
-    private IEnumerator LeaveAfterDelay()
+    private async void LeaveAfterDelay()
     {
-        yield return new WaitForSeconds(0.4f);
-
-        targetPos = null;
-        transform.position = locationTable.departurePos.position;
-        transform.rotation = locationTable.departurePos.rotation;
+        //Debug.Log("Waiting for 3 seconds...");
 
         isBack = true;
+        await Task.Delay(3000);
+        //Debug.Log("Delay completed!");
 
+        transform.position = locationTable.departurePos.position;
+        transform.rotation = locationTable.departurePos.rotation;
         ChangeState(CharacterState.Walk);
-    }
-
-    private bool HasValidItems(List<Transform> items)
-    {
-        foreach (var item in items)
-        {
-            if (item.childCount > 0) // Kiểm tra item không null
-            {
-                return true; // Có ít nhất một item hợp lệ
-            }
-        }
-        return false; // Không có item nào hợp lệ
     }
 
     private void OrderItem()
     {
         itemOrders.Clear();
 
-        for (int i = 0; i < Random.Range(1, 2); i++)
+        List<ItemId> availableItems = new List<ItemId>(FindObjectOfType<AIManager>().GetAvailableItems());
+
+        if (availableItems.Count == 0) return;
+
+        int orderCount = Mathf.Min(Random.Range(1, 2), availableItems.Count);
+
+        for (int i = 0; i < orderCount; i++)
         {
-            int randomIndex = Random.Range(0, GameDataConstant.products.Count);
+            int randomIndex = Random.Range(0, availableItems.Count);
+            ItemId selectedItemId = availableItems[randomIndex];
 
             ItemOrder newOrder = new ItemOrder
             {
-                itemId = GameDataConstant.products[randomIndex].itemId,
-                quantity = Random.Range(2, 2),
+                itemId = selectedItemId,
+                quantity = Random.Range(1, 3),
                 currentItemNumber = 0,
             };
 
             itemOrders.Add(newOrder);
+            availableItems.RemoveAt(randomIndex);
         }
     }
 
@@ -200,11 +210,11 @@ public class AICustomer : Character
         if (locationTable != null && !isEating)
         {
             isEating = true;
-            StartCoroutine(EatItems());
+            EatItems();          
         }
     }
 
-    private IEnumerator EatItems()
+    private async void EatItems()
     {
         for (int i = 0; i < locationTable.transforms.Count; i++)
         {
@@ -212,7 +222,8 @@ public class AICustomer : Character
             {
                 Transform itemTransform = locationTable.transforms[i].GetChild(0);
                 TakeItems(itemTransform);
-                yield return new WaitForSeconds(2f);
+
+                await Task.Delay(2000);
             }
         }
 
@@ -222,7 +233,7 @@ public class AICustomer : Character
 
     #endregion
 
-    public void TakeItems(Transform transform)
+    private void TakeItems(Transform transform)
     {
         DG.Tweening.Sequence sequence = DOTween.Sequence();
         BaseItem item = transform.GetComponent<BaseItem>();
@@ -235,6 +246,22 @@ public class AICustomer : Character
             Destroy(item.gameObject);
         })
     );
+    }
+
+    private bool HasItemInTable()
+    {
+        if (locationTable != null)
+        {
+            for (int i = 0; i < locationTable.itemOrders.Count; i++)
+            {
+                if (locationTable.itemOrders[i].currentItemNumber > 0)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
 

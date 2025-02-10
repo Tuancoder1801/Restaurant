@@ -14,30 +14,23 @@ public class AIManager : MonoBehaviour
     public List<KitchenTable> kitchenTables;
 
     public AICustomer customer;
-    public AIChef chef;
-    public AIPorter porter;
 
     private List<AICustomer> customerQueue = new List<AICustomer>();
 
-    private void Start()
+    private void Awake()
     {
-        //SpawnCustomer();
-        SpawnChef();
-        SpawnPorter();
+        SpawnCustomer();
     }
 
     private void Update()
     {
-        if (HasEmptyTable())
-        {
-            CheckEmptyTable();
-        }
+        CheckEmptyTable();
     }
 
     #region Customer
 
     private void SpawnCustomer()
-    {   
+    {
         for (int i = 0; i < queuePos.Count; i++)
         {
             AICustomer newCustomer = Instantiate(customer, queuePos[i].position, queuePos[i].rotation);
@@ -65,22 +58,34 @@ public class AIManager : MonoBehaviour
 
     private void CheckEmptyTable()
     {
+        Debug.Log("Checking for empty tables...");
+        foreach (var table in tables)
+        {
+            Debug.Log($"Table {tables.IndexOf(table)} occupied: {table.isOccupied}");
+        }
+
         if (customerQueue == null || customerQueue.Count <= 0) return;
 
-        AICustomer firstCustomer = customerQueue[0];
-       
         for (int i = 0; i < tables.Count; i++)
         {
             if (tables[i].isOccupied == false)
-            {
+            {   
                 tables[i].isOccupied = true;
+                AICustomer firstCustomer = customerQueue[0];
                 firstCustomer.isInQueue = false;
                 firstCustomer.ChangePos(tables[i].sittingPos);
                 customerQueue.Remove(firstCustomer);
                 UpdateQueuePositions();
-                AddCustomer(queuePos[queuePos.Count - 1]);
+                //AddCustomer(queuePos[customerQueue.Count]);
+                return;
             }
         }
+
+        if (customerQueue.Count < queuePos.Count)
+        {
+            AddCustomer(queuePos[customerQueue.Count]);
+        }
+
         return;
     }
 
@@ -96,30 +101,16 @@ public class AIManager : MonoBehaviour
         return false;
     }
 
-    #endregion
-
-    #region Chef
-
-    private void SpawnChef()
+    public List<ItemId> GetAvailableItems()
     {
-        for (int i = 0; i < kitchenTables.Count; i++)
+        List<ItemId> availableItems = new List<ItemId>();
+
+        foreach (var kitchenTable in kitchenTables)
         {
-            AIChef aIChef = Instantiate(chef, spawnPos.position, spawnPos.rotation);
-            aIChef.targetPos = kitchenTables[i].chefIndex;
+            availableItems.Add(kitchenTable.itemId);
         }
-    }
 
-    #endregion
-
-    #region Porter
-
-    private void SpawnPorter()
-    {
-        for (int i = 0; i < kitchenTables.Count; i++)
-        {
-            AIPorter aIPorter = Instantiate(porter, spawnPos.position, spawnPos.rotation);
-            aIPorter.porterPos = porterPos;
-        }
+        return availableItems;
     }
 
     #endregion

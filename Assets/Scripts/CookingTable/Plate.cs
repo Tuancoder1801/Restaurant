@@ -22,8 +22,7 @@ public class Plate : MonoBehaviour
     {
         if (!CanAddItem()) return;
 
-        // Tăng trước currentStackNumber để đảm bảo trạng thái Plate được cập nhật
-        int previousStackNumber = currentStackNumber; // Lưu lại trạng thái để rollback nếu cần
+        int previousStackNumber = currentStackNumber;
         currentStackNumber++;
 
         Sequence sequence = DOTween.Sequence();
@@ -32,7 +31,6 @@ public class Plate : MonoBehaviour
             item.DOJump(itemsTransform[previousStackNumber].position, 0.5f, 1, 0.2f)
                 .OnComplete(() =>
                 {
-                    // Khi hoàn tất, đưa item vào vị trí chính xác
                     item.SetParent(itemsTransform[previousStackNumber]);
                     item.localPosition = Vector3.zero;
                     item.localRotation = Quaternion.identity;
@@ -41,28 +39,26 @@ public class Plate : MonoBehaviour
         )
         .OnKill(() =>
         {
-            // Rollback nếu hoạt ảnh bị huỷ hoặc không hoàn thành
-            currentStackNumber = previousStackNumber;
-            Debug.LogWarning("Hoạt ảnh bị huỷ, rollback số lượng trên Plate.");
+            currentStackNumber = previousStackNumber;         
         });
     }
 
     private void OnTriggerStay(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        Character character = other.GetComponent<Character>();
 
-        if (player != null && !isColliding)
+        if (character != null && !isColliding)
         {
             isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
+            itemSpawnCoroutine = StartCoroutine(SpawnItems(character));
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        Character character = other.GetComponent<Character>();
 
-        if (player != null)
+        if (character != null)
         {
             isColliding = false;
 
@@ -73,13 +69,28 @@ public class Plate : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnItems(Player player)
+    private IEnumerator SpawnItems(Character character)
     {
-        while (isColliding && currentStackNumber > 0 && player.currentItemNumber < player.maxStackNumber)
+        while (isColliding && currentStackNumber > 0 && character.currentItemNumber < character.maxStackNumber)
         {
-            BaseItem item = itemsTransform[currentStackNumber - 1].GetChild(0).GetComponent<BaseItem>();
-            player.ReceiveItems(item);
-            currentStackNumber--;
+            if (currentStackNumber - 1 >= 0 && currentStackNumber - 1 < itemsTransform.Count)
+            {
+                // Kiểm tra xem có con nào trong itemsTransform[currentStackNumber - 1]
+                if (itemsTransform[currentStackNumber - 1].childCount > 0)
+                {
+                    // Lấy item từ vị trí hiện tại trong itemsTransform
+                    BaseItem item = itemsTransform[currentStackNumber - 1].GetChild(0).GetComponent<BaseItem>();
+                    if (item != null)
+                    {
+                        character.ReceiveItems(item);
+                        currentStackNumber--;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("No item to spawn in stack position " + (currentStackNumber - 1));
+                }
+            }
             yield return new WaitForSeconds(0.3f);
         }
     }

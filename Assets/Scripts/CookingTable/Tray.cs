@@ -36,20 +36,20 @@ public class Tray : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Player player = other.transform.root.GetComponent<Player>();
+        Character character = other.transform.root.GetComponent<Character>();
 
-        if (player != null && !isColliding)
+        if (character != null && !isColliding)
         {
             isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
+            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(character));
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Player player = other.transform.root.GetComponent<Player>();
+        Character character = other.transform.root.GetComponent<Character>();
 
-        if (player != null)
+        if (character != null)
         {
             isColliding = false;
             if (itemSpawnCoroutine != null)
@@ -59,12 +59,12 @@ public class Tray : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnItemsCoroutine(Player player)
+    private IEnumerator SpawnItemsCoroutine(Character character)
     {
         while (isColliding)
         {
-            player.ReleaseItems(itemsPosition);
-            yield return new WaitForSeconds(0.3f);
+            character.ReleaseItems(itemsPosition);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

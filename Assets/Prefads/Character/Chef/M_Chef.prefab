@@ -6538,6 +6538,7 @@ MonoBehaviour:
   currentItemNumber: 0
   isHolding: 0
   targetPos: {fileID: 0}
+  machine: {fileID: 0}
 --- !u!195 &160099934330190857
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6550,7 +6551,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 10
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 1
   m_AngularSpeed: 100000
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0

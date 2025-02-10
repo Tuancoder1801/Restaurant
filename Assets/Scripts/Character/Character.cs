@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
     public CharacterState state = CharacterState.Idle;
 
     public int maxStackNumber = 3;
-    public List<Transform> itemTransforms = new List<Transform>();
+    public List<Transform> itemTransforms;
     public int currentItemNumber = 0;
     public bool isHolding = false;
 

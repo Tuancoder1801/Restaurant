@@ -5,7 +5,7 @@ using UnityEngine;
 public class KitchenTable : MonoBehaviour
 {   
     public TableId tableId;
-
+    public ItemId itemId;
     public Tray tray;
     public Machine machine;
     public Plate plate;
@@ -15,6 +15,8 @@ public class KitchenTable : MonoBehaviour
     public int stockPlateNumber;
 
     public Transform chefIndex;
+    public Transform porterIndex;
+    public Transform waiterIndex;
 
     private void Start()
     {   

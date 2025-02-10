@@ -13,20 +13,20 @@ public class RawBin : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Player player = other.GetComponentInParent<Player>();
+        Character character = other.GetComponentInParent<Character>();
 
-        if (player != null && !isColliding)
+        if (character != null && !isColliding)
         {
             isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItems(player));
+            itemSpawnCoroutine = StartCoroutine(SpawnItems(character));
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Player player = other.GetComponentInParent<Player>();
+        Character character = other.GetComponentInParent<Character>();
 
-        if (player != null)
+        if (character != null)
         {
             isColliding = false;
             if (itemSpawnCoroutine != null)
@@ -37,14 +37,14 @@ public class RawBin : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnItems(Player player)
+    private IEnumerator SpawnItems(Character character)
     {
         while (isColliding)
         {
-            if (player.currentItemNumber < player.maxStackNumber)
+            if (character.currentItemNumber < character.maxStackNumber)
             {
                 BaseItem item = Instantiate(baseItem, itemIndex.position, itemIndex.rotation);
-                player.ReceiveItems(item);
+                character.ReceiveItems(item);
             }
 
             yield return new WaitForSeconds(0.3f);

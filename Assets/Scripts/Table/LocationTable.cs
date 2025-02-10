@@ -7,13 +7,14 @@ public class LocationTable : MonoBehaviour
     public UILocation uiLocation;
     public List<ItemOrder> itemOrders;
     public List<Transform> transforms;
-    
+
     public bool isOccupied = false;
+    public Transform waiterIndex;
     public Transform destination;
     public Transform sittingPos;
     public Transform departurePos;
 
-    private bool isPlayer = false;
+    private bool isColliding = false;
     private Coroutine itemSpawnCoroutine;
 
     private void Start()
@@ -34,26 +35,39 @@ public class LocationTable : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         AICustomer customer = other.GetComponent<AICustomer>();
+
         Player player = other.GetComponent<Player>();
+        AIWaiter waiter = other.GetComponent<AIWaiter>();
 
         if (customer != null && customer.state == CharacterState.Sit)
         {
             customer.locationTable = this;
-            itemOrders = customer.GetOrder();
+            itemOrders = customer.itemOrders;
+            isOccupied = true;
             DisplayOrders();
         }
 
-        if (player != null && !isPlayer)
+        if (player != null && !isColliding)
         {
-            isPlayer = true;
+            Debug.Log("cham");
+            isColliding = true;
             itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
+        }
+
+        if (waiter != null && !isColliding)
+        {
+            Debug.Log("cham");
+            isColliding = true;
+            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(waiter));
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         AICustomer customer = other.GetComponent<AICustomer>();
+
         Player player = other.GetComponent<Player>();
+        AIWaiter waiter = other.GetComponent<AIWaiter>();
 
         if (customer != null)
         {   
@@ -63,7 +77,16 @@ public class LocationTable : MonoBehaviour
 
         if (player != null)
         {
-            isPlayer = false;
+            isColliding = false;
+            if (itemSpawnCoroutine != null)
+            {
+                StopCoroutine(itemSpawnCoroutine);
+            }
+        }
+
+        if (waiter != null)
+        {
+            isColliding = false;
             if (itemSpawnCoroutine != null)
             {
                 StopCoroutine(itemSpawnCoroutine);
@@ -106,11 +129,11 @@ public class LocationTable : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnItemsCoroutine(Player player)
+    private IEnumerator SpawnItemsCoroutine(Character character)
     {
-        while (isPlayer)
+        while (isColliding)
         {
-            player.ReleaseItems(itemOrders, transforms);
+            character.ReleaseItems(itemOrders, transforms);
             yield return new WaitForSeconds(0.3f);
         }
     }
