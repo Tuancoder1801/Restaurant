@@ -62,17 +62,22 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Character\Player.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
+    <Compile Include="Assets\Scripts\Table\LocationTable.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothCamera.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\Scripts\BuildLocation\LocationBuild.cs" />
+    <Compile Include="Assets\Scripts\GameData.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Timer.cs" />
     <Compile Include="Assets\Scripts\Character\Character.cs" />
+    <Compile Include="Assets\Scripts\AIManager.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
     <Compile Include="Assets\Scripts\UI\UILocation.cs" />
+    <Compile Include="Assets\Scripts\Character\AIChef.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Tray.cs" />
     <Compile Include="Assets\Scripts\Item\BaseItem.cs" />
     <Compile Include="Assets\Scripts\GameEnums.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Character\AIPorter.cs" />
     <Compile Include="Assets\Scripts\Data\GameDataConstant.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\CookingTable\ItemPosition.cs" />
@@ -86,9 +91,11 @@
     <Compile Include="Assets\Scripts\StaticValue.cs" />
     <Compile Include="Assets\Scripts\RawBin\TrashCan.cs" />
     <Compile Include="Assets\Scripts\UI\UIItem.cs" />
+    <Compile Include="Assets\Scripts\Character\AICustomer.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Plate.cs" />
     <Compile Include="Assets\Scripts\Data\ItemData.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
+    <Compile Include="Assets\Scripts\Character\AIWaiter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
