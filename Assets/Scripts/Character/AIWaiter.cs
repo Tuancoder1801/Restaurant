@@ -13,19 +13,21 @@ public class AIWaiter : Character
     public List<LocationTable> locationTables;
 
     private NavMeshAgent agent;
-    private LocationTable currentTable;
+    private int currentTableIndex;
     private bool isMoving = false;
-    private bool hasItem = false;
+    private bool hasItemOrder = false;
 
     public override void Awake()
     {
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
+
+        currentTableIndex = 0;
     }
 
     private void Start()
     {
-        targetPos = waiterPos;
+        //targetPos = waiterPos;
     }
 
     public override void Update()
@@ -41,7 +43,7 @@ public class AIWaiter : Character
     {
         isMoving = targetPos != null;
 
-        //hasItem = HasItemInPlate() && HasItemInTable();
+        hasItemOrder = HasItemInTable();
     }
 
     #region Idle
@@ -50,23 +52,24 @@ public class AIWaiter : Character
     {
         if (state != CharacterState.Idle) return;
 
-        //if (hasItem)
-        //{
-        //    //ServeTable();
-            
-        //}
-
-        for(int i = 0; i < locationTables.Count; i++)
+        if (hasItemOrder)
         {
-            if (tableHasOrder(locationTables[i]))
+            if (HasItemInPlate())
             {
-                currentTable = locationTables[i];
-                ServeTable(currentTable);
-
-                return;
+                ServeTable();
+            }
+            else
+            {
+                targetPos = waiterPos;
+                ChangeState(CharacterState.Walk);
             }
         }
-     
+        else
+        {
+            targetPos = waiterPos;
+            ChangeState(CharacterState.Walk);
+        }
+
         if (isMoving)
         {
             ChangeState(CharacterState.Walk);
@@ -77,8 +80,8 @@ public class AIWaiter : Character
             ChangeState(CharacterState.IdleHold);
         }
 
-        targetPos = waiterPos;
-        ChangeState(CharacterState.Walk);
+        //targetPos = waiterPos;
+        //ChangeState(CharacterState.Walk);
     }
 
     public override void UpdateIdleHold()
@@ -90,7 +93,7 @@ public class AIWaiter : Character
             ChangeState(CharacterState.Idle);
         }
 
-        if (currentItemNumber > 0 && HasItemInTable())
+        if (currentItemNumber > 0)
         {
             GoToTable();
         }
@@ -141,23 +144,20 @@ public class AIWaiter : Character
 
     private bool HasItemInPlate()
     {
-        return kitchenTable.plate.currentStackNumber > 0;
+        return kitchenTable != null && kitchenTable.plate.currentStackNumber > 0;
     }
 
     private bool HasItemInTable()
     {
-        if (locationTables != null)
+        foreach (var table in locationTables)
         {
-            foreach (var table in locationTables)
+            if (table.itemOrders != null)
             {
-                if (table.itemOrders != null)
+                foreach (var item in table.itemOrders)
                 {
-                    foreach (var item in table.itemOrders)
+                    if (item.currentItemNumber < item.quantity)
                     {
-                        if (item.currentItemNumber < item.quantity)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
@@ -165,53 +165,74 @@ public class AIWaiter : Character
         return false;
     }
 
-    private void ServeTable(LocationTable table)
+    private void ServeTable()
     {
-        if (table != null)
+        while (currentTableIndex < locationTables.Count)
         {
-            
+            var table = locationTables[currentTableIndex];
+
+            if (table.itemOrders != null)
+            {
+                foreach (var item in table.itemOrders)
+                {
+                    if (item.currentItemNumber < item.quantity)
+                    {
+                        GoToPlate(item.itemId);
+                        return; // Dừng lại, chờ waiter lấy món và di chuyển đến bàn
+                    }
+                }
+            }
+
+            // Nếu bàn này không cần món, chuyển sang bàn tiếp theo
+            currentTableIndex++;
         }
+
+        // Nếu không có bàn nào cần món nữa, reset về bàn đầu tiên
+        currentTableIndex = 0;
     }
 
     private void GoToPlate(ItemId itemId)
     {
-        if (kitchenTable != null)
+        if (kitchenTable != null && itemId == kitchenTable.itemId)
         {
-            if (itemId == kitchenTable.itemId)
-            {
-                targetPos = kitchenTable.waiterIndex;
-                ChangeState(CharacterState.Walk);
-                return;
-            }
+            targetPos = kitchenTable.waiterIndex;
+            ChangeState(CharacterState.Walk);
         }
     }
 
     private void GoToTable()
     {
-        if (locationTables != null)
+        var table = locationTables[currentTableIndex];
+
+        if (table.itemOrders != null)
         {
-            foreach (var table in locationTables)
+            foreach (var item in table.itemOrders)
             {
-                if (tableHasOrder(table)) // Nếu bàn này vẫn cần món
+                if (item.currentItemNumber < item.quantity && currentItemNumber > 0)
                 {
                     targetPos = table.waiterIndex;
                     ChangeState(CharacterState.WalkHold);
-                    return; // Phục vụ bàn này trước, sau đó mới kiểm tra bàn khác
+                    return;
                 }
             }
         }
+
+        // Nếu bàn này đã đủ món, chuyển sang bàn tiếp theo
+        currentTableIndex++;
+        ServeTable();
     }
 
-    private bool tableHasOrder(LocationTable table)
-    {
-        foreach (var item in table.itemOrders)
-        {
-            if (item.currentItemNumber < item.quantity)
-            {
-                return true; // Nếu bàn vẫn cần món, waiter sẽ phục vụ
-            }
-        }
-        return false;
-    }
+    //private void tableHasOrder()
+    //{
+    //    if (locationTables == null) return;
+
+    //    if (locationTables[currentTable].itemOrders == null)
+    //    {
+    //        currentTable++;
+    //    }
+
+    //    if (currentTable >= locationTables.Count) currentTable = 0;
+
+    //    Debug.Log("current table: " + currentTable);
+    //}
 }
-

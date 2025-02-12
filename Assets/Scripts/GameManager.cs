@@ -17,6 +17,11 @@ public class GameManager : Singleton<GameManager>
     public Transform porterPos;
     public Transform waiterPos;
 
+    private LocationLineUp lineUp;
+
+    public List<LocationTable> tables;
+    public List<KitchenTable> kitchenTables;
+
     private void Awake()
     {
         GameDataConstant.Load();

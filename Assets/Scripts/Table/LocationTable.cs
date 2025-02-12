@@ -49,14 +49,12 @@ public class LocationTable : MonoBehaviour
 
         if (player != null && !isColliding)
         {
-            Debug.Log("cham");
             isColliding = true;
             itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
         }
 
         if (waiter != null && !isColliding)
         {
-            Debug.Log("cham");
             isColliding = true;
             itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(waiter));
         }
@@ -69,10 +67,10 @@ public class LocationTable : MonoBehaviour
         Player player = other.GetComponent<Player>();
         AIWaiter waiter = other.GetComponent<AIWaiter>();
 
-        if (customer != null)
-        {   
-            uiLocation.gameObject.SetActive(false);
+        if (customer != null )
+        {
             isOccupied = false;
+            uiLocation.gameObject.SetActive(false);
         }
 
         if (player != null)
