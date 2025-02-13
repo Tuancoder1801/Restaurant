@@ -16,270 +16,49 @@ public enum AICustomerState
     FINISH
 }
 
-public class AICustomer : Character
+public class AICustomer : AICharacter
 {
-    public Transform targetPos;
-    public Transform backPos;
     public Transform itemIndex;
 
     public List<ItemOrder> itemOrders = new List<ItemOrder>();
     public LocationTable locationTable;
 
-    public bool isInQueue = true;
     public AICustomerState state;
-    private NavMeshAgent agent;
 
-    private bool isMoving = false;
-    private bool hasItem = false;
-
-    public bool isBack = false;
-    private bool isEating = false;
-
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
-        agent = GetComponent<NavMeshAgent>();
     }
 
-    public override void Update()
+    public void Update()
     {
-        base.Update();
-        //CheckAnim();
-        //UpdateWalk();
-        //UpdateSit();
-        //UpdateEat();
+        ChangeState();
     }
 
-    public void ChangePos(Transform pos)
+    private void ChangeState()
     {
-        targetPos = pos;
-    }
-
-    private void ChangeState(AICustomerState newState)
-    {
-        if (state != newState)
+        if (isMoving) 
         {
-            switch (newState)
+
+        }
+        else
+        {
+            switch (state)
             {
-                case CharacterState.Idle:
-                    BeginIdle();
+                case AICustomerState.START:
                     break;
-                case CharacterState.Run:
-                    BeginRun();
+                case AICustomerState.LINEUP:
                     break;
-                case CharacterState.IdleHold:
-                    BeginIdleHold();
+                case AICustomerState.MOVETOTABLE:
                     break;
-                case CharacterState.RunHold:
-                    BeginRunHold();
+                case AICustomerState.EATING:
                     break;
-                case CharacterState.Walk:
-                    BeginWalk();
-                    break;
-                case CharacterState.WalkHold:
-                    BeginWalkHold();
-                    break;
-                case CharacterState.Sit:
-                    BeginSit();
-                    break;
-                case CharacterState.Eat:
-                    BeginEat();
-                    break;
-                case CharacterState.Cook:
-                    BeginCook();
+                case AICustomerState.FINISH:
                     break;
             }
 
         }
     }
-
-    private void CheckAnim()
-    {
-        isMoving = targetPos != null;
-
-        hasItem = HasItemInTable();
-    }
-
-    //#region Idle
-
-    //public override void UpdateIdle()
-    //{
-    //    if (state != CharacterState.Idle) return;
-
-    //    agent.baseOffset = 0f;
-
-    //    if (isMoving && !isBack)
-    //    {
-    //        ChangeState(CharacterState.Walk);
-    //    }
-    //}
-
-    //#endregion
-
-    //#region Walk
-
-    //public override void UpdateWalk()
-    //{
-    //    if (state != CharacterState.Walk) return;
-
-    //    agent.baseOffset = 0f;
-
-    //    if (isInQueue)
-    //    {
-    //        GetToTargetPos(targetPos, CharacterState.Idle);
-    //    }
-
-    //    if (!isInQueue)
-    //    {
-    //        if (isBack)
-    //        {   
-    //            GetToTargetPos(backPos, CharacterState.Idle);
-    //        }
-    //        else
-    //        {
-    //            GetToTargetPos(targetPos, CharacterState.Sit);
-    //        }
-    //    }
-    //}
-
-    //private void GetToTargetPos(Transform target, CharacterState characterState)
-    //{
-    //    agent.isStopped = false;
-    //    agent.SetDestination(target.position);
-
-    //    if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-    //    {
-    //        agent.isStopped = true;
-    //        transform.position = target.position;
-    //        transform.rotation = target.rotation;
-
-    //        if (target == backPos)
-    //        {
-    //            Destroy(gameObject);
-    //        }
-    //        else
-    //        {
-    //            ChangeState(characterState);
-    //        }
-    //    }
-    //}
-
-    //#endregion
-
-    //#region Sit
-
-    //public override void UpdateSit()
-    //{
-    //    if (state != CharacterState.Sit) return;
-
-    //    agent.baseOffset = -0.3f;
-
-    //    if (!isInQueue && !isBack)
-    //    {
-    //        if (itemOrders.Count == 0)
-    //        {
-    //            OrderItem();
-    //        }
-
-    //        if (hasItem)
-    //        {
-    //            ChangeState(CharacterState.Eat);
-    //        }
-
-    //        if (locationTable != null && locationTable.AllOrdersCompleted())
-    //        {
-    //            //isBack = true;
-    //            //transform.position = locationTable.departurePos.position;
-    //            //transform.rotation = locationTable.departurePos.rotation;
-    //            //ChangeState(CharacterState.Walk);
-
-    //            LeaveAfterDelay();
-    //        }
-    //    }
-        
-    //}
-
-    //private async void LeaveAfterDelay()
-    //{
-    //    //Debug.Log("Waiting for 3 seconds...");
-
-    //    isBack = true;
-    //    await Task.Delay(3000);
-    //    //Debug.Log("Delay completed!");
-
-    //    transform.position = locationTable.departurePos.position;
-    //    transform.rotation = locationTable.departurePos.rotation;
-    //    ChangeState(CharacterState.Walk);
-    //}
-
-    //private void OrderItem()
-    //{
-    //    itemOrders.Clear();
-
-    //    List<ItemId> availableItems = new List<ItemId>(FindObjectOfType<LocationLineUp>().GetAvailableItems());
-
-    //    if (availableItems.Count == 0) return;
-
-    //    int orderCount = Mathf.Min(Random.Range(1, 2), availableItems.Count);
-
-    //    for (int i = 0; i < orderCount; i++)
-    //    {
-    //        int randomIndex = Random.Range(0, availableItems.Count);
-    //        ItemId selectedItemId = availableItems[randomIndex];
-
-    //        ItemOrder newOrder = new ItemOrder
-    //        {
-    //            itemId = selectedItemId,
-    //            quantity = Random.Range(1, 3),
-    //            currentItemNumber = 0,
-    //        };
-
-    //        itemOrders.Add(newOrder);
-    //        availableItems.RemoveAt(randomIndex);
-    //    }
-    //}
-
-    //public List<ItemOrder> GetOrder()
-    //{
-    //    return itemOrders;
-    //}
-
-    //#endregion
-
-    //#region Eat
-
-    //public void UpdateEat()
-    //{
-    //    if (state != CharacterState.Eat) return;
-
-    //    if (locationTable != null && !isEating)
-    //    {
-    //        isEating = true;
-    //        EatItems();          
-    //    }
-    //}
-
-    //private async void EatItems()
-    //{
-    //    for (int i = 0; i < locationTable.transforms.Count; i++)
-    //    {
-    //        if (locationTable.transforms[i].childCount > 0)
-    //        {
-    //            Transform itemTransform = locationTable.transforms[i].GetChild(0);
-    //            TakeItems(itemTransform);
-
-    //            await Task.Delay(2000);
-    //        }
-    //    }
-
-    //    isEating = false;
-    //    ChangeState(CharacterState.Sit);
-    //}
-
-    //#endregion
-
-
-
 
     private void TakeItems(Transform transform)
     {
