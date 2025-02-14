@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ItemPosition : MonoBehaviour
@@ -9,11 +10,23 @@ public class ItemPosition : MonoBehaviour
     public int currentStackNumber = 0;
     public int maxStackNumber = 4;
 
-    public bool CheckMaxStack()
+    public bool isHasItem()
     {
-        if (currentStackNumber < maxStackNumber) return true;
+        return itemPositions.Any(pos => pos.GetComponent<BaseItem>() != null);
+    }
 
-        return false;
+    public BaseItem GetItem()
+    {
+        if (itemPositions != null) return null;
+
+        for (int i = 0; i < itemPositions.Count; i++)
+        {
+            BaseItem item = itemPositions[i].GetComponent<BaseItem>();
+
+            return item;
+        }
+
+        return null;
     }
 }
 

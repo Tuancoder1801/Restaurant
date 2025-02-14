@@ -6,15 +6,16 @@ using UnityEngine.AI;
 
 public class AICharacter : MonoBehaviour
 {
-    public Transform posIdle;
+    public int posIndex;
 
     protected NavMeshAgent agent;
     protected Animator animator;
-    protected Transform targetPos;
+
+    protected Vector3 targetPos;
 
     protected bool isMoving;
 
-    protected virtual void Awake()
+    protected virtual void OnEnable()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
@@ -37,21 +38,23 @@ public class AICharacter : MonoBehaviour
         animator.SetTrigger(value);
     }
 
-    protected void MoveToTarget(Transform pos)
+    protected void MoveToTarget(Vector3 pos)
     {
         targetPos = pos;
 
         isMoving = true;
         agent.enabled = true;
-        agent.SetDestination(targetPos.position);
+        agent.SetDestination(targetPos);
         agent.isStopped = false;
+        Anim(StaticValue.ANIM_TRIGGER_WALK);
     }
 
     protected void StopMove()
     {
         isMoving = false;
-        agent.SetDestination(targetPos.position);
+        agent.SetDestination(targetPos);
         agent.isStopped = true;
         agent.enabled = false;
+        Anim(StaticValue.ANIM_TRIGGER_IDLE);
     }
 }

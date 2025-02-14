@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,9 +26,21 @@ public class AICustomer : AICharacter
 
     public AICustomerState state;
 
-    protected override void Awake()
+    private Transform trantarget;
+    private LocationTable table;
+
+    private float minDistance;
+    private float lastDistance = 999;
+    private float timeEating;
+
+    protected override void OnEnable()
     {
-        base.Awake();
+        base.OnEnable();
+
+        isMoving = false;
+        timeEating = 0;
+
+        StartFoodTour();
     }
 
     public void Update()
@@ -37,17 +50,28 @@ public class AICustomer : AICharacter
 
     private void ChangeState()
     {
-        if (isMoving) 
+        if (isMoving)
         {
+            var d = Vector3.Distance(transform.position, targetPos);
 
+            if (d < minDistance || (d < 4f && lastDistance == d))
+            {
+                StopMove();
+            }
+            else
+            {
+                lastDistance = d;
+            }
         }
         else
         {
             switch (state)
             {
                 case AICustomerState.START:
+                    LineUp();
                     break;
                 case AICustomerState.LINEUP:
+                    LeanTween.rotate(gameObject, trantarget.eulerAngles, 0.3f);
                     break;
                 case AICustomerState.MOVETOTABLE:
                     break;
@@ -60,7 +84,7 @@ public class AICustomer : AICharacter
         }
     }
 
-    private void TakeItems(Transform transform)
+    public void TakeItems(Transform transform)
     {
         DG.Tweening.Sequence sequence = DOTween.Sequence();
         BaseItem item = transform.GetComponent<BaseItem>();
@@ -72,24 +96,78 @@ public class AICustomer : AICharacter
         {
             Destroy(item.gameObject);
         })
-    );
+        );
     }
 
-    private bool HasItemInTable()
+    #region LinUp
+    private void StartFoodTour()
     {
-        if (locationTable != null)
-        {
-            for (int i = 0; i < locationTable.itemOrders.Count; i++)
-            {
-                if (locationTable.itemOrders[i].currentItemNumber > 0)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        state = AICustomerState.START;
+        minDistance = 4;
+        MoveToTarget(GameManager.Instance.lineUp.transform.position);
     }
+
+    private void LineUp()
+    {
+        state = AICustomerState.LINEUP;
+        trantarget = GameManager.Instance.lineUp.LineUp(this);
+        minDistance = 0.1f;
+        MoveToTarget(trantarget.position);
+    }
+
+    public void LineUpNext(Transform tranLineUp)
+    {
+        trantarget = tranLineUp;
+        lastDistance = -99f;
+        minDistance = 0.1f;
+        MoveToTarget(trantarget.position);
+    }
+
+    #endregion
+
+    #region Table
+
+    public void TableInit(LocationTable table, Transform tranChair)
+    {
+        state = AICustomerState.MOVETOTABLE;
+        locationTable = table;
+        trantarget = tranChair;
+
+        MoveToTarget(trantarget.position);
+    }
+
+    public void TableSit()
+    {
+        state = AICustomerState.EATING;
+
+        gameObject.transform.position = trantarget.position;
+        gameObject.transform.eulerAngles = trantarget.eulerAngles;
+
+        Anim(StaticValue.ANIM_TRIGGER_SIT);
+    }
+
+    public void TableEating(BaseItem item)
+    {
+        timeEating = 3f;
+        gameObject.transform.eulerAngles = trantarget.eulerAngles;
+
+        Anim(StaticValue.ANIM_TRIGGER_EAT);
+
+    }
+
+    public void TableEnd()
+    {
+        state = AICustomerState.FINISH;
+
+        MoveToTarget(transform.position);
+    }
+
+    public bool IsEating()
+    {
+        return timeEating > 0;
+    }
+
+    #endregion
 }
 
 
