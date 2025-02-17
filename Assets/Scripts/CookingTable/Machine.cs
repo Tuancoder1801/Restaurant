@@ -81,58 +81,6 @@ public class Machine : MonoBehaviour
         processing.gameObject.SetActive(false);
     }
 
-    /*private void AddIngredientsToCook()
-    {
-        if (!plate.IsExcessStackNumber()) // Nếu Plate đầy, không thêm nguyên liệu
-        {
-            return;
-        }
-
-        hasIngredient = true;
-
-        Sequence sequence = DOTween.Sequence();
-        List<Transform> itemsToAdd = new List<Transform>();
-
-        for (int i = 0; i < tray.itemsPosition.Count; i++)
-        {
-            ItemId itemId = tray.itemsPosition[i].itemId;
-            ItemPosition itemPos = tray.itemsPosition[i];
-
-            if (tray.HasItem() && itemPos.itemPositions.Count > 0)
-            {
-                for (int j = itemPos.itemPositions.Count - 1; j >= 0; j--)
-                {
-                    Transform position = itemPos.itemPositions[j];
-
-                    if (position.childCount > 0)
-                    {
-                        Transform item = position.GetChild(0);
-                        itemsToAdd.Add(item);
-
-                        itemPos.currentStackNumber--;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (!plate.IsExcessStackNumber())
-        {
-            return;
-        }
-
-        for (int i = 0; i < itemsToAdd.Count; i++)
-        {
-            Transform item = itemsToAdd[i];
-
-            item.DOMove(cookIndex.position, 0.2f).SetEase(Ease.InOutQuad)
-                .OnComplete(() =>
-                {
-                    Destroy(item.gameObject);
-                });
-        }
-    }*/
-
     private void AddIngredientsToCook()
     {
         hasIngredient = true;
@@ -183,7 +131,7 @@ public class Machine : MonoBehaviour
 
         if (chef != null)
         {
-            chef.machine = this;
+            //chef.machine = this;
 
             if (!timer.isActiveAndEnabled)
             {

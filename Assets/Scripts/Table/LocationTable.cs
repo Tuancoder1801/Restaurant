@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum TableType 
+public enum TableType
 {
     ONE = 1,
-    TWO = 2, 
-    THREE = 3, 
+    TWO = 2,
+    THREE = 3,
     FOUR = 4,
 }
 
 public class LocationTable : MonoBehaviour
-{   
+{
     public TableType tableType;
     public List<Transform> transChairs;
 
@@ -31,11 +31,14 @@ public class LocationTable : MonoBehaviour
     private Coroutine itemSpawnCoroutine;
 
     private void Start()
-    {   
+    {
         itemOrders = null;
-        
+        customers = new List<AICustomer>();
 
+        product.Init();
         uiLocation.gameObject.SetActive(false);
+
+        StartCoroutine(IEWaitOrderCreate());
     }
 
     private void Update()
@@ -49,17 +52,8 @@ public class LocationTable : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        AICustomer customer = other.GetComponent<AICustomer>();
-
         Player player = other.GetComponent<Player>();
         AIWaiter waiter = other.GetComponent<AIWaiter>();
-
-        if (customer != null)
-        {
-            customer.locationTable = this;
-            itemOrders = customer.itemOrders;
-            DisplayOrders();
-        }
 
         if (player != null && !isColliding)
         {
@@ -76,15 +70,8 @@ public class LocationTable : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        AICustomer customer = other.GetComponent<AICustomer>();
-
         Player player = other.GetComponent<Player>();
         AIWaiter waiter = other.GetComponent<AIWaiter>();
-
-        if (customer != null )
-        {
-            uiLocation.gameObject.SetActive(false);
-        }
 
         if (player != null)
         {
@@ -105,7 +92,15 @@ public class LocationTable : MonoBehaviour
         }
     }
 
-    #region uiLocation
+    private IEnumerator SpawnItemsCoroutine(Character character)
+    {
+        while (isColliding)
+        {
+            character.ReleaseItems(itemOrders, product);
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
+
     private void DisplayOrders()
     {
         if (itemOrders != null)
@@ -117,7 +112,7 @@ public class LocationTable : MonoBehaviour
 
     private void HideOrders()
     {
-        for(int i = 0; i < itemOrders.Count; i++)
+        for (int i = 0; i < itemOrders.Count; i++)
         {
             if (itemOrders[i].currentItemNumber >= itemOrders[i].quantity)
             {
@@ -126,30 +121,51 @@ public class LocationTable : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnItemsCoroutine(Character character)
+    IEnumerator IEWaitOrderCreate()
     {
-        while (isColliding)
+        yield return new WaitForEndOfFrame();
+
+        while (true)
         {
-            character.ReleaseItems(itemOrders, transforms);
-            yield return new WaitForSeconds(0.3f);
+            customers = GameManager.Instance.lineUp.TakeCustomer(transChairs.Count);
+
+            if (customers != null) break;
+            yield return new WaitForSeconds(2f);
+        }
+
+        countCustomer = 0;
+        for (int i = 0; i < transChairs.Count; i++)
+        {
+            customers[i].TableInit(this, transChairs[i]);
         }
     }
-    #endregion
 
-    IEnumerator IEWaitTaskEating()
+    IEnumerator IEWaitOrderEating()
     {
         while (true)
         {
-            if(product.isHasItem())
-            {   
-               
-
+            if (product.IsHasItem())
+            {
                 if (!customers[nextCustomerEat].IsEating())
                 {
-                    customers[nextCustomerEat].TableEating();
+                    var item = product.PopItem();
+                    customers[nextCustomerEat].TableEating(item);
                 }
+
+                nextCustomerEat++;
+                if (nextCustomerEat == customers.Count) nextCustomerEat = 0;
+            }
+
+            yield return new WaitForSeconds(0.8f);
+
+            if (!uiLocation.itemContent.activeSelf && product.IsEmpty() && customers.All(x => !x.IsEating()))
+            {
+                break;
             }
         }
+
+        yield return new WaitForSeconds(.5f);
+        OrderEnd();
     }
 
     public void OrderStart()
@@ -159,13 +175,25 @@ public class LocationTable : MonoBehaviour
         uiLocation.gameObject.SetActive(true);
 
         nextCustomerEat = 0;
+        StartCoroutine(IEWaitOrderEating());
+    }
 
+    public void OrderEnd()
+    {
+        customers.ForEach(x => x.TableEnd());
+        uiLocation.gameObject.SetActive(false);
+        itemOrders = null;
+
+        StartCoroutine(IEWaitOrderCreate());
     }
 
     public void CustomerSit()
     {
         countCustomer++;
 
-        if(countCustomer == customers.Count)
+        if (countCustomer == customers.Count)
+        {
+            OrderStart();
+        }
     }
 }

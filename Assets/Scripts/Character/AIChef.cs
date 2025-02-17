@@ -3,90 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIChef : Character
+public class AIChef : AICharacter
 {
-    public Transform targetPos;
+    public KitchenTable kitchen;
 
-    public Machine machine;
-
-    private NavMeshAgent agent;
-
-    public override void Awake()
+    protected override void OnEnable()
     {   
-        base.Awake();
-        agent = GetComponent<NavMeshAgent>();
+        base.OnEnable();
+        
+        isMoving = false;
+
+        var transform = GameManager.Instance.GetTransformCustomer(posIndex);
+        this.transform.position = transform.position;
+
+        MoveToTarget(kitchen.chefIndex.position);
     }
 
-    public override void Update()
+    protected void Update()
     {
-        base.Update();
-        UpdateWalk();
-        UpdateCook();
-    }
-
-    public void ChangePos(Transform pos)
-    {
-        targetPos = pos;
-    }
-
-    #region Idle
-
-    public override void UpdateIdle()
-    {
-        if (state != CharacterState.Idle) return;
-
-        if(targetPos != null)
+        if (isMoving)
         {
-            ChangeState(CharacterState.Walk);
-        }
-
-        if(machine != null && machine.isCooking)
-        {
-            ChangeState(CharacterState.Cook);
+            if(Vector3.Distance(transform.position, targetPos) < 0.1f)
+            {
+                StopMove();
+                LeanTween.rotate(gameObject, kitchen.chefIndex.eulerAngles, 0.3f);
+            }
         }
     }
-
-    #endregion
-
-    #region Walk
-
-    public override void UpdateWalk()
+    
+    public void PlayAnimCook()
     {
-        if (state != CharacterState.Walk) return;
-
-        if(targetPos != null)
-        {
-            GetToTargetPos(targetPos);
-        }
+        Anim(StaticValue.ANIM_TRIGGER_COOK);
     }
 
-    private void GetToTargetPos(Transform target)
+    public void StopAnimCook()
     {
-        agent.SetDestination(target.position);
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            agent.isStopped = true;
-            targetPos = null;
-            transform.position = target.position;
-            transform.rotation = target.rotation;
-
-            ChangeState(CharacterState.Idle);
-        }
+        Anim(StaticValue.ANIM_TRIGGER_IDLE);
     }
-
-    #endregion
-
-    #region Cook
-
-    public override void UpdateCook()
-    {
-        if (state != CharacterState.Cook) return;
-
-        if(machine != null && !machine.isCooking)
-        {
-            ChangeState(CharacterState.Idle);
-        }
-    }
-
-    #endregion
 }

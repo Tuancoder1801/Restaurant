@@ -11,7 +11,7 @@ public class AICharacter : MonoBehaviour
     protected NavMeshAgent agent;
     protected Animator animator;
 
-    protected Vector3 targetPos;
+    public Vector3 targetPos;
 
     protected bool isMoving;
 

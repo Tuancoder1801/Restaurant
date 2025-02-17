@@ -41,16 +41,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Init()
     {
-        //for (int i =0; i < customers.Count; i++)
-        //{
-        //    if (i < transCutomers.Count) customers[i].posIndex = i;
-        //    else customers[i].posIndex = Random.Range(0, transCutomers.Count);
-        //}
-
         CreatePlayer();
-
-
-        //StartCoroutine(SpawnCustomer());
 
         SpawnChef();
         SpawnPorter();
@@ -85,9 +76,9 @@ public class GameManager : Singleton<GameManager>
     private void SpawnChef()
     {
         for (int i = 0; i < location.kitchenTables.Count; i++)
-        {
-            AIChef aIChef = Instantiate(chef, spawnPos.position, spawnPos.rotation);
-            aIChef.targetPos = location.kitchenTables[i].chefIndex;
+        {        
+            chef.gameObject.SetActive(true);
+            chef.kitchen = location.kitchenTables[i];
         }
     }
 
@@ -171,5 +162,11 @@ public class GameManager : Singleton<GameManager>
         }
 
         return orders;
+    }
+
+    public Transform GetTransformCustomer(int index = -1)
+    {
+        if (index < 0) return transCustomers[UnityEngine.Random.Range(0, transCustomers.Count)];
+        return transCustomers[index];
     }
 }

@@ -27,7 +27,6 @@ public class AICustomer : AICharacter
     public AICustomerState state;
 
     private Transform trantarget;
-    private LocationTable table;
 
     private float minDistance;
     private float lastDistance = 999;
@@ -39,6 +38,9 @@ public class AICustomer : AICharacter
 
         isMoving = false;
         timeEating = 0;
+
+        var transform = GameManager.Instance.GetTransformCustomer(-1);
+        this.transform.position = transform.position;
 
         StartFoodTour();
     }
@@ -74,10 +76,22 @@ public class AICustomer : AICharacter
                     LeanTween.rotate(gameObject, trantarget.eulerAngles, 0.3f);
                     break;
                 case AICustomerState.MOVETOTABLE:
+                    TableSit();
                     break;
                 case AICustomerState.EATING:
+                    if (timeEating > 0f)
+                    {
+                        timeEating -= Time.deltaTime;
+                        //if (timeEating <= 0f)
+                        //{
+                        //    //eatDoneCallback?.Invoke(transform.position, eatMoney);
+                        //    //eatDoneCallback = null;
+                        //    //eatMoney = 0;
+                        //}
+                    }
                     break;
                 case AICustomerState.FINISH:
+                    gameObject.SetActive(false);
                     break;
             }
 
@@ -144,21 +158,22 @@ public class AICustomer : AICharacter
         gameObject.transform.eulerAngles = trantarget.eulerAngles;
 
         Anim(StaticValue.ANIM_TRIGGER_SIT);
+        locationTable.CustomerSit();
     }
 
     public void TableEating(BaseItem item)
     {
-        timeEating = 3f;
+        timeEating = 1f;
         gameObject.transform.eulerAngles = trantarget.eulerAngles;
 
         Anim(StaticValue.ANIM_TRIGGER_EAT);
-
+        TakeItems(item.transform);
     }
 
     public void TableEnd()
     {
         state = AICustomerState.FINISH;
-
+        var transform = GameManager.Instance.GetTransformCustomer();
         MoveToTarget(transform.position);
     }
 

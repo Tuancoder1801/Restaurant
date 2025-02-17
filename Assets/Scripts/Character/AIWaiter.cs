@@ -148,7 +148,7 @@ public class AIWaiter : Character
     }
 
     private bool HasItemInTable()
-    {
+    {    
         foreach (var table in locationTables)
         {
             if (table.itemOrders != null)

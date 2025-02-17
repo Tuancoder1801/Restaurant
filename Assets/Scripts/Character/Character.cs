@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CharacterState
@@ -220,7 +221,7 @@ public class Character : MonoBehaviour
         if (currentItemNumber >= maxStackNumber) return;
 
         isHolding = true;
-        Sequence sequence = DOTween.Sequence();
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
 
         float accumulatedHeight = 0f;
 
@@ -254,7 +255,7 @@ public class Character : MonoBehaviour
     {
         if (currentItemNumber <= 0) return;
 
-        Sequence sequence = DOTween.Sequence();
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
         ItemId itemId = item.GetComponent<BaseItem>().itemId;
 
@@ -292,28 +293,30 @@ public class Character : MonoBehaviour
         itemTransforms[index].localPosition = resetPosition;
     }
 
-    public void ReleaseItems(List<ItemOrder> itemOrders, List<Transform> itemPos)
+    public void ReleaseItems(List<ItemOrder> itemOrders, ItemPosition itemPos)
     {
         if (currentItemNumber <= 0) return;
 
-        Sequence sequence = DOTween.Sequence();
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
-        ItemId itemId = item.GetComponent<BaseItem>().itemId;
+        BaseItem baseItem = item.GetComponent<BaseItem>();
 
         foreach (ItemOrder itemTransform in itemOrders)
         {
-            if (itemTransform.itemId == itemId && itemTransform.currentItemNumber < itemTransform.quantity)
+            if (itemTransform.itemId == baseItem.itemId && itemTransform.currentItemNumber < itemTransform.quantity)
             {
                 sequence.Append(
-                    item.DOJump(itemPos[itemTransform.currentItemNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
+                    item.DOJump(itemPos.itemPositions[itemTransform.currentItemNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
                     {
-                        item.SetParent(itemPos[itemTransform.currentItemNumber]);
+                        item.SetParent(itemPos.itemPositions[itemTransform.currentItemNumber]);
                         item.localPosition = Vector3.zero;
                         item.localRotation = Quaternion.identity;
                         item.localScale = Vector3.one;
 
                         currentItemNumber--;
                         itemTransform.currentItemNumber++;
+                        int index = itemPos .items.FindIndex(x => x == null);
+                        itemPos.PushItem(baseItem, index);
                         ResetItemPositions(currentItemNumber);
                         if (currentItemNumber == 0) isHolding = false;
                     })
@@ -329,7 +332,7 @@ public class Character : MonoBehaviour
             return;
         }
 
-        Sequence sequence = DOTween.Sequence();
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
         Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
 
         sequence.Append(
