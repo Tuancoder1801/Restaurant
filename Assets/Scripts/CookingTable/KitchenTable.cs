@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KitchenTable : MonoBehaviour
+public class KitchenTable : LocationBase
 {   
     public TableId tableId;
     public ItemId itemId;

@@ -11,7 +11,7 @@ public enum TableType
     FOUR = 4,
 }
 
-public class LocationTable : MonoBehaviour
+public class LocationTable : LocationBase
 {
     public TableType tableType;
     public List<Transform> transChairs;

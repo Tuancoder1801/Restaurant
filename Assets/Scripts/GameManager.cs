@@ -26,10 +26,11 @@ public class GameManager : Singleton<GameManager>
 
     public LocationLineUp lineUp;
 
-    public List<KitchenTable> kitchenTables;
+    //public List<KitchenTable> kitchenTables;
     public List<RawBin> rawBins;
-    public List<LocationTable> tables;
+    //public List<LocationTable> tables;
     public List<LocationBuild> builds;
+    public List<LocationBase> tasks;
 
 
     private int currentBuildIndex = 0;
@@ -43,7 +44,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-        StartCoroutine(SpawnCustomer());
+        //StartCoroutine(SpawnCustomer());
     }
 
     private void Init()
@@ -60,11 +61,7 @@ public class GameManager : Singleton<GameManager>
             builds[0].gameObject.SetActive(true);
         }
 
-        //SpawnChef();
-        //SpawnPorter();
-        //SpawnWaiter();
-
-
+        
     }
 
     private void CreatePlayer()
@@ -92,20 +89,20 @@ public class GameManager : Singleton<GameManager>
 
     #region Chef
 
-    private void SpawnChef()
+    /*private void SpawnChef()
     {
         for (int i = 0; i < kitchenTables.Count; i++)
         {        
             chef.gameObject.SetActive(true);
             chef.kitchen = kitchenTables[i];
         }
-    }
+    }*/
 
     #endregion
 
     #region Porter
 
-    private void SpawnPorter()
+    /*private void SpawnPorter()
     {
         for (int i = 0; i < kitchenTables.Count; i++)
         {
@@ -115,7 +112,7 @@ public class GameManager : Singleton<GameManager>
 
             aIPorter.rawBins = GetRelevantRawbins(kitchenTables[i], rawBins);
         }
-    }
+    }*/
 
     private List<RawBin> GetRelevantRawbins(KitchenTable kitchenTable, List<RawBin> allRawbins)
     {
@@ -138,7 +135,7 @@ public class GameManager : Singleton<GameManager>
 
     #region Waiter
 
-    private void SpawnWaiter()
+    /*private void SpawnWaiter()
     {
         for (int i = 0; i < kitchenTables.Count; i++)
         {
@@ -147,7 +144,7 @@ public class GameManager : Singleton<GameManager>
             aiWaiter.kitchenTable = kitchenTables[i];
             aiWaiter.locationTables = tables;
         }
-    }
+    }*/
 
 
     #endregion
@@ -157,10 +154,10 @@ public class GameManager : Singleton<GameManager>
         List<ItemId> items = new List<ItemId>();
         List<ItemOrder> orders = new List<ItemOrder>();
 
-        for (int i = 0; i < kitchenTables.Count; i++)
+        /*for (int i = 0; i < tasks.Count; i++)
         {
-            items.Add(kitchenTables[i].itemId);
-        }
+            items.Add(tasks[i].itemId);
+        }*/
 
         int orderCount = Mathf.Min(UnityEngine.Random.Range(1, 2), items.Count);
 
@@ -193,11 +190,22 @@ public class GameManager : Singleton<GameManager>
     public void OnBuildCompleted(LocationBuild completedBuild)
     {
         completedBuild.gameObject.SetActive(false);
-
+        BuildObject();
         currentBuildIndex++;
         if (currentBuildIndex < builds.Count)
         {
             builds[currentBuildIndex].gameObject.SetActive(true);
+        }
+    }
+
+    private void BuildObject()
+    {
+        for (int i = 0; i < tasks.Count; i++)
+        {
+            if (i == currentBuildIndex)
+            {
+                tasks[i].gameObject.SetActive(true);
+            }
         }
     }
 
