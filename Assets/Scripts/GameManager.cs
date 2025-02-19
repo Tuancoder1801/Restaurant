@@ -26,6 +26,13 @@ public class GameManager : Singleton<GameManager>
 
     public LocationLineUp lineUp;
 
+    public List<KitchenTable> kitchenTables;
+    public List<RawBin> rawBins;
+    public List<LocationTable> tables;
+    public List<LocationBuild> builds;
+
+
+    private int currentBuildIndex = 0;
 
     private void Awake()
     {
@@ -43,9 +50,21 @@ public class GameManager : Singleton<GameManager>
     {
         CreatePlayer();
 
-        SpawnChef();
-        SpawnPorter();
-        SpawnWaiter();
+        foreach (var build in builds)
+        {
+            build.gameObject.SetActive(false);
+        }
+
+        if (builds.Count > 0)
+        {
+            builds[0].gameObject.SetActive(true);
+        }
+
+        //SpawnChef();
+        //SpawnPorter();
+        //SpawnWaiter();
+
+
     }
 
     private void CreatePlayer()
@@ -75,10 +94,10 @@ public class GameManager : Singleton<GameManager>
 
     private void SpawnChef()
     {
-        for (int i = 0; i < location.kitchenTables.Count; i++)
+        for (int i = 0; i < kitchenTables.Count; i++)
         {        
             chef.gameObject.SetActive(true);
-            chef.kitchen = location.kitchenTables[i];
+            chef.kitchen = kitchenTables[i];
         }
     }
 
@@ -88,13 +107,13 @@ public class GameManager : Singleton<GameManager>
 
     private void SpawnPorter()
     {
-        for (int i = 0; i < location.kitchenTables.Count; i++)
+        for (int i = 0; i < kitchenTables.Count; i++)
         {
             AIPorter aIPorter = Instantiate(porter, spawnPos.position, spawnPos.rotation);
             aIPorter.porterPos = porterPos;
-            aIPorter.kitchenTable = location.kitchenTables[i];
+            aIPorter.kitchenTable = kitchenTables[i];
 
-            aIPorter.rawBins = GetRelevantRawbins(location.kitchenTables[i], location.rawBins);
+            aIPorter.rawBins = GetRelevantRawbins(kitchenTables[i], rawBins);
         }
     }
 
@@ -121,12 +140,12 @@ public class GameManager : Singleton<GameManager>
 
     private void SpawnWaiter()
     {
-        for (int i = 0; i < location.kitchenTables.Count; i++)
+        for (int i = 0; i < kitchenTables.Count; i++)
         {
             AIWaiter aiWaiter = Instantiate(waiter, spawnPos.position, spawnPos.rotation);
             aiWaiter.waiterPos = waiterPos;
-            aiWaiter.kitchenTable = location.kitchenTables[i];
-            aiWaiter.locationTables = location.locationTables;
+            aiWaiter.kitchenTable = kitchenTables[i];
+            aiWaiter.locationTables = tables;
         }
     }
 
@@ -138,9 +157,9 @@ public class GameManager : Singleton<GameManager>
         List<ItemId> items = new List<ItemId>();
         List<ItemOrder> orders = new List<ItemOrder>();
 
-        for (int i = 0; i < location.kitchenTables.Count; i++)
+        for (int i = 0; i < kitchenTables.Count; i++)
         {
-            items.Add(location.kitchenTables[i].itemId);
+            items.Add(kitchenTables[i].itemId);
         }
 
         int orderCount = Mathf.Min(UnityEngine.Random.Range(1, 2), items.Count);
@@ -169,4 +188,18 @@ public class GameManager : Singleton<GameManager>
         if (index < 0) return transCustomers[UnityEngine.Random.Range(0, transCustomers.Count)];
         return transCustomers[index];
     }
+
+    #region locationBuild
+    public void OnBuildCompleted(LocationBuild completedBuild)
+    {
+        completedBuild.gameObject.SetActive(false);
+
+        currentBuildIndex++;
+        if (currentBuildIndex < builds.Count)
+        {
+            builds[currentBuildIndex].gameObject.SetActive(true);
+        }
+    }
+
+    #endregion
 }

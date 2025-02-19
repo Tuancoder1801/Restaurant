@@ -19,17 +19,6 @@ public enum ItemId
     CocaCola = 12,
 }
 
-public enum HumanId
-{   
-    None = 0,
-    Player = 1,
-    Chef = 2,
-    Waiter = 3,
-    Porter = 4,
-    Customer = 5,
-    Collecter = 6
-}
-
 public enum TableId
 {
     None = 0,
@@ -38,4 +27,17 @@ public enum TableId
     FrenchFries = 3
 }
 
+public enum LocationId
+{
+    Map = 0,
+    Build = 1,
+    RawBin = 2,
+    Machine = 3,
+    Table = 4,
+    Player = 5,
+    LineUp = 6,
+    Decor = 7,
+    Trash = 8,
+    NextMap = 9,
+}
 
