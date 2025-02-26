@@ -1,19 +1,31 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AICharacter : MonoBehaviour
+public enum HumanType
 {
-    public int posIndex;
+    NONE = 0,
+    //PLAYER = 1, // Player
+    CHEF, // đầu bếp, đứng vận hành máy
+    WAITER, // nhân viên phục vụ bàn
+    PORTER, // phụ bếp
+    CUSTOMER, // khách hàng - mua hàng
+    COLLECTOR, // Máy hút tiền
+}
 
+public class AICharacter : MonoBehaviour
+{   
+    public HumanType humanType;
+    public int posIndex;
     protected NavMeshAgent agent;
     protected Animator animator;
 
     public Vector3 targetPos;
 
     protected bool isMoving;
+    protected float timeCount = 2f;
 
     protected virtual void OnEnable()
     {
@@ -56,5 +68,10 @@ public class AICharacter : MonoBehaviour
         agent.isStopped = true;
         agent.enabled = false;
         Anim(StaticValue.ANIM_TRIGGER_IDLE);
+    }
+
+    public virtual void SetIdleTransform(Transform tran)
+    {
+
     }
 }

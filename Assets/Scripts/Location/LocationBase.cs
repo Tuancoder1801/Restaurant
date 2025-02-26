@@ -5,6 +5,4 @@ using UnityEngine;
 public class LocationBase : MonoBehaviour
 {
     public LocationId locationId;
-
-
 }

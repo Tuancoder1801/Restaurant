@@ -7,6 +7,7 @@ public class GameDataConstant
 {
     public static List<ItemData> items;
     public static List<ItemData> products;
+    public static List<MapData> maps;
 
     public static void Load()
     {
@@ -18,10 +19,11 @@ public class GameDataConstant
         if (products == null)
         {
             products = Resources.LoadAll<ItemData>("ProductData").ToList();
+        }
 
-            {
-                Debug.LogWarning("No products found in Resources/ProductData.");
-            }
+        if (maps == null)
+        {
+            maps = Resources.LoadAll<MapData>("MapData").ToList();
         }
     }
 }

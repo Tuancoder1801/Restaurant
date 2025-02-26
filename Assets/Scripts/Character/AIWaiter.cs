@@ -4,235 +4,95 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
-public class AIWaiter : Character
+public enum AIWaiterState
 {
-    public Transform targetPos;
-    public Transform waiterPos;
+    NONE = 0,
+    IDLE = 1,
+    MACHINE = 2,
+    TABLE = 3,
+    TRASH = 4,
+}
 
-    public KitchenTable kitchenTable;
+public class AIWaiter : AICharacter
+{
+    public Transform transIdle;
+    public float timeRequest;
+
     public List<LocationTable> locationTables;
+    public List<LocationMachine> locationMachines;
 
-    private NavMeshAgent agent;
-    private int currentTableIndex;
-    private bool isMoving = false;
-    private bool hasItemOrder = false;
+    private Transform trans;
 
-    public override void Awake()
+    private LocationTable currentTable;
+    private LocationMachine currentKitchen;
+    private RawBin currentTrash;
+
+    private float minDistance;
+    private float lastDistance = 999;
+
+    private bool isItemRunning;
+    private AIWaiterState state =  AIWaiterState.NONE;
+
+    public ItemOrder currentOrder = null;
+
+    protected override void OnEnable()
     {
-        base.Awake();
-        agent = GetComponent<NavMeshAgent>();
+        base.OnEnable();
+        
+        isMoving = false;
+        isItemRunning = false;
 
-        currentTableIndex = 0;
+        trans = GameManager.Instance.GetTransformCustomer();
+        transform.position = trans.position;
+
+        InitLocationTarget();
     }
 
-    private void Start()
+    protected void Update()
     {
-        //targetPos = waiterPos;
+        
     }
 
-    public override void Update()
+    private void InitLocationTarget()
     {
-        base.Update();
-        UpdateIdleHold();
-        UpdateWalk();
-        UpdateWalkHold();
-        CheckAnim();
-    }
+        if(locationMachines != null && locationMachines.Count > 0) return;
 
-    private void CheckAnim()
-    {
-        isMoving = targetPos != null;
+        var locations = GameManager.Instance.locations;
 
-        hasItemOrder = HasItemInTable();
-    }
-
-    #region Idle
-
-    public override void UpdateIdle()
-    {
-        if (state != CharacterState.Idle) return;
-
-        if (hasItemOrder)
+        for (int i = 0; i < locations.Count; i++)
         {
-            if (HasItemInPlate())
+            if (locations[i].locationId == LocationId.Machine)
             {
-                ServeTable();
-            }
-            else
-            {
-                targetPos = waiterPos;
-                ChangeState(CharacterState.Walk);
-            }
-        }
-        else
-        {
-            targetPos = waiterPos;
-            ChangeState(CharacterState.Walk);
-        }
-
-        if (isMoving)
-        {
-            ChangeState(CharacterState.Walk);
-        }
-
-        if (isHolding)
-        {
-            ChangeState(CharacterState.IdleHold);
-        }
-
-        //targetPos = waiterPos;
-        //ChangeState(CharacterState.Walk);
-    }
-
-    public override void UpdateIdleHold()
-    {
-        if (state != CharacterState.IdleHold) return;
-
-        if (!isHolding)
-        {
-            ChangeState(CharacterState.Idle);
-        }
-
-        if (currentItemNumber > 0)
-        {
-            GoToTable();
-        }
-    }
-
-    #endregion
-
-    #region Walk
-
-    public override void UpdateWalk()
-    {
-        if (state != CharacterState.Walk) return;
-
-        agent.isStopped = false;
-        GetToTargetPos(targetPos, CharacterState.Idle);
-    }
-
-    public override void UpdateWalkHold()
-    {
-        if (state != CharacterState.WalkHold) return;
-
-        agent.isStopped = false;
-        GetToTargetPos(targetPos, CharacterState.IdleHold);
-    }
-
-    private void GetToTargetPos(Transform target, CharacterState characterState)
-    {
-        agent.SetDestination(target.position);
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            agent.isStopped = true;
-            targetPos = null;
-            transform.position = target.position;
-            transform.rotation = target.rotation;
-
-            if (target == waiterPos)
-            {
-                ChangeState(CharacterState.Idle);
-            }
-            else
-            {
-                ChangeState(characterState);
+                locationMachines.Add((LocationMachine)locations[i]);
             }
         }
     }
 
-    #endregion
-
-    private bool HasItemInPlate()
+    private void MoveToPosIdle()
     {
-        return kitchenTable != null && kitchenTable.plate.currentStackNumber > 0;
+        if(state == AIWaiterState.IDLE)  return;
+        state = AIWaiterState.IDLE;
+
+        timeCount = 2f;
+        currentTable = null;
+        currentKitchen = null;
+        currentTrash = null;
+        minDistance = 0.1f;
+
+        MoveToTarget(transIdle.position);
     }
 
-    private bool HasItemInTable()
-    {    
-        foreach (var table in locationTables)
-        {
-            if (table.itemOrders != null)
-            {
-                foreach (var item in table.itemOrders)
-                {
-                    if (item.currentItemNumber < item.quantity)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private void ServeTable()
+    private void MoveToPosMachine()
     {
-        while (currentTableIndex < locationTables.Count)
-        {
-            var table = locationTables[currentTableIndex];
+        state = AIWaiterState.MACHINE;
+        timeCount = timeRequest;
+        minDistance = currentKitchen.GetBoxRange();
 
-            if (table.itemOrders != null)
-            {
-                foreach (var item in table.itemOrders)
-                {
-                    if (item.currentItemNumber < item.quantity)
-                    {
-                        GoToPlate(item.itemId);
-                        return; // Dừng lại, chờ waiter lấy món và di chuyển đến bàn
-                    }
-                }
-            }
-
-            // Nếu bàn này không cần món, chuyển sang bàn tiếp theo
-            currentTableIndex++;
-        }
-
-        // Nếu không có bàn nào cần món nữa, reset về bàn đầu tiên
-        currentTableIndex = 0;
+        MoveToTarget(currentTable.GetPosProduct());
     }
 
-    private void GoToPlate(ItemId itemId)
+    private void MoveToTrash()
     {
-        if (kitchenTable != null && itemId == kitchenTable.itemId)
-        {
-            targetPos = kitchenTable.waiterIndex;
-            ChangeState(CharacterState.Walk);
-        }
+
     }
-
-    private void GoToTable()
-    {
-        var table = locationTables[currentTableIndex];
-
-        if (table.itemOrders != null)
-        {
-            foreach (var item in table.itemOrders)
-            {
-                if (item.currentItemNumber < item.quantity && currentItemNumber > 0)
-                {
-                    targetPos = table.waiterIndex;
-                    ChangeState(CharacterState.WalkHold);
-                    return;
-                }
-            }
-        }
-
-        // Nếu bàn này đã đủ món, chuyển sang bàn tiếp theo
-        currentTableIndex++;
-        ServeTable();
-    }
-
-    //private void tableHasOrder()
-    //{
-    //    if (locationTables == null) return;
-
-    //    if (locationTables[currentTable].itemOrders == null)
-    //    {
-    //        currentTable++;
-    //    }
-
-    //    if (currentTable >= locationTables.Count) currentTable = 0;
-
-    //    Debug.Log("current table: " + currentTable);
-    //}
 }

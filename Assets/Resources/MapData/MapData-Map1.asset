@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dff0e6fca8a9f0438af01ead6e5084b, type: 3}
+  m_Name: MapData-Map1
+  m_EditorClassIdentifier: 
+  MapId: 0
+  nameMap: Map_01
+  locations:
+  - locationId: 0
+    icon: {fileID: 0}
+    price: 50
+  - locationId: 3
+    icon: {fileID: 21300000, guid: 736af1435c558f343a535fc00fa80866, type: 3}
+    price: 30
+  - locationId: 4
+    icon: {fileID: 21300000, guid: 37e6d21f7395a084e8fc47af88da4a13, type: 3}
+    price: 20
+  - locationId: 5
+    icon: {fileID: 21300000, guid: 40ae14dcd3c862a408d8ad1808ba26be, type: 3}
+    price: 12
+  - locationId: 4
+    icon: {fileID: 21300000, guid: 37e6d21f7395a084e8fc47af88da4a13, type: 3}
+    price: 30
+  - locationId: 5
+    icon: {fileID: 21300000, guid: 7037ac4b442b27c45bb301b3ea7da4cc, type: 3}
+    price: 35
+  - locationId: 4
+    icon: {fileID: 21300000, guid: 37e6d21f7395a084e8fc47af88da4a13, type: 3}
+    price: 45
+  - locationId: 5
+    icon: {fileID: 21300000, guid: 4fc32eff0cbd14042ba05da562550ba2, type: 3}
+    price: 70
+  - locationId: 3
+    icon: {fileID: 21300000, guid: 099b6c8f6d211b04090487b7555329af, type: 3}
+    price: 155
+  - locationId: 5
+    icon: {fileID: 21300000, guid: 40ae14dcd3c862a408d8ad1808ba26be, type: 3}
+    price: 135
+  - locationId: 5
+    icon: {fileID: 21300000, guid: 4fc32eff0cbd14042ba05da562550ba2, type: 3}
+    price: 215

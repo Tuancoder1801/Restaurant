@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public int currentMapIndex = 0;
+
     [Header("Player")]
     [Space(20)]
     public Player player;
@@ -11,8 +13,6 @@ public class GameManager : Singleton<GameManager>
     public AIChef chef;
     public AIPorter porter;
     public AIWaiter waiter;
-
-    public Location location;
 
     public SmoothCamera smoothCamera;
 
@@ -30,15 +30,19 @@ public class GameManager : Singleton<GameManager>
     public List<RawBin> rawBins;
     //public List<LocationTable> tables;
     public List<LocationBuild> builds;
-    public List<LocationBase> tasks;
+    public List<LocationBase> locations;
 
 
     private int currentBuildIndex = 0;
+    private MapData mapData;
 
     private void Awake()
     {
-        GameDataConstant.Load();
 
+    }
+
+    private void Start()
+    {
         Init();
     }
 
@@ -49,25 +53,20 @@ public class GameManager : Singleton<GameManager>
 
     private void Init()
     {
+
+        mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
+
+        Debug.Log("mapData: " + (mapData != null ? "Loaded" : "Null"));
+
         CreatePlayer();
 
-        foreach (var build in builds)
-        {
-            build.gameObject.SetActive(false);
-        }
-
-        if (builds.Count > 0)
-        {
-            builds[0].gameObject.SetActive(true);
-        }
-
-        
+        loadMapData();
     }
 
     private void CreatePlayer()
     {
-        Player newPlayer = Instantiate(player, playerPos.position, playerPos.rotation);
-        smoothCamera.SetTarget(newPlayer.transform);
+        player.gameObject.SetActive(true);
+        smoothCamera.SetTarget(player.transform);
     }
 
     #region Customer
@@ -114,7 +113,7 @@ public class GameManager : Singleton<GameManager>
         }
     }*/
 
-    private List<RawBin> GetRelevantRawbins(KitchenTable kitchenTable, List<RawBin> allRawbins)
+    private List<RawBin> GetRelevantRawbins(LocationMachine kitchenTable, List<RawBin> allRawbins)
     {
         List<RawBin> relevantRawbins = new List<RawBin>();
 
@@ -187,6 +186,26 @@ public class GameManager : Singleton<GameManager>
     }
 
     #region locationBuild
+
+    private void loadMapData()
+    {
+        if (mapData == null) return;
+
+        for (int i = 0; i < builds.Count; i++)
+        {
+            if (i < mapData.locations.Count)
+            {
+                builds[i].SetData(mapData.locations[i]);
+                builds[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (builds.Count > 0)
+        {
+            builds[0].gameObject.SetActive(true);
+        }
+    }
+
     public void OnBuildCompleted(LocationBuild completedBuild)
     {
         completedBuild.gameObject.SetActive(false);
@@ -200,11 +219,11 @@ public class GameManager : Singleton<GameManager>
 
     private void BuildObject()
     {
-        for (int i = 0; i < tasks.Count; i++)
+        for (int i = 0; i < locations.Count; i++)
         {
             if (i == currentBuildIndex)
             {
-                tasks[i].gameObject.SetActive(true);
+                locations[i].gameObject.SetActive(true);
             }
         }
     }

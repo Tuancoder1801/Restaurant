@@ -1,24 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LocationBuild : LocationBase
 {
-    public SpriteRenderer spriteRenderer;
+    public SpriteRenderer fillRenderer;
+    public SpriteRenderer icon;
+    public TextMeshPro textPrice;
 
     private Material material;
     private bool isWarning;
     private Transform tranPlayer;
     private IEnumerator ieWaitTakeMoney;
+    private Location locationData;
 
     private void OnEnable()
     {
-        material = spriteRenderer.material;
+        material = fillRenderer.material;
     }
 
     private void OnDisable()
     {
         Clear();
+    }
+
+    public void SetData(Location location)
+    {
+        locationData = location;
+        icon.sprite = location.icon;
+        textPrice.text = location.price.ToString();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,7 +50,7 @@ public class LocationBuild : LocationBase
         {
             tranPlayer = null;
             material.SetFloat("_Arc2", 360f);
-            spriteRenderer.material = material;
+            fillRenderer.material = material;
 
             if (ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
         }
@@ -55,14 +67,14 @@ public class LocationBuild : LocationBase
         {
             fill = Mathf.Lerp(0f, max, elapsed / duration); 
             material.SetFloat("_Arc2", 360f - ((fill / max) * 360f));
-            spriteRenderer.material = material;
+            fillRenderer.material = material;
 
             elapsed += Time.deltaTime;
             yield return null; 
         }
 
-        //material.SetFloat("_Arc2", 0f);
-        //spriteRenderer.material = material;
+        material.SetFloat("_Arc2", 0f);
+        fillRenderer.material = material;
 
         GameManager.Instance.OnBuildCompleted(this);
     }
@@ -70,6 +82,6 @@ public class LocationBuild : LocationBase
     private void Clear()
     {
         material.SetFloat("_Arc2", 360f);
-        spriteRenderer.material = material;
+        fillRenderer.material = material;
     }
 }

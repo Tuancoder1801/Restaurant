@@ -9,7 +9,7 @@ public class AIPorter : Character
     public Transform targetPos;
     public Transform porterPos;
 
-    public KitchenTable kitchenTable;
+    public LocationMachine kitchenTable;
     public List<RawBin> rawBins;
 
     private NavMeshAgent agent;

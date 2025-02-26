@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class AIChef : AICharacter
 {
-    public KitchenTable kitchen;
+    public LocationMachine kitchen;
 
     protected override void OnEnable()
     {   
