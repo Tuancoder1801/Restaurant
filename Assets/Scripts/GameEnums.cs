@@ -41,3 +41,14 @@ public enum LocationId
     NextMap = 9,
 }
 
+public enum HumanId
+{
+    None = 0,
+    Player = 1,
+    Chef = 2,
+    Waiter = 3,
+    Porter = 4,
+    Customer = 5,
+    Collector = 6,
+}
+

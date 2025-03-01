@@ -41,10 +41,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3368544396782721492}
   - component: {fileID: 7493765278486811277}
-  - component: {fileID: 8934186421348298469}
+  - component: {fileID: 948760153204501285}
   m_Layer: 0
   m_Name: TrashCan
-  m_TagString: Untagged
+  m_TagString: Location
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,7 +87,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3884544, y: 0.19007158, z: 2.728755}
   m_Center: {x: -0.060253143, y: 1.1254618, z: -0.010408878}
---- !u!114 &8934186421348298469
+--- !u!114 &948760153204501285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b453acb79ea07f247b9984b389e9d736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropItemIndex: {fileID: 6529268601787581473}
+  locationId: 8
+  goPlayer: {fileID: 0}
+  tran: {fileID: 6529268601787581473}
 --- !u!1001 &2970524570283374720
 PrefabInstance:
   m_ObjectHideFlags: 0

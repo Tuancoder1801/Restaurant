@@ -49,18 +49,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e542a714deac8e4790d1daf1f7b36b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rotationSpeed: 1000
-  state: 0
-  maxStackNumber: 3
-  itemTransforms:
+  humanId: 1
+  animator: {fileID: 8395955584798131652}
+  positions:
   - {fileID: 5058525925066173020}
   - {fileID: 6538591732503859464}
   - {fileID: 4572059651624141936}
-  currentItemNumber: 0
-  isHolding: 0
+  items: []
+  indexStarts: 000000000a00000017000000
+  currentMax: 3
+  speedBase: 6
+  speed: 6
   joystick: {fileID: 0}
-  character: {fileID: 2546815399758403378}
+  charactor: {fileID: 2546815399758403378}
+  speedRotate: 360
+  timeRequest: 0.2
+  timeDelayUpdate: 0
 --- !u!143 &2546815399758403378
 CharacterController:
   m_ObjectHideFlags: 0

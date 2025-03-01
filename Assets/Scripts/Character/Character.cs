@@ -1,351 +1,252 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
-
-public enum CharacterState
-{
-    Idle,
-    Run,
-    IdleHold,
-    RunHold,
-    Walk,
-    WalkHold,
-    Sit,
-    Eat,
-    Cook,
-}
+using static UnityEditor.FilePathAttribute;
 
 public class Character : MonoBehaviour
-{
-    public float moveSpeed;
-    public float rotationSpeed;
-    public CharacterState state = CharacterState.Idle;
+{   
+    public HumanId humanId;
 
-    public int maxStackNumber = 3;
-    public List<Transform> itemTransforms;
-    public int currentItemNumber = 0;
-    public bool isHolding = false;
+    public Animator animator;
 
-    private Animator animator;
+    public List<Transform> positions;
+    public List<BaseItem> items;
+    public List<int> indexStarts;
+    public int currentMax;
 
-    public virtual void Awake()
+    public float speedBase;
+    public float speed;
+
+    public List<LocationBase> locations = new List<LocationBase>();
+    protected float timeCount = 0.2f;
+    protected string currentAnim;
+
+    protected virtual void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-    }
-
-    public virtual void Update()
-    {
-        UpdateIdle();
-    }
-
-    public virtual void ChangeState(CharacterState newState)
-    {
-        if (state != newState)
+        if(items == null) items = new List<BaseItem>();
+        if(items.Count < positions.Count)
         {
-            switch (newState)
+            for(int i = items.Count; i < positions.Count; i++)
             {
-                case CharacterState.Idle:
-                    BeginIdle();
-                    break;
-                case CharacterState.Run:
-                    BeginRun();
-                    break;
-                case CharacterState.IdleHold:
-                    BeginIdleHold();
-                    break;
-                case CharacterState.RunHold:
-                    BeginRunHold();
-                    break;
-                case CharacterState.Walk:
-                    BeginWalk();
-                    break;
-                case CharacterState.WalkHold:
-                    BeginWalkHold();
-                    break;
-                case CharacterState.Sit:
-                    BeginSit();
-                    break;
-                case CharacterState.Eat:
-                    BeginEat();
-                    break;
-                case CharacterState.Cook:
-                    BeginCook();
-                    break;
-            }
-
-        }
-    }
-
-    private void ResetAllTriggers()
-    {
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_IDLE);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_RUN);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_IDLE_HOLD);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_RUN_HOLD);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_WALK_HOLD);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_SIT);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_EAT);
-        animator.ResetTrigger(StaticValue.ANIM_TRIGGER_COOK);
-    }
-
-    #region Idle
-
-    public void BeginIdle()
-    {
-        ResetAllTriggers();
-        state = CharacterState.Idle;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_IDLE);
-    }
-
-    public virtual void UpdateIdle()
-    {
-
-    }
-
-    public void BeginIdleHold()
-    {
-        ResetAllTriggers();
-        state = CharacterState.IdleHold;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_IDLE_HOLD);
-    }
-
-    public virtual void UpdateIdleHold()
-    {
-    }
-
-    #endregion
-
-    #region Run
-
-    public void BeginRun()
-    {
-        ResetAllTriggers();
-        state = CharacterState.Run;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_RUN);
-    }
-
-    public virtual void UpdateRun()
-    {
-
-    }
-
-    public void BeginRunHold()
-    {
-        ResetAllTriggers();
-        state = CharacterState.RunHold;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_RUN_HOLD);
-    }
-
-    public virtual void UpdateRunHold()
-    {
-    }
-
-    #endregion
-
-    #region Walk
-
-    public void BeginWalk()
-    {
-        ResetAllTriggers();
-        state = CharacterState.Walk;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_WALK);
-    }
-
-    public virtual void UpdateWalk()
-    {
-
-    }
-
-    public void BeginWalkHold()
-    {
-        ResetAllTriggers();
-        state = CharacterState.WalkHold;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_WALK_HOLD);
-    }
-
-    public virtual void UpdateWalkHold()
-    {
-
-    }
-
-    #endregion
-
-    #region Sit
-
-    public void BeginSit()
-    {
-        ResetAllTriggers();
-        state = CharacterState.Sit;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_SIT);
-    }
-
-    public virtual void UpdateSit()
-    {
-
-    }
-
-    #endregion
-
-    #region Eat
-
-    public void BeginEat()
-    {
-        ResetAllTriggers();
-        state = CharacterState.Eat;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_EAT);
-    }
-
-    #endregion
-
-    #region Cook
-
-    public void BeginCook()
-    {
-        ResetAllTriggers();
-        state = CharacterState.Cook;
-        animator.SetTrigger(StaticValue.ANIM_TRIGGER_COOK);
-    }
-
-    public virtual void UpdateCook()
-    {
-
-    }
-
-    #endregion
-
-    public void ReceiveItems(BaseItem item)
-    {
-        if (currentItemNumber >= maxStackNumber) return;
-
-        isHolding = true;
-        DG.Tweening.Sequence sequence = DOTween.Sequence();
-
-        float accumulatedHeight = 0f;
-
-        for (int i = 0; i < currentItemNumber; i++)
-        {
-            BaseItem placedItem = itemTransforms[i].GetComponentInChildren<BaseItem>();
-            if (placedItem != null)
-            {
-                accumulatedHeight += placedItem.height;
-            }
-        }
-
-        Vector3 currentTransformPosition = itemTransforms[currentItemNumber].localPosition;
-        currentTransformPosition.y = itemTransforms[0].localPosition.y + accumulatedHeight;
-        itemTransforms[currentItemNumber].localPosition = new Vector3(currentTransformPosition.x, currentTransformPosition.y, currentTransformPosition.z);
-
-        sequence.Append(
-            item.transform.DOJump(itemTransforms[currentItemNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
-            {
-                item.transform.SetParent(itemTransforms[currentItemNumber]);
-                item.transform.localPosition = Vector3.zero;
-                item.transform.localRotation = Quaternion.identity;
-                item.transform.localScale = Vector3.one;
-
-                currentItemNumber++;
-            })
-        );
-    }
-
-    public void ReleaseItems(List<ItemPosition> itemPositions)
-    {
-        if (currentItemNumber <= 0) return;
-
-        DG.Tweening.Sequence sequence = DOTween.Sequence();
-        Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
-        ItemId itemId = item.GetComponent<BaseItem>().itemId;
-
-        foreach (var itemPosition in itemPositions)
-        {
-            if (itemPosition.itemId == itemId && itemPosition.currentStackNumber < itemPosition.maxStackNumber)
-            {
-                sequence.Append(
-                    item.DOJump(itemPosition.itemPositions[itemPosition.currentStackNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
-                    {
-                        item.SetParent(itemPosition.itemPositions[itemPosition.currentStackNumber]);
-                        item.localPosition = Vector3.zero;
-                        item.localRotation = Quaternion.identity;
-                        item.localScale = Vector3.one;
-
-                        currentItemNumber--;
-                        itemPosition.currentStackNumber++;
-                        ResetItemPositions(currentItemNumber);
-                        if (currentItemNumber == 0) isHolding = false;
-                    })
-                    );
+                items.Add(null);
             }
         }
     }
 
-    private void ResetItemPositions(int index)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (index < 0 || index >= itemTransforms.Count)
+        if (other.CompareTag(StaticValue.LOCATION_NAME_TAG))
+        {
+            if (locations.Count <= 0) timeCount = 0;
+            locations.Add(other.GetComponent<LocationBase>());
+        }
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(StaticValue.LOCATION_NAME_TAG))
+        {
+            locations.Remove(other.GetComponent<LocationBase>());
+        }
+    }
+
+    #region Anim
+    protected virtual void PlayAnimMove()
+    {
+        if (IsEmpty())
+            PlayAnim(StaticValue.ANIM_TRIGGER_WALK);
+        else       
+            PlayAnim(StaticValue.ANIM_TRIGGER_WALK_HOLD);
+    }
+
+    protected virtual void PlayAnimIdle()
+    {
+        if (IsEmpty())
+            PlayAnim(StaticValue.ANIM_TRIGGER_IDLE);
+        else
+            PlayAnim(StaticValue.ANIM_TRIGGER_IDLE_HOLD);
+    }
+
+    protected virtual void PlayAnim(string anim)
+    {
+        if(animator == null) return;
+        if(currentAnim == anim)
         {
             return;
         }
+        if (!string.IsNullOrEmpty(currentAnim)) animator.ResetTrigger(currentAnim);
 
-        Vector3 resetPosition = itemTransforms[index].localPosition;
-        resetPosition.y = itemTransforms[0].localPosition.y;
-        itemTransforms[index].localPosition = resetPosition;
+        currentAnim = anim;
+        animator.SetTrigger(anim);
     }
 
-    public void ReleaseItems(List<ItemOrder> itemOrders, ItemPosition itemPos)
+    protected void PlayLastAnim()
     {
-        if (currentItemNumber <= 0) return;
-
-        DG.Tweening.Sequence sequence = DOTween.Sequence();
-        Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
-        BaseItem baseItem = item.GetComponent<BaseItem>();
-
-        foreach (ItemOrder itemTransform in itemOrders)
+        if (!string.IsNullOrEmpty(currentAnim))
         {
-            if (itemTransform.itemId == baseItem.itemId && itemTransform.currentItemNumber < itemTransform.quantity)
-            {
-                sequence.Append(
-                    item.DOJump(itemPos.itemPositions[itemTransform.currentItemNumber].position, 0.5f, 1, 0.2f).OnComplete(() =>
-                    {
-                        item.SetParent(itemPos.itemPositions[itemTransform.currentItemNumber]);
-                        item.localPosition = Vector3.zero;
-                        item.localRotation = Quaternion.identity;
-                        item.localScale = Vector3.one;
+            animator.SetTrigger(currentAnim);
+        }
+    }
 
-                        currentItemNumber--;
-                        itemTransform.currentItemNumber++;
-                        int index = itemPos .items.FindIndex(x => x == null);
-                        itemPos.PushItem(baseItem, index);
-                        ResetItemPositions(currentItemNumber);
-                        if (currentItemNumber == 0) isHolding = false;
-                    })
-                    );
+    #endregion
+
+    #region Item
+
+    public virtual void PushItem(BaseItem item, Action callBack = null)
+    {
+        if(item != null)
+        {
+            int index = GetIndexEmpty();
+            if(index >= 0)
+            {
+                PushItem(item, index);
+
+                DG.Tweening.Sequence sequence = DOTween.Sequence();
+                sequence.Append(
+                item.transform.DOJump(positions[index].position, 1f, 1, 0.2f).OnComplete(() =>
+                {
+                    item.transform.SetParent(positions[index]);
+                    item.transform.localPosition = Vector3.zero;
+                    item.transform.localRotation = Quaternion.identity;
+                    item.transform.localScale = Vector3.one;
+
+                    callBack?.Invoke();
+                }));
+                ReloadItemPos();
+            }
+            else
+            {
+                callBack?.Invoke();
             }
         }
+        else
+        {
+            callBack?.Invoke();
+        }
     }
 
-    public void DropItems(Transform targetTransform)
+    #endregion
+
+    public virtual void SetIdleTransform(Transform tran) 
     {
-        if (currentItemNumber - 1 < 0)
+
+    }
+
+    public bool IsFullStack()
+    {
+        return items.Count(x => x != null) >= currentMax;
+    }
+
+    public bool IsEmpty()
+    {
+        return items.Count(x => x != null) == 0;
+    }
+
+    public int GetIndexEmpty()
+    {
+        return items.FindIndex(x => x == null);
+    }
+
+    public void PushItem(BaseItem item, int index)
+    {
+        items[index] = item;
+    }
+
+    public virtual BaseItem PopItem()
+    {
+        int index = items.FindLastIndex(x => x != null);
+        if(index >= 0)
         {
-            return;
+            var item = items[index];
+            items[index] = null;
+            ReloadItemPos();
+
+            return item;
         }
+        return null;
+    }
 
-        DG.Tweening.Sequence sequence = DOTween.Sequence();
-        Transform item = itemTransforms[currentItemNumber - 1].GetChild(0);
-
-        sequence.Append(
-        item.DOJump(targetTransform.position, 0.5f, 1, 0.2f).OnComplete(() =>
+    public virtual BaseItem PopItem(ItemId itemId)
+    {
+        int index = items.FindLastIndex(x => x != null && x.itemId == itemId);
+        if (index >= 0)
         {
-            Destroy(item.gameObject);
-            currentItemNumber--;
+            var item = items[index];
+            items[index] = null;
 
-            ResetItemPositions(currentItemNumber);
+            SortItem();
 
-            if (currentItemNumber == 0) isHolding = false;
-        })
-        );
+            return item;
+        }
+        return null;
+    }
 
+    private void SortItem()
+    {
+        int indexNull = -1;
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == null)
+            {
+                if (indexNull < 0) indexNull = i;
+            }
+            else
+            {
+                if (indexNull >= 0)
+                {
+                    Vector3 vTemp = positions[i].localPosition;
+                    positions[i].localPosition = positions[indexNull].localPosition;
+                    positions[indexNull].localPosition = vTemp;
+
+                    var temp = positions[i];
+                    positions[i] = positions[indexNull];
+                    positions[indexNull] = temp;
+
+                    items[indexNull] = items[i];
+                    items[i] = null;
+
+                    indexNull = i;
+                    for (int j = 0; j <= i; j++)
+                    {
+                        if (items[j] == null)
+                        {
+                            indexNull = j;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        ReloadItemPos();
+    }
+
+    private void ReloadItemPos()
+    {
+        float pos = 0f;
+        for(int i = 0; i < positions.Count; i++)
+        {
+            if (indexStarts.Contains(i))
+            {
+                pos = positions[i].transform.localPosition.y;
+                positions[i].transform.localPosition = new Vector3(positions[i].transform.localPosition.x, pos, positions[i].transform.localPosition.z);
+            }
+            else
+            {
+                positions[i].transform.localPosition = new Vector3(positions[i].transform.localPosition.x, pos, positions[i].transform.localPosition.z);
+            }
+            if (items[i] != null && items[i].height > 0)
+            {
+                pos += items[i].height;
+            }
+            else
+            {
+                pos += 0.35f;
+            }
+        }
     }
 }

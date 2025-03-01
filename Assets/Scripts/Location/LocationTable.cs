@@ -64,7 +64,7 @@ public class LocationTable : LocationBase
         if (waiter != null && !isColliding)
         {
             isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(waiter));
+            //itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(waiter));
         }
     }
 
@@ -96,7 +96,7 @@ public class LocationTable : LocationBase
     {
         while (isColliding)
         {
-            character.ReleaseItems(itemOrders, product);
+            //character.ReleaseItems(itemOrders, product);
             yield return new WaitForSeconds(0.3f);
         }
     }

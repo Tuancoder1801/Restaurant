@@ -30,7 +30,12 @@ public class AICharacter : MonoBehaviour
     protected virtual void OnEnable()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
+
+        if (animator == null)
+        {
+            Debug.LogError($"{gameObject.name} is missing an Animator component!");
+        }
     }
 
     private void ResetAllTriggers()
@@ -56,7 +61,7 @@ public class AICharacter : MonoBehaviour
 
         isMoving = true;
         agent.enabled = true;
-        agent.SetDestination(targetPos);
+        agent.destination = targetPos;
         agent.isStopped = false;
         Anim(StaticValue.ANIM_TRIGGER_WALK);
     }
@@ -64,7 +69,7 @@ public class AICharacter : MonoBehaviour
     protected void StopMove()
     {
         isMoving = false;
-        agent.SetDestination(targetPos);
+        agent.destination = transform.position;
         agent.isStopped = true;
         agent.enabled = false;
         Anim(StaticValue.ANIM_TRIGGER_IDLE);

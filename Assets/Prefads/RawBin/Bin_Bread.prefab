@@ -65,11 +65,33 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 6882300948492550125, guid: d3b922de84e7ca045bf3e1825b44543d, type: 3}
+    - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: baseItem
       value: 
       objectReference: {fileID: 6882300948492550125, guid: d3b922de84e7ca045bf3e1825b44543d, type: 3}
+    - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: posStart
+      value: 
+      objectReference: {fileID: 3151099193696494809}
+    - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: locationId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982240806283134056, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: m_Carve
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7148259423210948566, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+--- !u!4 &3151099193696494809 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7194845284593759533, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+  m_PrefabInstance: {fileID: 5216238948792553972}
+  m_PrefabAsset: {fileID: 0}

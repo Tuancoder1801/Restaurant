@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class AIChef : AICharacter
 {
-    public LocationMachine kitchen;
+    public LocationMachine machine;
 
     protected override void OnEnable()
     {   
@@ -16,17 +16,19 @@ public class AIChef : AICharacter
         var transform = GameManager.Instance.GetTransformCustomer(posIndex);
         this.transform.position = transform.position;
 
-        MoveToTarget(kitchen.chefIndex.position);
+        MoveToTarget(machine.posChef.position);
     }
 
     protected void Update()
     {
         if (isMoving)
         {
+            Debug.Log("isMoving");
             if(Vector3.Distance(transform.position, targetPos) < 0.1f)
             {
                 StopMove();
-                LeanTween.rotate(gameObject, kitchen.chefIndex.eulerAngles, 0.3f);
+                LeanTween.rotate(gameObject, machine.posChef.eulerAngles, 0.3f);
+                machine.AddChef(gameObject);
             }
         }
     }

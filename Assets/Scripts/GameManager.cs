@@ -27,7 +27,7 @@ public class GameManager : Singleton<GameManager>
     public LocationLineUp lineUp;
 
     //public List<KitchenTable> kitchenTables;
-    public List<RawBin> rawBins;
+    public List<LocationRawBin> rawBins;
     //public List<LocationTable> tables;
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
@@ -113,7 +113,7 @@ public class GameManager : Singleton<GameManager>
         }
     }*/
 
-    private List<RawBin> GetRelevantRawbins(LocationMachine kitchenTable, List<RawBin> allRawbins)
+    /*private List<RawBin> GetRelevantRawbins(LocationMachine kitchenTable, List<RawBin> allRawbins)
     {
         List<RawBin> relevantRawbins = new List<RawBin>();
 
@@ -128,7 +128,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
         return relevantRawbins;
-    }
+    }*/
 
     #endregion
 

@@ -63,6 +63,11 @@ public class ItemPosition : MonoBehaviour
         return items.FindIndex(x => x == null);
     }
 
+    public bool IsFullStack()
+    {
+        return CountItem() >= currentStackNumber;
+    }
+
     public bool IsEmpty()
     {
         return CountItem() <= 0;

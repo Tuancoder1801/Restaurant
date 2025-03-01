@@ -6,134 +6,230 @@ using static UnityEditor.Progress;
 using UnityEngine.TextCore.Text;
 using DG.Tweening.Core.Easing;
 using static UnityEngine.GraphicsBuffer;
+using System;
 
 public class Player : Character
 {
     public Joystick joystick;
-    public CharacterController character;
+    public CharacterController charactor;
 
-    private bool isMoving = false;
-    private float valueVertical;
-    private float valueHorizontal;
+    public float speedRotate;
+    public float timeRequest;
+    public float timeDelayUpdate;
 
-    public override void Awake()
+    protected void OnEnable()
     {
-        base.Awake();
-        joystick = FindObjectOfType<Joystick>();
+        timeDelayUpdate = 0.5f;
+        joystick = FindAnyObjectByType<Joystick>();
     }
 
-    public override void Update()
+    protected void Update()
     {
-        CheckInput();
-        base.Update();
-        UpdateRun();
-        UpdateIdleHold();
-        UpdateRunHold();
+        UpdateStateNormal();
     }
 
-    private void CheckInput()
+    protected void FixedUpdate()
     {
-        valueVertical = joystick.Vertical;
-        valueHorizontal = joystick.Horizontal;
-
-        isMoving = valueVertical != 0 || valueHorizontal != 0;
+        Move();
     }
 
-    #region Idle
+    #region Item
 
-    public override void UpdateIdle()
+    public override void PushItem(BaseItem item, Action callBack = null)
     {
-        if (state != CharacterState.Idle) return;
-
-        if (isMoving)
-        {
-            ChangeState(CharacterState.Run);
-        }
-
-        if (isHolding)
-        {
-            ChangeState(CharacterState.IdleHold);
-        }
+        base.PushItem(item, callBack);
+        ReplayAnim();
     }
 
-    public override void UpdateIdleHold()
+    public override BaseItem PopItem(ItemId itemId)
     {
-        if (state != CharacterState.IdleHold) return;
-
-        if (!isHolding)
+        var item = base.PopItem(itemId);
+        if (item != null)
         {
-            ChangeState(CharacterState.Idle);
+            ReplayAnim();
         }
 
-        if (isMoving && isHolding)
-        {
-            ChangeState(CharacterState.RunHold);
-        }
-    }
-
-    #endregion  
-
-    #region Run
-
-    public override void UpdateRun()
-    {
-        if (state != CharacterState.Run) return;
-
-        if (!isMoving)
-        {
-            if (isHolding)
-            {
-                ChangeState(CharacterState.IdleHold);
-                return;
-            }
-
-            ChangeState(CharacterState.Idle);
-        }
-
-        if (isHolding)
-        {
-            ChangeState(CharacterState.RunHold);
-        }
-
-        HandleMovement();
-
-    }
-
-    public override void UpdateRunHold()
-    {
-        if (state != CharacterState.RunHold) return;
-
-        if (isHolding && !isMoving)
-        {
-            ChangeState(CharacterState.IdleHold);
-        }
-
-        if (!isHolding && isMoving)
-        {
-            ChangeState(CharacterState.Run);
-        }
-
-        HandleMovement();
-    }
-
-    private void HandleMovement()
-    {
-        Vector3 direction = Vector3.forward * valueVertical + Vector3.right * valueHorizontal;
-        direction = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-
-        character.Move(direction * Time.deltaTime * moveSpeed);
-
-        if (direction != Vector3.zero)
-        {
-            var targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = targetRotation;
-        }
-
-        var tempVector3 = transform.position;
-        tempVector3.y = 0;
-        transform.position = tempVector3;
+        return item;
     }
 
     #endregion
 
+    #region Update
+
+    protected void Move()
+    {
+        if (joystick.Vertical == 0 && joystick.Horizontal == 0)
+        {
+            if(currentAnim == null || !currentAnim.StartsWith("isIdle"))
+            {
+                PlayAnimIdle();
+            }
+        }
+        else
+        {
+            if(currentAnim == null || !currentAnim.StartsWith("isWalk"))
+            {
+                PlayAnimMove();
+            }
+
+            UpdateMove(joystick.Vertical, joystick.Horizontal);
+        }
+    }
+
+    private void UpdateMove(float vertical, float horizontal)
+    {
+        Vector3 direction = Vector3.forward * vertical + Vector3.right * horizontal;
+        direction = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+
+        charactor.Move(direction * Time.deltaTime * speed);
+
+        var targetRotation = Quaternion.LookRotation(direction);
+
+        var tempVector3 = transform.position;
+        tempVector3.y = 0;
+        transform.SetPositionAndRotation(tempVector3, targetRotation);
+    }
+
+    private void UpdateStateNormal()
+    {
+        if(locations.Count > 0)
+        {
+            timeCount -= Time.deltaTime;
+            if(timeCount <= 0)
+            {
+                timeCount = timeRequest;
+                UpdateLocationAction();
+            }
+        }
+    }
+
+    #endregion
+
+    #region Location
+
+    protected void UpdateLocationAction()
+    {
+        bool isDelay = false;
+        foreach (var location in locations) 
+        {
+            switch (location.locationId)
+            {
+                case LocationId.RawBin:
+                    UpdateLocationRawbin(location);
+                    break;
+                case LocationId.Machine:
+                    UpdateLocationMachine(location);
+                    break;
+                case LocationId.Trash:
+                    isDelay = true;
+                    UpdateLocationTrash(location);
+                    break;
+                case LocationId.Table:
+                    UpdateLocationTable(location);
+                    break;
+            }
+        }
+        if (!isDelay) timeDelayUpdate = 0.5f;
+    }
+
+    protected void UpdateLocationRawbin(LocationBase location)
+    {
+        PopItemFromMachine(location);
+    }
+
+    protected void UpdateLocationMachine(LocationBase location)
+    {
+        LocationMachine locationMachine = location as LocationMachine;
+        if(locationMachine.posMaterialCenter == null || locationMachine.posProductCenter == null)
+        {
+            Debug.Log("Gọi PushItemToMachine và PopItemFromMachine");
+            PushItemToMachine(location);
+            PopItemFromMachine(location);
+        }
+        else
+        {
+            float distancePush = Vector3.Distance(this.transform.position, locationMachine.posMaterialCenter.position);
+            float distancePop = Vector3.Distance(this.transform.position, locationMachine.posProductCenter.position);
+
+            Debug.Log($"distancePush: {distancePush}, distancePop: {distancePop}");
+
+            if (distancePush < distancePop)
+            {
+                locationMachine.goPlayer = null;
+                PushItemToMachine(location);
+            }
+            else
+            {
+                locationMachine.goPlayer = gameObject;
+                PopItemFromMachine(location);
+            }
+        }
+    }
+
+    protected void UpdateLocationTable(LocationBase location)
+    {
+        // thả nguyên liệu
+        var needItems = location.GetNeedItems();
+        if (needItems != null && needItems.Count > 0)
+        {
+            foreach (var itemType in needItems)
+            {
+                var item = PopItem(itemType);
+                if (item != null)
+                {
+                    location.PushItem(item);
+                }
+            }
+        }
+    }
+
+    protected void UpdateLocationTrash(LocationBase location)
+    {
+        timeDelayUpdate -= timeRequest;
+        if (timeDelayUpdate > 0) return;
+
+        var item = PopItem();
+        ReplayAnim();
+        if (item != null)
+        {
+            location.PushItem(item);
+        }
+    }
+
+    private void PushItemToMachine(LocationBase location)
+    {
+        var needItems = location.GetNeedItems();
+        if (needItems != null && needItems.Count > 0)
+        {
+            foreach (var itemType in needItems)
+            {
+                var item = PopItem(itemType);
+                if (item != null)
+                {
+                    location.PushItem(item);
+                }
+            }
+        }
+    }
+
+    private void PopItemFromMachine(LocationBase location)
+    {
+        if (!IsFullStack())
+        {
+            var item = location.PopItem();
+
+            if(item != null)
+            {
+                PushItem(item);
+            }
+        }
+    }
+
+    #endregion
+
+    private void ReplayAnim()
+    {
+        if(currentAnim.StartsWith("isIdle")) PlayAnimIdle();
+        else if(currentAnim.StartsWith("isWalk")) PlayAnimMove();
+    }
 }
