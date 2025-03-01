@@ -4,9 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Item
-  - Obstacle
   - target
+  - Chef
+  - Porter
+  - Waiter
+  - Item
+  - Location
   layers:
   - Default
   - TransparentFX
