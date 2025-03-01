@@ -78,7 +78,6 @@
     <Compile Include="Assets\LeanTween\Testing\TestingSceneSwitching.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing246.cs" />
-    <Compile Include="Assets\Scripts\RawBin\RawBin.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingIssue2.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothCamera.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing248.cs" />
@@ -90,15 +89,16 @@
     <Compile Include="Assets\Scripts\GameData.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingColorTweening.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Timer.cs" />
-    <Compile Include="Assets\Scripts\CookingTable\Machine.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
     <Compile Include="Assets\Scripts\Character\Character.cs" />
+    <Compile Include="Assets\Scripts\CookingTable\SubLocationMachine.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSimpleUI.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline2d.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathBezier2d.cs" />
+    <Compile Include="Assets\Scripts\Location\LocationTrash.cs" />
     <Compile Include="Assets\Scripts\Location\LocationTable.cs" />
     <Compile Include="Assets\Scripts\Loading\LoadingScene.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplineEndless.cs" />
@@ -116,23 +116,21 @@
     <Compile Include="Assets\Scripts\Location\LocationBase.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing243.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasics2d.cs" />
+    <Compile Include="Assets\Scripts\Location\LocationRawBin.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
     <Compile Include="Assets\Scripts\StaticValue.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
-    <Compile Include="Assets\Scripts\RawBin\TrashCan.cs" />
     <Compile Include="Assets\Scripts\UI\UILocation.cs" />
     <Compile Include="Assets\Scripts\UI\UIItem.cs" />
     <Compile Include="Assets\Scripts\Character\AICustomer.cs" />
-    <Compile Include="Assets\Scripts\CookingTable\Tray.cs" />
+    <Compile Include="Assets\Scripts\Character\AIChef.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplineTrack.cs" />
     <Compile Include="Assets\Scripts\Item\BaseItem.cs" />
-    <Compile Include="Assets\Scripts\Character\AIChef.cs" />
     <Compile Include="Assets\Scripts\Location\LocationBuild.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathBezier.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingMaxTweens.cs" />
-    <Compile Include="Assets\Scripts\CookingTable\Plate.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline.cs" />
     <Compile Include="Assets\Scripts\GameEnums.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing240.cs" />
@@ -147,8 +145,8 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacy.cs" />
     <Compile Include="Assets\Scripts\Character\AIWaiter.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasic.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplines.cs" />
     <Compile Include="Assets\Scripts\Location\LocationMachine.cs" />
+    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplines.cs" />
     <Compile Include="Assets\LeanTween\Testing\PerformanceTests.cs" />
   </ItemGroup>
   <ItemGroup>
