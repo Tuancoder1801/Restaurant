@@ -48,7 +48,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-        //StartCoroutine(SpawnCustomer());
+        StartCoroutine(SpawnCustomer());
     }
 
     private void Init()
@@ -148,7 +148,7 @@ public class GameManager : Singleton<GameManager>
 
     #endregion
 
-    public List<ItemOrder> GetOrders()
+    public List<ItemOrder> GetOrders(int tableCount)
     {
         List<ItemId> items = new List<ItemId>();
         List<ItemOrder> orders = new List<ItemOrder>();

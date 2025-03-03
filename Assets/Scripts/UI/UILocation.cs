@@ -35,7 +35,7 @@ public class UILocation : MonoBehaviour
 
             uiItem.gameObject.SetActive(true);
             uiItem.LoadItem(materials[i].itemId);
-            uiItem.SetNumber(materials[i].currentStackNumber, materials[i].maxStackNumber);
+            uiItem.SetNumber(materials[i].CountItem(), materials[i].currentStackNumber);
         }
 
         itemContent.SetActive(true);

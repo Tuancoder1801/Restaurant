@@ -102,14 +102,14 @@ public class LocationMachine : LocationBase
         return 0;
     }
 
-    public BaseItem PopItem()
+    public override BaseItem PopItem()
     {
         var item = product.PopItem();
         if(item != null) MakeProduct();
         return item;
     }
 
-    public void PushItem(BaseItem item)
+    public override void PushItem(BaseItem item)
     {
         if(materials != null && materials.Count > 0)
         {
@@ -125,10 +125,31 @@ public class LocationMachine : LocationBase
                 sequence.Append(
                 item.transform.DOJump(material.itemPositions[index].position, 2f, 1, 0.5f).OnComplete(() =>
                 {
+                    item.transform.SetParent(material.itemPositions[index]);
+                    item.transform.localPosition = Vector3.zero;
+                    item.transform.localRotation = Quaternion.identity;
+                    item.transform.localScale = Vector3.one;
                     MakeProduct();
                 }));
             }
         }
+    }
+
+    public override List<ItemId> GetNeedItems()
+    {
+        if (materials != null && materials.Count > 0)
+        {
+            List<ItemId> needItems = new List<ItemId>();
+            foreach (var material in materials)
+            {
+                if (!material.IsFullStack())
+                {
+                    needItems.Add(material.itemId);
+                }
+            }
+            return needItems;
+        }
+        return null;
     }
 
     private void PlayMachineAnim(string anim)
@@ -242,7 +263,7 @@ public class LocationMachine : LocationBase
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(
-        i.transform.DOMove(product.itemPositions[index].position, 2f).SetEase(Ease.OutQuad).OnComplete(() =>
+        i.transform.DOMove(product.itemPositions[index].position, 0.2f).SetEase(Ease.OutQuad).OnComplete(() =>
         {
             i.transform.SetParent(product.itemPositions[index]);
             i.transform.localPosition = Vector3.zero;

@@ -142,7 +142,6 @@ public class Player : Character
         LocationMachine locationMachine = location as LocationMachine;
         if(locationMachine.posMaterialCenter == null || locationMachine.posProductCenter == null)
         {
-            Debug.Log("Gọi PushItemToMachine và PopItemFromMachine");
             PushItemToMachine(location);
             PopItemFromMachine(location);
         }

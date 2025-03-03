@@ -30,7 +30,7 @@ public class AICharacter : MonoBehaviour
     protected virtual void OnEnable()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         if (animator == null)
         {

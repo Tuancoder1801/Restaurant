@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -41,84 +42,41 @@ public class LocationTable : LocationBase
         StartCoroutine(IEWaitOrderCreate());
     }
 
-    private void Update()
+    public override BaseItem PopItem()
+    {
+        return product.PopItem();
+    }
+
+    public override void PushItem(BaseItem item)
     {
         if(itemOrders != null)
         {
-            DisplayOrders();
-            HideOrders();
-        }
-    }
+            var order = itemOrders.FirstOrDefault(x => x.itemId == item.itemId);
 
-    private void OnTriggerStay(Collider other)
-    {
-        Player player = other.GetComponent<Player>();
-        AIWaiter waiter = other.GetComponent<AIWaiter>();
-
-        if (player != null && !isColliding)
-        {
-            isColliding = true;
-            itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(player));
-        }
-
-        if (waiter != null && !isColliding)
-        {
-            isColliding = true;
-            //itemSpawnCoroutine = StartCoroutine(SpawnItemsCoroutine(waiter));
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Player player = other.GetComponent<Player>();
-        AIWaiter waiter = other.GetComponent<AIWaiter>();
-
-        if (player != null)
-        {
-            isColliding = false;
-            if (itemSpawnCoroutine != null)
+            if(order != null && order.currentItemNumber < order.quantity)
             {
-                StopCoroutine(itemSpawnCoroutine);
+                order.currentItemNumber++;
+                uiLocation.SetNumber(order.itemId, order.currentItemNumber, order.quantity);
+
+                if(order.currentItemNumber >= order.quantity)
+                {
+                    uiLocation.HideUIItem(order.itemId);
+                }
             }
         }
 
-        if (waiter != null)
-        {
-            isColliding = false;
-            if (itemSpawnCoroutine != null)
-            {
-                StopCoroutine(itemSpawnCoroutine);
-            }
-        }
-    }
+        int index = product.GetIndexEmpty();
+        product.PushItem(item, index);
 
-    private IEnumerator SpawnItemsCoroutine(Character character)
-    {
-        while (isColliding)
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
+        sequence.Append(
+        item.transform.DOJump(product.itemPositions[index].position, 1f, 1, 0.2f).OnComplete(() =>
         {
-            //character.ReleaseItems(itemOrders, product);
-            yield return new WaitForSeconds(0.3f);
-        }
-    }
-
-    private void DisplayOrders()
-    {
-        if (itemOrders != null)
-        {
-            uiLocation.gameObject.SetActive(true);
-            uiLocation.LoadProduct(itemOrders);
-        }
-    }
-
-    private void HideOrders()
-    {
-        for (int i = 0; i < itemOrders.Count; i++)
-        {
-            if (itemOrders[i].currentItemNumber >= itemOrders[i].quantity)
-            {
-                uiLocation.HideUIItem(itemOrders[i].itemId);
-            }
-        }
+            item.transform.SetParent(product.itemPositions[index]);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+            item.transform.localScale = Vector3.one;
+        }));
     }
 
     IEnumerator IEWaitOrderCreate()

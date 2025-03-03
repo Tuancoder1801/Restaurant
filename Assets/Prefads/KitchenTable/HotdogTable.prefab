@@ -147,8 +147,7 @@ MonoBehaviour:
   - {fileID: 2095761019329052351}
   - {fileID: 5949262039816784038}
   - {fileID: 4527820926697691552}
-  currentStackNumber: 0
-  maxStackNumber: 4
+  currentStackNumber: 4
   items: []
 --- !u!1 &813620108673896778
 GameObject:
@@ -1196,8 +1195,7 @@ MonoBehaviour:
   - {fileID: 3540753664149211778}
   - {fileID: 7868370737769246089}
   - {fileID: 6536656618868236755}
-  currentStackNumber: 0
-  maxStackNumber: 4
+  currentStackNumber: 4
   items: []
 --- !u!1 &8694222437243232697
 GameObject:
@@ -1261,8 +1259,7 @@ MonoBehaviour:
   - {fileID: 4498973044474645809}
   - {fileID: 635864371489985599}
   - {fileID: 3208696210545908567}
-  currentStackNumber: 0
-  maxStackNumber: 4
+  currentStackNumber: 4
   items: []
 --- !u!1 &8883570625345927950
 GameObject:
