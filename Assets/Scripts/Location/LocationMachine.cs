@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ public class LocationMachine : LocationBase
     public GameObject goFxWork;
 
     private Coroutine ieWaitMakeProduct;
-    private List<GameObject> chefs;
+    public List<GameObject> chefs;
 
     protected float timeMakingCurrent;
 
@@ -67,9 +68,10 @@ public class LocationMachine : LocationBase
     {
         if (isNeedChef)
         {
-            if(chefs == null) chefs = new List<GameObject>();
+            if (chefs == null) chefs = new List<GameObject>();
 
             chefs.Add(obj);
+
             MakeProduct();
         }
     }
@@ -82,18 +84,18 @@ public class LocationMachine : LocationBase
         }
     }
 
-    public int MaxProductCanMake()
+    public override int MaxProductCanMake()
     {
         if (materials == null || materials.Count == 0) return 999;
 
-        if(materials != null && materials.Count > 0)
+        if (materials != null && materials.Count > 0)
         {
             int count = 9999;
             foreach (var material in materials)
             {
                 var c = material.CountItem();
-                if(c < count) count = c;
-                if(count == 0) break;
+                if (c < count) count = c;
+                if (count == 0) break;
             }
 
             return count + (ieWaitMakeProduct != null ? 1 : 0);
@@ -105,17 +107,17 @@ public class LocationMachine : LocationBase
     public override BaseItem PopItem()
     {
         var item = product.PopItem();
-        if(item != null) MakeProduct();
+        if (item != null) MakeProduct();
         return item;
     }
 
     public override void PushItem(BaseItem item)
     {
-        if(materials != null && materials.Count > 0)
+        if (materials != null && materials.Count > 0)
         {
             var material = materials.FirstOrDefault(x => x.itemId == item.itemId);
 
-            if(material != null)
+            if (material != null)
             {
                 int index = material.GetIndexEmpty();
                 material.PushItem(item, index);
@@ -150,6 +152,28 @@ public class LocationMachine : LocationBase
             return needItems;
         }
         return null;
+    }
+
+    public ItemPosition GetItemMaterial(ItemId itemId)
+    {
+        return materials.FirstOrDefault(x => x.itemId == itemId);
+    }
+
+    public override Vector3 GetPosRawBin()
+    {
+        if (posMaterialCenter != null) return posMaterialCenter.position;
+        return transform.position;
+    }
+
+    public override ItemId GetProductId()
+    {
+        return product.itemId;
+    }
+
+    public Tuple<ItemId, int> GetLocationRequire()
+    {
+        var itemPos = materials.OrderByDescending(m => m.GetNumberSlotBlank()).FirstOrDefault();
+        return itemPos != null ? Tuple.Create(itemPos.itemId, itemPos.GetNumberSlotBlank()) : Tuple.Create(ItemId.None, 0);
     }
 
     private void PlayMachineAnim(string anim)
@@ -188,6 +212,16 @@ public class LocationMachine : LocationBase
                     if (im != null)
                     {
                         if (keepMaterial) items.Add(im);
+
+                        DG.Tweening.Sequence sequence = DOTween.Sequence();
+                        sequence.Append(
+                        im.transform.DOJump(posMachine.position, 1f, 1, 0.2f).OnComplete(() =>
+                        {
+                            im.transform.SetParent(posMachine);
+                            im.transform.localPosition = Vector3.zero;
+                            im.transform.localRotation = Quaternion.identity;
+                            im.transform.localScale = Vector3.one;
+                        }));
                     }
                 }
             }
@@ -276,9 +310,6 @@ public class LocationMachine : LocationBase
 
     private void Clear()
     {
-        if (ieWaitMakeProduct != null)
-        {
-            StopCoroutine(ieWaitMakeProduct);
-        }
+        StopCoroutine(ieWaitMakeProduct);
     }
 }

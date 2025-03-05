@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -229,4 +231,28 @@ public class GameManager : Singleton<GameManager>
     }
 
     #endregion
+
+    public List<LocationBase> GetLocationByType(LocationId locationId)
+    {
+        return locations.Where(x => x.locationId == locationId && x.gameObject.activeSelf).ToList();
+    }
+
+    public LocationBase GetLocationNearesByItem(LocationId locationId, Vector3 pos)
+    {
+        var locations = GetLocationByType(locationId);
+        float distance = 999999;
+
+        LocationBase location = null;
+        foreach (var lo in locations)
+        {
+            float dis = Vector3.Distance(lo.transform.position, pos);
+
+            if(dis < distance)
+            {
+                location = lo;
+                distance = dis;
+            }
+        }
+        return location;
+    }
 }

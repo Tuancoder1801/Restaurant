@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
     public float speedBase;
     public float speed;
 
-    public List<LocationBase> locations = new List<LocationBase>();
+    protected List<LocationBase> locations = new List<LocationBase>();
     protected float timeCount = 0.2f;
     protected string currentAnim;
 

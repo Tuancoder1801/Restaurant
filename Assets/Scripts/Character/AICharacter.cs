@@ -15,17 +15,14 @@ public enum HumanType
     COLLECTOR, // Máy hút tiền
 }
 
-public class AICharacter : MonoBehaviour
+public class AICharacter : Character
 {   
-    public HumanType humanType;
     public int posIndex;
+
     protected NavMeshAgent agent;
-    protected Animator animator;
-
-    public Vector3 targetPos;
-
+    
+    protected Vector3 targetPos;
     protected bool isMoving;
-    protected float timeCount = 2f;
 
     protected virtual void OnEnable()
     {
@@ -38,23 +35,6 @@ public class AICharacter : MonoBehaviour
         }
     }
 
-    private void ResetAllTriggers()
-    {
-        foreach (var param in animator.parameters)
-        {
-            if (param.type == AnimatorControllerParameterType.Trigger)
-            {
-                animator.ResetTrigger(param.name);
-            }
-        }
-    }
-
-    public void Anim(string value)
-    {
-        ResetAllTriggers();
-        animator.SetTrigger(value);
-    }
-
     protected void MoveToTarget(Vector3 pos)
     {
         targetPos = pos;
@@ -63,7 +43,7 @@ public class AICharacter : MonoBehaviour
         agent.enabled = true;
         agent.destination = targetPos;
         agent.isStopped = false;
-        Anim(StaticValue.ANIM_TRIGGER_WALK);
+        PlayAnimMove();
     }
 
     protected void StopMove()
@@ -72,11 +52,6 @@ public class AICharacter : MonoBehaviour
         agent.destination = transform.position;
         agent.isStopped = true;
         agent.enabled = false;
-        Anim(StaticValue.ANIM_TRIGGER_IDLE);
-    }
-
-    public virtual void SetIdleTransform(Transform tran)
-    {
-
+        PlayAnimIdle();
     }
 }

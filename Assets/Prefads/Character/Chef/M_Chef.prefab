@@ -6530,9 +6530,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9669ef3eebfd64cb71d5f8121e854e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanType: 0
+  humanId: 2
+  animator: {fileID: 0}
+  positions: []
+  items: []
+  indexStarts: 
+  currentMax: 0
+  speedBase: 0
+  speed: 0
   posIndex: 0
-  targetPos: {x: 0, y: 0, z: 0}
   machine: {fileID: 0}
 --- !u!195 &160099934330190857
 NavMeshAgent:

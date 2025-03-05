@@ -14,4 +14,9 @@ public class LocationRawBin : LocationBase
         var i = Instantiate(item, posStart.position, posStart.rotation);
         return i;
     }
+
+    public override bool HasProductItem()
+    {
+        return true;
+    }
 }

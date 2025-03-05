@@ -35,11 +35,11 @@ public class AIChef : AICharacter
     
     public void PlayAnimCook()
     {
-        Anim(StaticValue.ANIM_TRIGGER_COOK);
+        PlayAnim(StaticValue.ANIM_TRIGGER_COOK);
     }
 
     public void StopAnimCook()
     {
-        Anim(StaticValue.ANIM_TRIGGER_IDLE);
+        PlayAnim(StaticValue.ANIM_TRIGGER_IDLE);
     }
 }

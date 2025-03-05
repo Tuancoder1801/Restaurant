@@ -1019,20 +1019,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee70fb5b89c6a2408319674f4597157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  rotationSpeed: 0
-  state: 0
-  maxStackNumber: 1
-  itemTransforms:
+  humanId: 4
+  animator: {fileID: 0}
+  positions:
   - {fileID: 3691564614337450694}
   - {fileID: 2164867913649826944}
   - {fileID: 6538077119288247428}
-  currentItemNumber: 0
-  isHolding: 0
-  targetPos: {fileID: 0}
-  porterPos: {fileID: 0}
-  kitchenTable: {fileID: 0}
-  rawBins: []
+  items: []
+  indexStarts: 000000000a000000
+  currentMax: 1
+  speedBase: 0
+  speed: 3
+  posIndex: 0
+  taskItems: 
+  transIdle: {fileID: 0}
+  timeRequest: 0.2
 --- !u!136 &6347629302810317524
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -27,6 +27,13 @@ public class ItemPosition : MonoBehaviour
         popLock = false;
     }
 
+    public int GetNumberSlotBlank()
+    {
+        int number = currentStackNumber - CountItem();
+        if (number < 0) number = 0;
+        return number;
+    }
+
     public void PushItem(BaseItem item, int index)
     {
         items[index] = item;

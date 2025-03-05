@@ -128,7 +128,7 @@ public class LocationTable : LocationBase
 
     public void OrderStart()
     {
-        itemOrders = GameManager.Instance.GetOrders();
+        itemOrders = GameManager.Instance.GetOrders(1);
         uiLocation.LoadProduct(itemOrders);
         uiLocation.gameObject.SetActive(true);
 

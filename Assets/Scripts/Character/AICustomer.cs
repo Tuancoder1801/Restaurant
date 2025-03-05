@@ -157,7 +157,7 @@ public class AICustomer : AICharacter
         gameObject.transform.position = trantarget.position;
         gameObject.transform.eulerAngles = trantarget.eulerAngles;
 
-        Anim(StaticValue.ANIM_TRIGGER_SIT);
+        PlayAnim(StaticValue.ANIM_TRIGGER_SIT);
         locationTable.CustomerSit();
     }
 
@@ -166,7 +166,7 @@ public class AICustomer : AICharacter
         timeEating = 1f;
         gameObject.transform.eulerAngles = trantarget.eulerAngles;
 
-        Anim(StaticValue.ANIM_TRIGGER_EAT);
+        PlayAnim(StaticValue.ANIM_TRIGGER_EAT);
         TakeItems(item.transform);
     }
 

@@ -40,10 +40,28 @@ public class LocationBase : MonoBehaviour
 
     }
 
+    public virtual int MaxProductCanMake()
+    {
+        return 0;
+    }
+
+    public virtual bool HasProductItem()
+    {
+        return false;
+    }
+
     public virtual List<ItemId> GetNeedItems()
     {
         return null;
     }
 
+    public virtual ItemId GetProductId() 
+    {
+        return ItemId.None;
+    }
 
+    public virtual Vector3 GetPosRawBin()
+    {
+        return transform.position;
+    }
 }
