@@ -440,9 +440,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6843718781210836936}
-  - component: {fileID: 726037866166604531}
-  - component: {fileID: 6170310693425013470}
   - component: {fileID: 343453635335795030}
+  - component: {fileID: 726037866166604531}
   m_Layer: 0
   m_Name: HotdogTable
   m_TagString: Location
@@ -478,43 +477,6 @@ Transform:
   - {fileID: 8362304918733944925}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &726037866166604531
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167353838166143366}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 6.513875, y: 1.2359544, z: 8.589067}
-  m_Center: {x: 0.061140656, y: 0.6366425, z: 0.005707741}
---- !u!208 &6170310693425013470
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167353838166143366}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.375, y: 1.11, z: 3.755}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &343453635335795030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +509,28 @@ MonoBehaviour:
   posProductCenter: {fileID: 5257843364707908846}
   posMaterialCenter: {fileID: 6833333843622554685}
   goFxWork: {fileID: 6417848525891526704}
+  chefs: []
+--- !u!65 &726037866166604531
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167353838166143366}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.513875, y: 1.2359544, z: 8.589067}
+  m_Center: {x: 0.061140656, y: 0.6366425, z: 0.005707741}
 --- !u!1 &4577606892087094684
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +695,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6833333843622554685}
-  - component: {fileID: 3943902221643727913}
   m_Layer: 0
   m_Name: Tray
   m_TagString: Untagged
@@ -735,27 +718,6 @@ Transform:
   - {fileID: 4835263710122206706}
   m_Father: {fileID: 6843718781210836936}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!65 &3943902221643727913
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5694957058960582816}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.8902245, y: 2.6544998, z: 0.25473154}
-  m_Center: {x: -0.9865961, y: 0.39528626, z: 0.1273559}
 --- !u!1 &5770432650769379237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,6 +1770,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 093b123f94f0af34ba31744a20da497d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6837406543419641002}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 093b123f94f0af34ba31744a20da497d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2147725617940704005}
   m_SourcePrefab: {fileID: 100100000, guid: 093b123f94f0af34ba31744a20da497d, type: 3}
 --- !u!4 &4726370337528351406 stripped
 Transform:
@@ -1840,6 +1805,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.6679826, y: 7.2308254, z: 1.2677172}
   m_Center: {x: -0.000004053116, y: 0.009506822, z: 0.63385856}
+--- !u!208 &2147725617940704005
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5394362836445188116}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.3339915, y: 3.6154125, z: 0.6338585}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.000004053116, y: 0.009506822, z: 0.6338586}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5767326824000412908
 PrefabInstance:
   m_ObjectHideFlags: 0

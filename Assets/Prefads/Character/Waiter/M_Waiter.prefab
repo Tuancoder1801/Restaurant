@@ -1019,11 +1019,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be34812437e909845ad79c3bbe99e613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanType: 0
+  humanId: 3
+  animator: {fileID: 0}
+  positions:
+  - {fileID: 3691564614337450694}
+  - {fileID: 2164867913649826944}
+  - {fileID: 6538077119288247428}
+  items: []
+  indexStarts: 000000000a000000
+  currentMax: 2
+  speedBase: 0
+  speed: 3.5
   posIndex: 0
-  targetPos: {x: 0, y: 0, z: 0}
   transIdle: {fileID: 0}
-  timeRequest: 0
+  timeRequest: 0.2
   locationTables: []
   locationMachines: []
 --- !u!136 &6347629302810317524

@@ -103,7 +103,7 @@ public class AIPorter : AICharacter
             return;
         }
 
-        var locations = GameManager.Instance.locations;
+        var locations = GameManager.Instance.AllLocation;
 
         List<ItemId> materials = new List<ItemId>();
         List<LocationBase> materialTemps = new List<LocationBase>();

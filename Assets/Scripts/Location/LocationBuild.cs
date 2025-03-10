@@ -33,7 +33,7 @@ public class LocationBuild : LocationBase
         textPrice.text = location.price.ToString();
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
         {
@@ -44,7 +44,7 @@ public class LocationBuild : LocationBase
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
         if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
         {

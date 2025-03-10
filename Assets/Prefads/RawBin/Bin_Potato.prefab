@@ -61,6 +61,10 @@ PrefabInstance:
       value: Bin_Potato
       objectReference: {fileID: 0}
     - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 7727688874917606472, guid: e87479f0354948140a4b84b50642f85c, type: 3}
+    - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: baseItem
       value: 
       objectReference: {fileID: 7727688874917606472, guid: e87479f0354948140a4b84b50642f85c, type: 3}

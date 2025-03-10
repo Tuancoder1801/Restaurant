@@ -15,4 +15,6 @@ public class StaticValue
     public static string CHARACTER_NAME_TAG = "Player";
     public static string OBSTACLE_NAME_TAG = "Obstacle";
     public static string LOCATION_NAME_TAG = "Location";
+
+    public static Vector3 vCompare = new Vector3(100, 100, 100);
 }

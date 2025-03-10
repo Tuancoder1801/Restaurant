@@ -19,4 +19,9 @@ public class LocationRawBin : LocationBase
     {
         return true;
     }
+
+    public override ItemId GetProductId()
+    {
+        return item.itemId;
+    }
 }

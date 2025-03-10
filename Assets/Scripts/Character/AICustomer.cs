@@ -26,7 +26,7 @@ public class AICustomer : AICharacter
 
     public AICustomerState state;
 
-    private Transform trantarget;
+    public Transform trantarget;
 
     private float minDistance;
     private float lastDistance = 999;
@@ -92,6 +92,7 @@ public class AICustomer : AICharacter
                     break;
                 case AICustomerState.FINISH:
                     gameObject.SetActive(false);
+                    GameManager.Instance.DeplayToReActiveCustomer(this);
                     break;
             }
 

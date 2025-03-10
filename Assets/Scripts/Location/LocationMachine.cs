@@ -125,7 +125,7 @@ public class LocationMachine : LocationBase
 
                 Sequence sequence = DOTween.Sequence();
                 sequence.Append(
-                item.transform.DOJump(material.itemPositions[index].position, 2f, 1, 0.5f).OnComplete(() =>
+                item.transform.DOJump(material.itemPositions[index].position, 1f, 1, 0.2f).OnComplete(() =>
                 {
                     item.transform.SetParent(material.itemPositions[index]);
                     item.transform.localPosition = Vector3.zero;

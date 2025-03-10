@@ -61,6 +61,10 @@ PrefabInstance:
       value: Bin_BurgerCrust
       objectReference: {fileID: 0}
     - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 6882300948492550125, guid: a8d352fd6e00dbb469ac352e447bc025, type: 3}
+    - target: {fileID: 7565176083438305914, guid: a7306234f611b8d47b21107894a06ab1, type: 3}
       propertyPath: baseItem
       value: 
       objectReference: {fileID: 6882300948492550125, guid: a8d352fd6e00dbb469ac352e447bc025, type: 3}

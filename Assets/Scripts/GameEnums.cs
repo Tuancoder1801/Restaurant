@@ -17,6 +17,7 @@ public enum ItemId
     Hamburger = 10,
     FrenchFries = 11,
     CocaCola = 12,
+    Money = 13,
 }
 
 public enum TableId

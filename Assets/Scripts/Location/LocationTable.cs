@@ -23,13 +23,8 @@ public class LocationTable : LocationBase
 
     public ItemPosition product;
 
-    public Transform waiterIndex;
-
     private int nextCustomerEat;
     private int countCustomer;
-
-    private bool isColliding = false;
-    private Coroutine itemSpawnCoroutine;
 
     private void Start()
     {
@@ -77,6 +72,23 @@ public class LocationTable : LocationBase
             item.transform.localRotation = Quaternion.identity;
             item.transform.localScale = Vector3.one;
         }));
+    }
+
+    public override List<ItemId> GetNeedItems()
+    {
+        List<ItemId> needItems = new List<ItemId>();
+        if(itemOrders != null && itemOrders.Count > 0)
+        {
+            foreach (var order in itemOrders)
+            {
+                if(order.currentItemNumber < order.quantity)
+                {
+                    needItems.Add(order.itemId);
+                }
+            }
+            return needItems;
+        }
+        return null;
     }
 
     IEnumerator IEWaitOrderCreate()
@@ -153,5 +165,20 @@ public class LocationTable : LocationBase
         {
             OrderStart();
         }
+    }
+
+    public bool IsNeedItem(ItemId itemId)
+    {
+        if (itemOrders != null && itemOrders.Count > 0)
+        {
+            foreach (var order in itemOrders)
+            {
+                if(order.itemId == itemId && order.currentItemNumber < order.quantity)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
