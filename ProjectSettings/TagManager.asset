@@ -10,6 +10,7 @@ TagManager:
   - Waiter
   - Item
   - Location
+  - Customer
   layers:
   - Default
   - TransparentFX
