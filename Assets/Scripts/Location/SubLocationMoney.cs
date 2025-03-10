@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,6 +36,25 @@ public class SubLocationMoney : MonoBehaviour
         currentMoney = 0;
         itemMax = 0;
         moneyMax = itemMax * 1;
+    }
+
+    protected void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(StaticValue.CHARACTER_NAME_TAG))
+        {
+            goPlayer = other.gameObject;
+            TakeMoney(goPlayer.transform);
+        }
+    }
+
+    protected void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(StaticValue.CHARACTER_NAME_TAG))
+        {
+            goPlayer = null;
+
+            CancelTakeMoney();
+        }
     }
 
     public void PaymentMoney(double money, Vector3 pos)
@@ -76,7 +95,7 @@ public class SubLocationMoney : MonoBehaviour
         }
 
         ieWaitPaymentMoney = null;
-        if (goPlayer != null) ;
+        if (goPlayer != null) TakeMoney(goPlayer.transform);
     }
 
     private Vector3 GetMoneyPosition()
@@ -112,9 +131,67 @@ public class SubLocationMoney : MonoBehaviour
             {
                 if(currentMoney > moneyMax)
                 {
-                    
+                    var iMoney = Instantiate(itemMoney, tranMoney.position, tranMoney.rotation);
+                    iMoney.transform.localPosition = Vector3.zero;
+                    iMoney.transform.localScale = Vector3.one;
+                    iMoney.transform.localEulerAngles = Vector3.zero;
+
+                    DG.Tweening.Sequence seq = DOTween.Sequence();
+                    seq.Append(iMoney.transform.DOMoveY(iMoney.transform.position.y + 2f, 0.1f).SetEase(Ease.OutQuad));
+                    seq.Append(iMoney.transform.DOMoveY(tran.position.y, 0.05f).SetEase(Ease.InQuad));
+                    //seq.Join(iMoney.transform.DOMoveX(tran.position.x, 0.3f));
+                    seq.Join(iMoney.transform.DOMoveZ(tran.position.z, 0.05f));
+
+                    seq.OnComplete(() =>
+                    {
+                        Destroy(iMoney.gameObject);
+                    });
+
+                    currentMoney -= 1;
+                }
+                else
+                {
+                    break;
                 }
             }
+
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
         }
+
+        while (moneys.Count > 0)
+        {
+            for (int i = 0; i < zMax; i++)
+            {
+                if (moneys.Count <= 0) break;
+                var iMoney = moneys[moneys.Count - 1];
+                moneys.Remove(iMoney);
+
+                DG.Tweening.Sequence seq = DOTween.Sequence();
+                seq.Append(iMoney.transform.DOMoveY(iMoney.transform.position.y + 2f, 0.1f).SetEase(Ease.OutQuad));
+                seq.Append(iMoney.transform.DOMoveY(tran.position.y, 0.05f).SetEase(Ease.InQuad));
+                //seq.Join(iMoney.transform.DOMoveX(tran.position.x, 0.3f));
+                seq.Join(iMoney.transform.DOMoveZ(tran.position.z, 0.05f));
+
+                seq.OnComplete(() =>
+                {
+                    Destroy(iMoney.gameObject);
+                });
+            }
+
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+        }
+
+        currentMoney = 0;
+
+        ieWaitTakeMoney = null;
+    }
+
+    public void CancelTakeMoney()
+    {
+        if(ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
     }
 }

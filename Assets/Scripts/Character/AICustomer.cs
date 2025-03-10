@@ -32,6 +32,9 @@ public class AICustomer : AICharacter
     private float lastDistance = 999;
     private float timeEating;
 
+    private Action<Vector3, double> eatDoneCallback;
+    private double eatMoney;
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -82,12 +85,12 @@ public class AICustomer : AICharacter
                     if (timeEating > 0f)
                     {
                         timeEating -= Time.deltaTime;
-                        //if (timeEating <= 0f)
-                        //{
-                        //    //eatDoneCallback?.Invoke(transform.position, eatMoney);
-                        //    //eatDoneCallback = null;
-                        //    //eatMoney = 0;
-                        //}
+                        if (timeEating <= 0f)
+                        {
+                            eatDoneCallback?.Invoke(transform.position, eatMoney);
+                            eatDoneCallback = null;
+                            eatMoney = 0;
+                        }
                     }
                     break;
                 case AICustomerState.FINISH:
@@ -162,9 +165,12 @@ public class AICustomer : AICharacter
         locationTable.CustomerSit();
     }
 
-    public void TableEating(BaseItem item)
+    public void TableEating(BaseItem item, double money, Action<Vector3, double> eatDone)
     {
-        timeEating = 1f;
+        timeEating = 3f;
+        eatMoney = money;
+        eatDoneCallback = eatDone;
+
         gameObject.transform.eulerAngles = trantarget.eulerAngles;
 
         PlayAnim(StaticValue.ANIM_TRIGGER_EAT);

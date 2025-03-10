@@ -17,6 +17,8 @@ public class LocationTable : LocationBase
     public TableType tableType;
     public List<Transform> transChairs;
 
+    public SubLocationMoney locationMoney;
+
     public UILocation uiLocation;
     public List<ItemOrder> itemOrders;
     public List<AICustomer> customers;
@@ -119,7 +121,10 @@ public class LocationTable : LocationBase
                 if (!customers[nextCustomerEat].IsEating())
                 {
                     var item = product.PopItem();
-                    customers[nextCustomerEat].TableEating(item);
+                    customers[nextCustomerEat].TableEating(item, 2f, (pos, moneyEat) =>
+                    {
+                        locationMoney.PaymentMoney(moneyEat, pos + new Vector3(0f, 0.8f, 0f));
+                    });
                 }
 
                 nextCustomerEat++;
