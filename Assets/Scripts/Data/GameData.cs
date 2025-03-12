@@ -10,6 +10,8 @@ public class GameData : MonoBehaviour
    
     public MapData currentMap;
 
+    public static UserData user;
+
     private void Awake()
     {
         if (Instance == null)
@@ -30,6 +32,8 @@ public class GameData : MonoBehaviour
 
         LoadCurrentMap();
     }
+
+
 
     private void LoadCurrentMap()
     {
@@ -62,4 +66,9 @@ public class GameData : MonoBehaviour
         if (currentMapIndex >= GameDataConstant.maps.Count) return null;
         return GameDataConstant.maps[currentMapIndex].nameMap;
     }
+}
+
+public class UserData
+{
+    public double money;
 }

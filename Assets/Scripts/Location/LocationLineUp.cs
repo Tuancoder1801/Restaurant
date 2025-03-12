@@ -35,9 +35,9 @@ public class LocationLineUp : MonoBehaviour
 
             for(int i = 0; i < number; i++)
             {
-                var cs = customers[i];
+                var cs = customers[0]; // lấy đầu danh sách
                 temps.Add(cs);
-                customers.RemoveAt(i);
+                customers.RemoveAt(0);
             }
 
             for (int i = 0; i < customers.Count; i++)

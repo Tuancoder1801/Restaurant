@@ -34,7 +34,7 @@ public class SubLocationMoney : MonoBehaviour
         moneys = new List<BaseItem>();
         
         currentMoney = 0;
-        itemMax = 0;
+        itemMax = (xMax * yMax * zMax);
         moneyMax = itemMax * 1;
     }
 
@@ -65,7 +65,7 @@ public class SubLocationMoney : MonoBehaviour
 
         while(money > 0)
         {
-            money--;
+            money -= 1;
 
             var iMoney = Instantiate(itemMoney, pos + new Vector3(0f, 1f, 0f), Quaternion.identity);
 
@@ -73,24 +73,17 @@ public class SubLocationMoney : MonoBehaviour
 
             if(mpos == StaticValue.vCompare)
             {
-                DG.Tweening.Sequence sequence = DOTween.Sequence();
-                sequence.Append(
-                iMoney.transform.DOMove(mpos, 0.2f).SetEase(Ease.OutQuad).OnComplete(() =>
-                {
+                iMoney.MoveNormal(tranMoney, pos + new Vector3(0f, 1f, 0f), mpos, new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f), 0.1f, () => {
                     Destroy(iMoney.gameObject);
-                }));
+                });
             }
             else
             {
-                DG.Tweening.Sequence sequence = DOTween.Sequence();
-                sequence.Append(
-                iMoney.transform.DOMove(mpos, 0.1f).SetEase(Ease.OutQuad).OnComplete(() =>
-                {
-                    iMoney.transform.SetParent(tranMoney);
-                    iMoney.transform.localPosition = Vector3.zero;
-                    iMoney.transform.localRotation = Quaternion.identity;
-                    iMoney.transform.localScale = Vector3.one;
-                }));
+                moneys.Add(iMoney);
+
+                iMoney.MoveNormal(tranMoney, pos + new Vector3(0f, 1f, 0f), mpos, new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f), 0.1f, () => {
+                    // nothing
+                });
             }
         }
 
@@ -104,11 +97,11 @@ public class SubLocationMoney : MonoBehaviour
 
         if(count >= itemMax) return StaticValue.vCompare;
 
-        int x = (count/zMax)%xMax;
-        int y = count / (xMax*zMax);
-        int z = count%zMax;
+        int x = (count / zMax) % xMax;
+        int y = count / (xMax * zMax);
+        int z = count % zMax;
 
-        return new Vector3(start.x + x * range.x, start.y + y * range.y, start.z + z * range.z);
+        return new Vector3(start.x + x * range.x, start.y + y* range.y, start.z + z*range.z);
     }
 
     public void TakeMoney(Transform tran)

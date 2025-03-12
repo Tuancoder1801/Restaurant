@@ -125,3 +125,10 @@ public class ItemPosition : MonoBehaviour
     }
 }
 
+public class ItemOrder
+{
+    public ItemId itemId;
+    public int quantity;
+    public int currentItemNumber = 0;
+}
+

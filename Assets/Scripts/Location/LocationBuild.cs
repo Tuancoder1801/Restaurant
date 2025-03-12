@@ -11,7 +11,6 @@ public class LocationBuild : LocationBase
     public TextMeshPro textPrice;
 
     private Material material;
-    private bool isWarning;
     private Transform tranPlayer;
     private IEnumerator ieWaitTakeMoney;
     private Location locationData;
@@ -60,17 +59,17 @@ public class LocationBuild : LocationBase
     {
         float fill = 0f;
         float max = 1f;
-        float duration = 2f; 
+        float duration = 2f;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
-            fill = Mathf.Lerp(0f, max, elapsed / duration); 
+            fill = Mathf.Lerp(0f, max, elapsed / duration);
             material.SetFloat("_Arc2", 360f - ((fill / max) * 360f));
             fillRenderer.material = material;
 
             elapsed += Time.deltaTime;
-            yield return null; 
+            yield return null;
         }
 
         material.SetFloat("_Arc2", 0f);
@@ -83,5 +82,24 @@ public class LocationBuild : LocationBase
     {
         material.SetFloat("_Arc2", 360f);
         fillRenderer.material = material;
+    }
+
+    public void SetMoney(double m)
+    {
+        //icon.gameObject.SetActive(false);
+        //if (goResult != null)
+        //{
+        //    LocationBase lbase = goResult.GetComponent<LocationBase>();
+        //    if (lbase != null && lbase.sprIcon != null)
+        //    {
+        //        spriteIcon.sprite = lbase.sprIcon;
+        //        spriteIcon.gameObject.SetActive(true);
+        //    }
+        //}
+
+        //goMoney.SetActive(true);
+
+        //money = m;
+        //txtMoney.text = VKCommon.ConvertStringMoney(money, ".");
     }
 }
