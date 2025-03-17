@@ -57,7 +57,7 @@ public class GameManager : Singleton<GameManager>
 
         CreatePlayer();
 
-        StartCoroutine(SpawnCustomer(countCustomer));
+        //StartCoroutine(SpawnCustomer(countCustomer));
 
         loadMapData();
     }

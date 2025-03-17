@@ -18,6 +18,13 @@ public enum ItemId
     FrenchFries = 11,
     CocaCola = 12,
     Money = 13,
+    Salad = 14,
+    Noodles = 15,
+    Ketchup = 16,
+    Spaghetti = 17,
+    Flour = 18,
+    Cheese = 19,
+    Pizza = 20
 }
 
 public enum TableId

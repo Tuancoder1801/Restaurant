@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cbfc9a3b2031946af046175f19a6c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMapIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
