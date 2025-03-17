@@ -64,4 +64,14 @@ public class LocationBase : MonoBehaviour
     {
         return transform.position;
     }
+
+    public virtual List<double> GetMoneys()
+    {
+        return null;
+    }
+
+    public virtual void LoadMoneys(List<double> moneys)
+    {
+
+    }
 }

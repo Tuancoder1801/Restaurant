@@ -8,8 +8,7 @@ public class GameData : MonoBehaviour
 
     public int currentMapIndex = 0;
    
-    public MapData currentMap;
-
+    public static MapData currentMap;
     public static UserData user;
 
     private void Awake()
@@ -33,8 +32,7 @@ public class GameData : MonoBehaviour
         LoadCurrentMap();
     }
 
-
-
+    #region DataMap
     private void LoadCurrentMap()
     {
         if(currentMapIndex >= 0 && currentMapIndex < GameDataConstant.maps.Count)
@@ -66,6 +64,19 @@ public class GameData : MonoBehaviour
         if (currentMapIndex >= GameDataConstant.maps.Count) return null;
         return GameDataConstant.maps[currentMapIndex].nameMap;
     }
+
+    #endregion
+
+    #region DataUser
+        
+    //public void UpdateMoney(double add)
+    //{
+    //    user.money += add;
+    //    if(user.money < 0) user.money = 0;
+    //    LeanTween.dispatchEvent(1, user.money);
+    //}
+
+    #endregion
 }
 
 public class UserData

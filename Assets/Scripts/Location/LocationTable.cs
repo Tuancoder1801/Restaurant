@@ -93,6 +93,16 @@ public class LocationTable : LocationBase
         return null;
     }
 
+    public override List<double> GetMoneys() 
+    {
+        return locationMoney.GetMoney();
+    }
+
+    public override void LoadMoneys(List<double> moneys)
+    {
+        locationMoney.LoadMoney(moneys);
+    }
+
     IEnumerator IEWaitOrderCreate()
     {
         yield return new WaitForEndOfFrame();

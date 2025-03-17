@@ -90,6 +90,8 @@ public class AICustomer : AICharacter
                             eatDoneCallback?.Invoke(transform.position, eatMoney);
                             eatDoneCallback = null;
                             eatMoney = 0;
+
+                            PlayAnim(StaticValue.ANIM_TRIGGER_SIT);
                         }
                     }
                     break;

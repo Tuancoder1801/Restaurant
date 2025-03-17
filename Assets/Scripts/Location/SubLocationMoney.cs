@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class SubLocationMoney : MonoBehaviour
-{   
+{
     public BaseItem itemMoney;
     public Transform tranMoney;
     public Vector3 start;
@@ -19,7 +19,7 @@ public class SubLocationMoney : MonoBehaviour
     public bool isSuitcase;
 
     private GameObject goPlayer;
-    
+
     private IEnumerator ieWaitPaymentMoney;
     private IEnumerator ieWaitTakeMoney;
 
@@ -32,7 +32,7 @@ public class SubLocationMoney : MonoBehaviour
     private void Start()
     {
         moneys = new List<BaseItem>();
-        
+
         currentMoney = 0;
         itemMax = (xMax * yMax * zMax);
         moneyMax = itemMax * 1;
@@ -61,9 +61,9 @@ public class SubLocationMoney : MonoBehaviour
     {
         currentMoney += money;
 
-        if(money > moneyMax) money = moneyMax;
+        if (money > moneyMax) money = moneyMax;
 
-        while(money > 0)
+        while (money > 0)
         {
             money -= 1;
 
@@ -71,9 +71,10 @@ public class SubLocationMoney : MonoBehaviour
 
             var mpos = GetMoneyPosition();
 
-            if(mpos == StaticValue.vCompare)
+            if (mpos == StaticValue.vCompare)
             {
-                iMoney.MoveNormal(tranMoney, pos + new Vector3(0f, 1f, 0f), mpos, new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f), 0.1f, () => {
+                iMoney.MoveNormal(tranMoney, pos + new Vector3(0f, 1f, 0f), mpos, new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f), 0.1f, () =>
+                {
                     Destroy(iMoney.gameObject);
                 });
             }
@@ -81,7 +82,8 @@ public class SubLocationMoney : MonoBehaviour
             {
                 moneys.Add(iMoney);
 
-                iMoney.MoveNormal(tranMoney, pos + new Vector3(0f, 1f, 0f), mpos, new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f), 0.1f, () => {
+                iMoney.MoveNormal(tranMoney, pos + new Vector3(0f, 1f, 0f), mpos, new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f), 0.1f, () =>
+                {
                     // nothing
                 });
             }
@@ -95,20 +97,20 @@ public class SubLocationMoney : MonoBehaviour
     {
         int count = moneys.Count;
 
-        if(count >= itemMax) return StaticValue.vCompare;
+        if (count >= itemMax) return StaticValue.vCompare;
 
         int x = (count / zMax) % xMax;
         int y = count / (xMax * zMax);
         int z = count % zMax;
 
-        return new Vector3(start.x + x * range.x, start.y + y* range.y, start.z + z*range.z);
+        return new Vector3(start.x + x * range.x, start.y + y * range.y, start.z + z * range.z);
     }
 
     public void TakeMoney(Transform tran)
     {
-        if(currentMoney <= 0) return;
+        if (currentMoney <= 0) return;
 
-        if(ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
+        if (ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
 
         ieWaitTakeMoney = IEWaitTakeMoney(tran);
         StartCoroutine(ieWaitTakeMoney);
@@ -118,11 +120,11 @@ public class SubLocationMoney : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        while(currentMoney > moneyMax)
+        while (currentMoney > moneyMax)
         {
             for (int i = 0; i < zMax; i++)
             {
-                if(currentMoney > moneyMax)
+                if (currentMoney > moneyMax)
                 {
                     var iMoney = Instantiate(itemMoney, tranMoney.position, tranMoney.rotation);
                     iMoney.transform.localPosition = Vector3.zero;
@@ -138,6 +140,7 @@ public class SubLocationMoney : MonoBehaviour
                     seq.OnComplete(() =>
                     {
                         Destroy(iMoney.gameObject);
+                        UIGame.Instance.AddMoney(1);
                     });
 
                     currentMoney -= 1;
@@ -170,6 +173,7 @@ public class SubLocationMoney : MonoBehaviour
                 seq.OnComplete(() =>
                 {
                     Destroy(iMoney.gameObject);
+                    UIGame.Instance.AddMoney(1);
                 });
             }
 
@@ -185,6 +189,43 @@ public class SubLocationMoney : MonoBehaviour
 
     public void CancelTakeMoney()
     {
-        if(ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
+        if (ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
+    }
+
+    public List<double> GetMoney()
+    {
+        return new List<double> { currentMoney };
+    }
+
+    public void LoadMoney(List<double> lMoneys)
+    {
+        if (moneys == null || moneys.Count <= 0) return;
+
+        double money = lMoneys[0];
+        currentMoney += money;
+
+        while (money > 0)
+        {
+            // reduce
+            money -= 1;
+
+            // pos
+            var mpos = GetMoneyPosition();
+            if (mpos == StaticValue.vCompare)
+            {
+                break;
+            }
+            else
+            {
+                //var iMoney = ItemController.Instance.BorrowItem(ItemType.MONEY);
+                //moneys.Add(iMoney);
+
+                //iMoney.transform.SetParent(tranMoney);
+                //iMoney.transform.localPosition = mpos;
+                //iMoney.transform.localScale = Vector3.one;
+                //iMoney.transform.localEulerAngles = new Vector3(0f, UnityEngine.Random.Range(-12f, 12f), 0f);
+                //iMoney.gameObject.SetActive(true);
+            }
+        }
     }
 }
