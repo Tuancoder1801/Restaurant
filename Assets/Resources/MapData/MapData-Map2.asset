@@ -14,4 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapId: 1
   nameMap: Map_02
-  locations: []
+  locations:
+  - locationId: 0
+    icon: {fileID: 0}
+    price: 0
+  - locationId: 0
+    icon: {fileID: 0}
+    price: 0
