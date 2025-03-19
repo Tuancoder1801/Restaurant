@@ -32,7 +32,10 @@ public enum TableId
     None = 0,
     HotDog = 1,
     Hamburger = 2,
-    FrenchFries = 3
+    FrenchFries = 3,
+    Salad = 4,
+    Spaghetti = 5,
+    Pizza = 6
 }
 
 public enum LocationId
