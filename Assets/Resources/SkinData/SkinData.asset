@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39fe0051c67cb74394fdf7162c1b1b6, type: 3}
+  m_Name: SkinData
+  m_EditorClassIdentifier: 
+  skinPlayer:
+  - id: 0
+    icon: {fileID: 21300000, guid: c467d546ee6a89f49a42bd1430a9728f, type: 3}
+    price: 0
+  - id: 2
+    icon: {fileID: 21300000, guid: ed4194fbe86ffb6498b042e71c0ff3c7, type: 3}
+    price: 500
+  - id: 1
+    icon: {fileID: 21300000, guid: 02f2e8ca7175f074da301f83f8bdceeb, type: 3}
+    price: 750
+  - id: 3
+    icon: {fileID: 21300000, guid: a589d56ef09e11a4da8dc2937dce166f, type: 3}
+    price: 1000
+  - id: 4
+    icon: {fileID: 21300000, guid: 837cc9918c0baab41b1fca7b101e9db8, type: 3}
+    price: 1000
+  - id: 5
+    icon: {fileID: 21300000, guid: badd5f7af156be4429f0224c4db8ce21, type: 3}
+    price: 1200
+  - id: 6
+    icon: {fileID: 21300000, guid: c7d8776071add1e459da449fa77aa9c0, type: 3}
+    price: 1500
+  - id: 7
+    icon: {fileID: 21300000, guid: 150aa5435c492e7409a89288c83c7558, type: 3}
+    price: 1500
+  - id: 8
+    icon: {fileID: 21300000, guid: 46835bb5281d17b4e82a336ad8c9a263, type: 3}
+    price: 2000
+  skinGlasses:
+  - id: 0
+    icon: {fileID: 21300000, guid: eb8a4fd6aa5da264abc15478e089cd1d, type: 3}
+    price: 0
+  - id: 1
+    icon: {fileID: 21300000, guid: ab88b91a29fc29543b9537d2470961c2, type: 3}
+    price: 300
+  - id: 2
+    icon: {fileID: 21300000, guid: 6ed7ca8b86cccae4e868c2b9a87324dd, type: 3}
+    price: 500
+  - id: 3
+    icon: {fileID: 21300000, guid: 15d2b5be3fee458459429bbed4193f33, type: 3}
+    price: 750
+  - id: 4
+    icon: {fileID: 21300000, guid: 8547dc26eebaed74d986dac655d16a98, type: 3}
+    price: 1000
+  - id: 5
+    icon: {fileID: 21300000, guid: 804ba0758144569488e960d728f52082, type: 3}
+    price: 1200
+  - id: 6
+    icon: {fileID: 21300000, guid: 80ae9882d92d63649ae03a3eaaca3f85, type: 3}
+    price: 1500
+  skinRobot:
+  - id: 0
+    icon: {fileID: 21300000, guid: e22933b734bfbc4449bed61419e5510f, type: 3}
+    price: 0
+  - id: 3
+    icon: {fileID: 21300000, guid: f45189e91cdcc5249bf4e7eff2950913, type: 3}
+    price: 2000
+  - id: 2
+    icon: {fileID: 21300000, guid: 50e4cb28657f9fa48be40b40dc892e68, type: 3}
+    price: 3000
+  - id: 1
+    icon: {fileID: 21300000, guid: 8f5fcfadde9a56844971b967af782a8c, type: 3}
+    price: 5000

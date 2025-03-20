@@ -63,3 +63,34 @@ public enum HumanId
     Collector = 6,
 }
 
+public enum SkinPlayerId
+{
+    None = 0,
+    RedNoel = 1,
+    GreenNoel = 2,
+    Gentleman = 3,
+    Chic = 4,
+    Witch = 5,
+    Dracula = 6,
+    Captain = 7,
+    Goku = 8,
+}
+
+public enum SkinGlassesId
+{
+    None = 0,
+    Normal = 1,
+    Heart = 2,
+    Dola = 3,
+    ThreeColor = 4,
+    Pink = 5,
+    Goggles = 6,
+}
+
+public enum SkinRobotId
+{
+    None = 0,
+    Wall_e = 1,
+    Monster = 2,
+    Clown = 3,
+}

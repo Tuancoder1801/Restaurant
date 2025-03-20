@@ -9,7 +9,6 @@ public class GameData : MonoBehaviour
     public int currentMapIndex = 0;
    
     public static MapData currentMap;
-    public static UserData user;
 
     private void Awake()
     {
@@ -66,20 +65,4 @@ public class GameData : MonoBehaviour
     }
 
     #endregion
-
-    #region DataUser
-        
-    //public void UpdateMoney(double add)
-    //{
-    //    user.money += add;
-    //    if(user.money < 0) user.money = 0;
-    //    LeanTween.dispatchEvent(1, user.money);
-    //}
-
-    #endregion
-}
-
-public class UserData
-{
-    public double money;
 }

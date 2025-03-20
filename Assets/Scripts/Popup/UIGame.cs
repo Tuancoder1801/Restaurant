@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class UIGame : Singleton<UIGame>
-{
+{   
+    [Header("Money")]
     public TextMeshProUGUI textMoney;
 
+    [Header("Popups")]
+    
+    
     private int currentMoney = 0;
     private Coroutine moneyCoroutine;
 
@@ -15,6 +20,8 @@ public class UIGame : Singleton<UIGame>
     {
         UpdateMoneyText(currentMoney);
     }
+
+    #region money
 
     public void AddMoney(int amount)
     {
@@ -60,4 +67,8 @@ public class UIGame : Singleton<UIGame>
             textMoney.text = value.ToString("N0").Replace(",", "."); // Đổi dấu ',' thành '.'
         }
     }
+
+    #endregion
+
+
 }
