@@ -73,7 +73,9 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingUnitTests.cs" />
     <Compile Include="Assets\Scripts\Character\AICharacter.cs" />
     <Compile Include="Assets\Scripts\Loading\LoadingUI.cs" />
+    <Compile Include="Assets\Scripts\Popup\PopupShop\PopupShop.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
+    <Compile Include="Assets\Scripts\Popup\PopupShop\ButtonTab.cs" />
     <Compile Include="Assets\Scripts\CookingTable\AutoSetTrigger.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingSceneSwitching.cs" />
@@ -85,10 +87,13 @@
     <Compile Include="Assets\Scripts\Data\MapData.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacyExt.cs" />
+    <Compile Include="Assets\Scripts\Popup\UIGame.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSequencer.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingDescr.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingColorTweening.cs" />
+    <Compile Include="Assets\Scripts\Data\SkinData.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Timer.cs" />
+    <Compile Include="Assets\Scripts\Popup\PopupShop\ViewSkinPlayer.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
     <Compile Include="Assets\Scripts\Location\SubLocationMachine.cs" />
     <Compile Include="Assets\Scripts\Character\Character.cs" />
@@ -110,7 +115,6 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplinePerformance.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEasingTypes.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
-    <Compile Include="Assets\Scripts\UIGame.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingRotate.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
