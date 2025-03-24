@@ -11,7 +11,8 @@ public class UIGame : Singleton<UIGame>
     public TextMeshProUGUI textMoney;
 
     [Header("Popups")]
-    
+    public Button btShop; 
+    public PopupShop shop;
     
     private int currentMoney = 0;
     private Coroutine moneyCoroutine;
@@ -19,6 +20,7 @@ public class UIGame : Singleton<UIGame>
     private void Awake()
     {
         UpdateMoneyText(currentMoney);
+        btShop.onClick.AddListener(ClickButtonShop);
     }
 
     #region money
@@ -70,5 +72,12 @@ public class UIGame : Singleton<UIGame>
 
     #endregion
 
+    #region Popups
 
+    private void ClickButtonShop()
+    {
+        shop.gameObject.SetActive(true);
+    }
+
+    #endregion
 }

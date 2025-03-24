@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2638204020244055087
 RectTransform:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 31.117, y: 25}
-  m_SizeDelta: {x: 117.77, y: 50}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1962722049800290778
 CanvasRenderer:
@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 8199266144370123810}
   - component: {fileID: 860550314309304543}
   - component: {fileID: 3394727821778956098}
+  - component: {fileID: -2057675767578673035}
   m_Layer: 5
   m_Name: UIPlayerItem
   m_TagString: Untagged
@@ -364,6 +365,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-2057675767578673035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052034304717431089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1903ed630fe7d4d9f3ba4767541f48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  bt: {fileID: 3394727821778956098}
+  icon: {fileID: 1491351596585300291}
+  tickIcon: {fileID: 6105808375895191883}
+  textPrice: {fileID: 7581515594723464118}
 --- !u!1 &5150526606088908704
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,18 +1,31 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ViewSkinPlayer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform content;
+    public SkinPlayerItem skin;
+
+    private List<SkinPlayerItem> skinPlayers = new List<SkinPlayerItem>();
+
+    private void Awake()
     {
-        
+        CreateSkinItems();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CreateSkinItems()
     {
-        
+        List<SkinData> skinDatas = GameDataConstant.skins;
+
+        foreach (var skinData in skinDatas)
+        {
+            foreach (var player in skinData.skinPlayer)
+            {
+                SkinPlayerItem skinItem = Instantiate(skin, content);
+                skinItem.Load(player);
+                skinPlayers.Add(skinItem);
+            }
+        }
     }
 }

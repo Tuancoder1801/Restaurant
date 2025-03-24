@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4005758542879649554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 31.117, y: 25}
-  m_SizeDelta: {x: 117.77, y: 50}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &778643214063555094
 CanvasRenderer:
@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 884298044647136659}
   - component: {fileID: 4273259791229067975}
   - component: {fileID: 1156451179142050543}
+  - component: {fileID: 2569770606291861221}
   m_Layer: 5
   m_Name: UIRobotItem
   m_TagString: Untagged
@@ -606,3 +607,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2569770606291861221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7521397506343383694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412c6c16f4673a345b7eff256c2c86d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  bt: {fileID: 1156451179142050543}
+  icon: {fileID: 7460549955395768039}
+  tickIcon: {fileID: 6320119379253905665}
+  textPrice: {fileID: 4043628378152344059}

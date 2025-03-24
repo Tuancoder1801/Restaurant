@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5782950519960561482}
   - component: {fileID: 4972757038643285361}
   - component: {fileID: 6009746996212307612}
+  - component: {fileID: -2275129978986250679}
   m_Layer: 5
   m_Name: UIGlassesItem
   m_TagString: Untagged
@@ -215,6 +216,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-2275129978986250679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752351635004524125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607f57a2d99031245879131e60d91da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  bt: {fileID: 6009746996212307612}
+  icon: {fileID: 3078848767972694446}
+  tickIcon: {fileID: 1115355601704144688}
+  textPrice: {fileID: 6401787810439116221}
 --- !u!1 &864698971690558744
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2043320145294053360
 RectTransform:
   m_ObjectHideFlags: 0
@@ -343,7 +361,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 31.117, y: 25}
-  m_SizeDelta: {x: 117.77, y: 50}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6596083921856549513
 CanvasRenderer:
