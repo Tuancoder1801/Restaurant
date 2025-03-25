@@ -11,6 +11,7 @@ TagManager:
   - Item
   - Location
   - Customer
+  - Collector
   layers:
   - Default
   - TransparentFX
