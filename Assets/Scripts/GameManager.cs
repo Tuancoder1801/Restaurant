@@ -12,9 +12,6 @@ public class GameManager : Singleton<GameManager>
     [Space(20)]
     public Player player;
     public List<AICharacter> customers;
-    public AIChef chef;
-    public AIPorter porter;
-    public AIWaiter waiter;
 
     public SmoothCamera smoothCamera;
 
@@ -22,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     [Space(20)]
     public List<Transform> transCustomers;
     public Transform playerPos;
+    public List<Transform> transColectorWayPoints;
 
     public LocationLineUp lineUp;
 

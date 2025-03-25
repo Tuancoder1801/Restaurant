@@ -25,7 +25,7 @@ public class SubLocationMoney : MonoBehaviour
 
     private List<BaseItem> moneys;
 
-    private double currentMoney = 0;
+    public double currentMoney = 0;
     private double moneyMax = 0;
     private int itemMax = 0;
 
