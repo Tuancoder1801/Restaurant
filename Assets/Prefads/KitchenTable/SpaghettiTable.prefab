@@ -152,6 +152,10 @@ PrefabInstance:
       propertyPath: item
       value: 
       objectReference: {fileID: 4814447572422833106, guid: be47bd447956cee43a9f5b348b17fcec, type: 3}
+    - target: {fileID: 343453635335795030, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
+      propertyPath: isNeedChef
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 470997741849822997, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
       propertyPath: itemId
       value: 15

@@ -423,6 +423,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4814447572422833106, guid: 966d0a65640b1994cbebac6fa18d88be, type: 3}
     - target: {fileID: 343453635335795030, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
+      propertyPath: isNeedChef
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 343453635335795030, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
       propertyPath: materials.Array.size
       value: 3
       objectReference: {fileID: 0}
