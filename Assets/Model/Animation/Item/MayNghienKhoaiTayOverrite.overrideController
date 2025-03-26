@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MayNghienKhoaiTayOverrite
+  m_Controller: {fileID: 9100000, guid: 354eaf0aae26016429faf477e2571d1a, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 85017b2187ce02d49ace2181fa2678c5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cb7e3644da3d0064aa2c31bb3b5fdcb1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 52d4774b56b0f6641be72d80161246de, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 382b6b0d782bcc045bed1e274a6c09d2, type: 2}

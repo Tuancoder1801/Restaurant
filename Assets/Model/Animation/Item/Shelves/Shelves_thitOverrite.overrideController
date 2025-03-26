@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shelves_thitOverrite
+  m_Controller: {fileID: 9100000, guid: 2b1dfbe7f76c4d1489555c57e3021312, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 9fd3130c3cce7a8498faaf8f1fea5b43, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2833cd3a2d24bd84892e8b19b3d60b44, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f2c0d2e1f8d342545bedc14febf636e3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c14a7d32e88439d4b9e315c60db697e2, type: 2}

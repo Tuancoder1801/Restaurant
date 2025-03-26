@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AnimPokemon
+  m_Controller: {fileID: 9100000, guid: 8c37def963bba4943b33750d93742e43, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f48c591eb6cddb34b92301a16596f60b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3678f206f0f21184b83617a78bfc1e16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0056385c9435f674fa8e1e4808c92396, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3678f206f0f21184b83617a78bfc1e16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 023f8f68640ff0240980ae2b66176851, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3ecadc1a053005c4d8f55fae8249872a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bb08e4c92cc47504aaa6a0330ab8d0bd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3678f206f0f21184b83617a78bfc1e16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d30aaa2ee3db9f547a90483e7d5d3c4a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3678f206f0f21184b83617a78bfc1e16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e20aa02f36414ad44a44d7c126225c0c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3678f206f0f21184b83617a78bfc1e16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5744f3ffc66d7e84c8d45c0af5c702b3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3678f206f0f21184b83617a78bfc1e16, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 07179d70b10070e41b16fcc0d553c7fa, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3ecadc1a053005c4d8f55fae8249872a, type: 2}

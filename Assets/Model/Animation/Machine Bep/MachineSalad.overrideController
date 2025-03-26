@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MachineSalad
+  m_Controller: {fileID: 9100000, guid: 045d2668c25fc534181ed275573ac6c4, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c8dd518b780d0d64ba7e11dae4bdb242, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 199d37453fba46c4dba9a986712d70db, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6beb39dacedcfdd4fbdf78619b62e42c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8ee57f071ed8fdb4ea504325b2dd022b, type: 2}

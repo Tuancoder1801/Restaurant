@@ -154,12 +154,10 @@ MonoBehaviour:
   currentMapIndex: 1
   player: {fileID: 828595121}
   customers: []
-  chef: {fileID: 0}
-  porter: {fileID: 0}
-  waiter: {fileID: 0}
   smoothCamera: {fileID: 391516519}
   transCustomers: []
   playerPos: {fileID: 462955592}
+  transColectorWayPoints: []
   lineUp: {fileID: 0}
   AllLocation: []
   builds: []
@@ -1372,7 +1370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7056816573352395562, guid: 0999f9966c4594e4595f871563d9de54, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7056816573352395562, guid: 0999f9966c4594e4595f871563d9de54, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1380,7 +1378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7056816573352395562, guid: 0999f9966c4594e4595f871563d9de54, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7056816573352395562, guid: 0999f9966c4594e4595f871563d9de54, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1392,7 +1390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7056816573352395562, guid: 0999f9966c4594e4595f871563d9de54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7056816573352395562, guid: 0999f9966c4594e4595f871563d9de54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
