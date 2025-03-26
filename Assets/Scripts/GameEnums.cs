@@ -24,7 +24,12 @@ public enum ItemId
     Spaghetti = 17,
     Flour = 18,
     Cheese = 19,
-    Pizza = 20
+    Pizza = 20,
+    Fish = 21,
+    Rice = 22,
+    Sushi = 23,
+    Shrimp = 24,
+    ShrimpFry = 25
 }
 
 public enum TableId
