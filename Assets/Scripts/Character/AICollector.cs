@@ -85,7 +85,7 @@ public class AICollector : AICharacter
                 if (timeCurrent <= 0)
                 {
                     LeanTween.rotate(gameObject, transIdle.transform.eulerAngles, 0.3f);
-                    SetWorking(false, 180f);
+                    SetWorking(false, 10f);
                 }
             }
         }
@@ -229,7 +229,7 @@ public class AICollector : AICharacter
         txtTime.text = string.Format(strTimeFormat, timeSpan.Minutes, timeSpan.Seconds);
     }
 
-    public void SetIdleTranform(Transform tran)
+    public override void SetIdleTransform(Transform tran)
     {
         if (transIdle == null) transIdle = tran;
     }

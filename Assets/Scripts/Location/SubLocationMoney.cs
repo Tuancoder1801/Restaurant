@@ -19,6 +19,7 @@ public class SubLocationMoney : MonoBehaviour
     public bool isSuitcase;
 
     private GameObject goPlayer;
+    private GameObject goCollector;
 
     private IEnumerator ieWaitPaymentMoney;
     private IEnumerator ieWaitTakeMoney;
@@ -45,6 +46,11 @@ public class SubLocationMoney : MonoBehaviour
             goPlayer = other.gameObject;
             TakeMoney(goPlayer.transform);
         }
+        else if (other.CompareTag(StaticValue.COLLECCTOR_NAME_TAG))
+        {
+            goCollector = other.gameObject;
+            if (goPlayer == null) TakeMoney(goCollector.transform);
+        }
     }
 
     protected void OnTriggerExit(Collider other)
@@ -54,6 +60,11 @@ public class SubLocationMoney : MonoBehaviour
             goPlayer = null;
 
             CancelTakeMoney();
+        }
+        else if (other.CompareTag(StaticValue.COLLECCTOR_NAME_TAG))
+        {
+            goCollector = null;
+            if (goPlayer == null) CancelTakeMoney();
         }
     }
 

@@ -201,7 +201,7 @@ public class GameManager : Singleton<GameManager>
 
     public List<LocationBase> GetLocationByType(LocationId locationId)
     {
-        return locations.Where(x => x.locationId == locationId && x.gameObject.activeSelf).ToList();
+        return AllLocation.Where(x => x.locationId == locationId && x.gameObject.activeSelf).ToList();
     }
 
     public LocationBase GetLocationNearesByItem(LocationId locationId, Vector3 pos)
