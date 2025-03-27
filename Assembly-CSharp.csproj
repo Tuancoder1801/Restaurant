@@ -82,6 +82,7 @@
     <Compile Include="Assets\LeanTween\Testing\TestingSceneSwitching.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing246.cs" />
+    <Compile Include="Assets\Scripts\Character\PlayerEquipment.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingIssue2.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothCamera.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing248.cs" />
