@@ -84,6 +84,7 @@
     <Compile Include="Assets\LeanTween\Testing\Testing246.cs" />
     <Compile Include="Assets\Scripts\Character\PlayerEquipment.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingIssue2.cs" />
+    <Compile Include="Assets\Scripts\Data\ItemConfig.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothCamera.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing248.cs" />
     <Compile Include="Assets\Scripts\Data\MapData.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Assets\LeanTween\Testing\TestingColorTweening.cs" />
     <Compile Include="Assets\Scripts\Data\SkinData.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Timer.cs" />
+    <Compile Include="Assets\Scripts\Location\LocationTableVip.cs" />
     <Compile Include="Assets\Scripts\Popup\PopupShop\ViewSkinPlayer.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
     <Compile Include="Assets\Scripts\Location\SubLocationMachine.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Assets\Scripts\Location\LocationTrash.cs" />
     <Compile Include="Assets\Scripts\Location\LocationTable.cs" />
     <Compile Include="Assets\Scripts\Loading\LoadingScene.cs" />
+    <Compile Include="Assets\Scripts\Helper.cs" />
     <Compile Include="Assets\Scripts\Character\AICollector.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplineEndless.cs" />
     <Compile Include="Assets\Scripts\Location\LocationMap.cs" />
