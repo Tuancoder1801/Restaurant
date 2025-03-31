@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
 
@@ -12,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     [Space(20)]
     public Player player;
     public List<AICharacter> customers;
+    public List<AICharacter> customerVips;
 
     public SmoothCamera smoothCamera;
 
@@ -28,23 +30,17 @@ public class GameManager : Singleton<GameManager>
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
 
+
+    public List<ItemId> productItems = new List<ItemId>();
+
+
     private int currentBuildIndex = 0;
     private int countCustomer;
     private MapData mapData;
 
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         Init();
-    }
-
-    private void Update()
-    {
-     
     }
 
     private void Init()
@@ -63,7 +59,7 @@ public class GameManager : Singleton<GameManager>
     private void CreatePlayer()
     {
         player.gameObject.SetActive(true);
-        smoothCamera.SetTarget(player.transform);
+        //smoothCamera.SetTarget(player.transform);
     }
 
     #region Customer
@@ -86,37 +82,38 @@ public class GameManager : Singleton<GameManager>
 
     #endregion
 
-    public List<ItemOrder> GetOrders(int tableCount)
+    public List<ItemOrder> GetOrders(int tableCount, bool isVip)
     {
-        List<ItemId> items = new List<ItemId>();
-        List<ItemOrder> orders = new List<ItemOrder>();
+        List<ItemOrder> tworks = new List<ItemOrder>();
 
-        for (int i = 0; i < locations.Count; i++)
+        int count = GameDataConstant.itemConfig.GetItemCountBuy(productItems.Count);
+        int productPerCus = isVip ? UnityEngine.Random.Range(GameDataConstant.itemConfig.sVipMin, GameDataConstant.itemConfig.sVipMax) : UnityEngine.Random.Range(GameDataConstant.itemConfig.sMin, GameDataConstant.itemConfig.sMax);
+        int total = tableCount * productPerCus;
+
+        //if (uiGamePlay.IsBoosterCustomer()) total = total * 2;
+
+        //if (TutorialController.instance != null && TutorialController.instance.currentTutorial <= 9) total = 4;
+
+        int quantity = (int)Mathf.Ceil((float)total / count);
+        if (quantity < 1) quantity = 1;
+
+        productItems = Helper.Shuffle(productItems);
+        for (int i = 0; i < count; i++)
         {
-            if (locations[i].locationId == LocationId.Machine && locations[i].gameObject.activeInHierarchy)
+            var twork = new ItemOrder
             {
-                items.Add(locations[i].GetProductId());
-            }
-        }
-
-        int orderCount = Mathf.Min(UnityEngine.Random.Range(1, 2), items.Count);
-
-        for (int i = 0; i < orderCount; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, items.Count);
-            ItemId selectedItemId = items[randomIndex];
-
-            ItemOrder newOrder = new ItemOrder
-            {
-                itemId = selectedItemId,
-                quantity = UnityEngine.Random.Range(1, 3),
+                itemId = productItems[i],
+                quantity = quantity
             };
-
-            orders.Add(newOrder);
-            items.RemoveAt(randomIndex);
+            tworks.Add(twork);
         }
 
-        return orders;
+        return tworks;
+    }
+
+    public float GetPriceItem(ItemId itemId)
+    {
+        return GameDataConstant.itemConfig.GetItemPrice(itemId);
     }
 
     public Transform GetTransformCustomer(int index = -1)
@@ -221,5 +218,22 @@ public class GameManager : Singleton<GameManager>
             }
         }
         return location;
+    }
+
+    public List<AICustomer> TakeCustomerVips(int number)
+    {
+        List<AICustomer> temps = new List<AICustomer>();
+
+        for (int i = 0; i < customerVips.Count; i++)
+        {
+            if (!customerVips[i].gameObject.activeSelf)
+            {
+                temps.Add((AICustomer)customerVips[i]);
+                if (temps.Count >= number) break;
+            }
+        }
+
+        if (temps.Count >= number) return temps;
+        return null;
     }
 }

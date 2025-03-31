@@ -21,8 +21,11 @@ public class AICustomer : AICharacter
 {
     public Transform itemIndex;
 
+    public GameObject goHappy;
+    public GameObject[] goHappies;
+
     public List<ItemOrder> itemOrders = new List<ItemOrder>();
-    public LocationTable locationTable;
+    public LocationBase locationTable;
 
     public AICustomerState state;
 
@@ -34,6 +37,8 @@ public class AICustomer : AICharacter
 
     private Action<Vector3, double> eatDoneCallback;
     private double eatMoney;
+
+    private bool isVip;
 
     protected override void OnEnable()
     {
@@ -147,7 +152,7 @@ public class AICustomer : AICharacter
 
     #region Table
 
-    public void TableInit(LocationTable table, Transform tranChair)
+    public void TableInit(LocationBase table, Transform tranChair)
     {
         state = AICustomerState.MOVETOTABLE;
         locationTable = table;
@@ -184,6 +189,19 @@ public class AICustomer : AICharacter
         state = AICustomerState.FINISH;
         var transform = GameManager.Instance.GetTransformCustomer();
         MoveToTarget(transform.position);
+    }
+
+    public void TableEndVIP(bool isHappy = true)
+    {
+        isVip = true;
+
+        goHappy.SetActive(true);
+        goHappies[0].SetActive(isHappy);
+        goHappies[1].SetActive(!isHappy);
+
+        state = AICustomerState.FINISH;
+        var transFrom = GameManager.Instance.GetTransformCustomer();
+        MoveToTarget(transFrom.position);
     }
 
     public bool IsEating()

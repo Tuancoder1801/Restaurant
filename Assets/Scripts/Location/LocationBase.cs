@@ -74,4 +74,8 @@ public class LocationBase : MonoBehaviour
     {
 
     }
+
+    public virtual void CustomerSit()
+    {
+    }
 }

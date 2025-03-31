@@ -50,6 +50,7 @@ public enum LocationId
     Decor = 7,
     Trash = 8,
     NextMap = 9,
+    TableVip = 10,
 }
 
 public enum HumanId

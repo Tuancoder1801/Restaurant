@@ -10,6 +10,8 @@ public class GameDataConstant
     public static List<MapData> maps;
     public static List<SkinData> skins;
 
+    public static ItemConfig itemConfig;
+
     public static void Load()
     {
         if (items == null)
@@ -30,6 +32,11 @@ public class GameDataConstant
         if (skins == null)
         {
             skins = Resources.LoadAll<SkinData>("SkinData").ToList();
+        }
+
+        if (itemConfig == null)
+        {
+            itemConfig = Resources.Load<ItemConfig>("ItemConfig");
         }
     }
 }

@@ -155,7 +155,7 @@ public class LocationTable : LocationBase
 
     public void OrderStart()
     {
-        itemOrders = GameManager.Instance.GetOrders(1);
+        itemOrders = GameManager.Instance.GetOrders(transChairs.Count, false);
         uiLocation.LoadProduct(itemOrders);
         uiLocation.gameObject.SetActive(true);
 
@@ -172,7 +172,7 @@ public class LocationTable : LocationBase
         StartCoroutine(IEWaitOrderCreate());
     }
 
-    public void CustomerSit()
+    public override void CustomerSit()
     {
         countCustomer++;
 
