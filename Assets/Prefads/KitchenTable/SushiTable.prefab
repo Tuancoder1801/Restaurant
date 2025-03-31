@@ -215,6 +215,10 @@ PrefabInstance:
       value: PosFish
       objectReference: {fileID: 0}
     - target: {fileID: 343453635335795030, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 657613576959473255, guid: 2dc65d15147098d4ebcd5a6f3ddfe41a, type: 3}
+    - target: {fileID: 343453635335795030, guid: 1e8f398fd4d59fc4ba8302ba72792aa5, type: 3}
       propertyPath: isNeedChef
       value: 1
       objectReference: {fileID: 0}
