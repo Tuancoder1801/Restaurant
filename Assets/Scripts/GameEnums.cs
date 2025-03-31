@@ -29,7 +29,11 @@ public enum ItemId
     Rice = 22,
     Sushi = 23,
     Shrimp = 24,
-    ShrimpFry = 25
+    ShrimpFry = 25,
+    Udon = 26,
+    Meat = 27,
+    Egg = 28,
+    UdonNoodles = 29
 }
 
 public enum TableId
