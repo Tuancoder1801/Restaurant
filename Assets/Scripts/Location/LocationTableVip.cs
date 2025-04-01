@@ -167,7 +167,7 @@ public class LocationTableVip : LocationBase
         goStatus[0].SetActive(false);
         goStatus[1].SetActive(true);
 
-        if (timeEatCurrent <= 0) timeEatCurrent = 10f;
+        if (timeEatCurrent <= 0) timeEatCurrent = 100f;
         float timeTemp = 1f;
         float timeCheck = 0.8f;
 

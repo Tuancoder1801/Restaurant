@@ -125,6 +125,7 @@ public class Player : Character
                     UpdateLocationTrash(location);
                     break;
                 case LocationId.Table:
+                case LocationId.TableVip:
                     UpdateLocationTable(location);
                     break;
             }
