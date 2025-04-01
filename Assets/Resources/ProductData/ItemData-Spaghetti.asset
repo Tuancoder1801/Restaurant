@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 17
   icon: {fileID: 21300000, guid: 3c0c559955749df4080f79bf05666632, type: 3}
+  price: 4

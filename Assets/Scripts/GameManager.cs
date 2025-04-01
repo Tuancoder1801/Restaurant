@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
+using static UnityEditor.Progress;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -29,10 +30,6 @@ public class GameManager : Singleton<GameManager>
 
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
-
-
-    public List<ItemId> productItems = new List<ItemId>();
-
 
     private int currentBuildIndex = 0;
     private int countCustomer;
@@ -85,24 +82,38 @@ public class GameManager : Singleton<GameManager>
     public List<ItemOrder> GetOrders(int tableCount, bool isVip)
     {
         List<ItemOrder> tworks = new List<ItemOrder>();
+        List<ItemId> items = new List<ItemId>();
 
-        int count = GameDataConstant.itemConfig.GetItemCountBuy(productItems.Count);
+        for (int i = 0; i < locations.Count; i++)
+        {
+            if (locations[i].locationId == LocationId.Machine && locations[i].gameObject.activeInHierarchy)
+            {
+                items.Add(locations[i].GetProductId());
+            }
+        }
+
+        Debug.Log("item config: " + GameDataConstant.itemConfig);
+
+        int count = GameDataConstant.itemConfig.GetItemCountBuy(items.Count);
         int productPerCus = isVip ? UnityEngine.Random.Range(GameDataConstant.itemConfig.sVipMin, GameDataConstant.itemConfig.sVipMax) : UnityEngine.Random.Range(GameDataConstant.itemConfig.sMin, GameDataConstant.itemConfig.sMax);
         int total = tableCount * productPerCus;
-
-        //if (uiGamePlay.IsBoosterCustomer()) total = total * 2;
-
-        //if (TutorialController.instance != null && TutorialController.instance.currentTutorial <= 9) total = 4;
 
         int quantity = (int)Mathf.Ceil((float)total / count);
         if (quantity < 1) quantity = 1;
 
-        productItems = Helper.Shuffle(productItems);
+        items = Helper.Shuffle(items);
+
+        if (count > items.Count)
+        {
+            Debug.LogError($"Lỗi: Số lượng item cần ({count}) lớn hơn số lượng item hiện có ({items.Count})");
+            count = items.Count; // Giới hạn tránh lỗi
+        }
+
         for (int i = 0; i < count; i++)
         {
             var twork = new ItemOrder
             {
-                itemId = productItems[i],
+                itemId = items[i],
                 quantity = quantity
             };
             tworks.Add(twork);

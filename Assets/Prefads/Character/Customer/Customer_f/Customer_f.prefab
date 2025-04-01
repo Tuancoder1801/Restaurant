@@ -6567,11 +6567,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0c05007a354434693a1eed7710ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  humanId: 0
+  animator: {fileID: 0}
+  positions: []
+  items: []
+  indexStarts: 
+  currentMax: 0
+  speedBase: 0
+  speed: 0
   posIndex: 0
-  targetPos: {x: 0, y: 0, z: 0}
   itemIndex: {fileID: 0}
+  goHappy: {fileID: 0}
+  goHappies: []
   locationTable: {fileID: 0}
   state: 0
+  trantarget: {fileID: 0}
 --- !u!54 &4687416559486674863
 Rigidbody:
   m_ObjectHideFlags: 0

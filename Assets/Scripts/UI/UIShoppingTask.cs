@@ -6,7 +6,7 @@ public class UIShoppingTask : MonoBehaviour
 {
     public UIItem uiItem;
     //public GameObject goCashier;
-    //public GameObject goHappy;
+    public GameObject goHappy;
 
     public bool followCam;
 

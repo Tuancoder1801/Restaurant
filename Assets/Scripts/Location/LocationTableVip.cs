@@ -34,7 +34,6 @@ public class LocationTableVip : LocationBase
     public float timeWait;
     private TimeSpan timeSpan;
     private string strTimeFormat = "{0:00}m {1:00}s";
-    private GameObject goTable;
     private float bonus = 1f;
 
     private void Start()
@@ -45,7 +44,7 @@ public class LocationTableVip : LocationBase
         product.Init();
         uiLocation.transform.localScale = new Vector3(0.02f, 0.02f, 1f);
 
-        StartCoroutine(IEWaitTaskCreate(isJustUnlock ? -1f : 300f));
+        StartCoroutine(IEWaitTaskCreate(isJustUnlock ? -1f : 10f));
         if (isJustUnlock) isJustUnlock = false;
     }
 
@@ -168,7 +167,7 @@ public class LocationTableVip : LocationBase
         goStatus[0].SetActive(false);
         goStatus[1].SetActive(true);
 
-        if (timeEatCurrent <= 0) timeEatCurrent = 300f;
+        if (timeEatCurrent <= 0) timeEatCurrent = 10f;
         float timeTemp = 1f;
         float timeCheck = 0.8f;
 

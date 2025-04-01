@@ -36,7 +36,16 @@ public class GameDataConstant
 
         if (itemConfig == null)
         {
-            itemConfig = Resources.Load<ItemConfig>("ItemConfig");
+            itemConfig = Resources.Load<ItemConfig>("ItemConfig/ItemConfig");
+
+            if (itemConfig == null)
+            {
+                Debug.LogError("ItemConfig NOT FOUND in Resources!");
+            }
+            else
+            {
+                Debug.Log("ItemConfig Loaded Successfully!");
+            }
         }
     }
 }

@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e309ba711af4b954b91561924ccb9240, type: 3}
   m_Name: ItemConfig
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - {fileID: 11400000, guid: 0525e417722c36b40a992113141d8286, type: 2}
+  - {fileID: 11400000, guid: 0d294b09ce8df4b47a2f771038eed06d, type: 2}
+  - {fileID: 11400000, guid: be41ed9ee8639d0459d84d567524d362, type: 2}
+  - {fileID: 11400000, guid: df1bf31cd67c15143a0f42ec60033d17, type: 2}
+  - {fileID: 11400000, guid: 9b57bfc3d9f05e748b6623a914cc601a, type: 2}
+  - {fileID: 11400000, guid: 97da18f0872c8544e9fdb9897b17c264, type: 2}
   rateItemBuys:
   - 40
   - 15
