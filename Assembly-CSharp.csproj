@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\Popup\PopupShop\ButtonTab.cs" />
     <Compile Include="Assets\Scripts\CookingTable\AutoSetTrigger.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
+    <Compile Include="Assets\Scripts\Location\LocationNextMap.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingSceneSwitching.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing246.cs" />
