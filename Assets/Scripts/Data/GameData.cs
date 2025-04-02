@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {   
     public static GameData Instance;
 
     public int currentMapIndex = 0;
-   
     public static MapData currentMap;
+
+    private bool isLoadingMap = false;  
 
     private void Awake()
     {
@@ -28,7 +30,14 @@ public class GameData : MonoBehaviour
     {
         GameDataConstant.Load();
 
-        LoadCurrentMap();
+        if (SceneManager.GetActiveScene().name == "Start")
+        {
+            WaitAndLoadMap();
+        }
+        else
+        {
+            LoadCurrentMap();
+        }
     }
 
     #region DataMap
@@ -45,7 +54,29 @@ public class GameData : MonoBehaviour
         if(currentMapIndex + 1 < GameDataConstant.maps.Count)
         {
             currentMapIndex++;
-            LoadCurrentMap();
+            isLoadingMap = true;
+            SceneManager.LoadScene("Start");
+            //LoadCurrentMap();
+        }
+    }
+
+    private void WaitAndLoadMap()
+    {
+        //yield return new WaitForSeconds(1f); // Chờ 2 giây trước khi load map mới
+
+        if (isLoadingMap)
+        {
+            isLoadingMap = false;
+            LoadNextMap();
+        }
+    }
+
+    private void LoadNextMap()
+    {
+        string nextMapName = GetNameMap();
+        if (!string.IsNullOrEmpty(nextMapName))
+        {
+            SceneManager.LoadScene(nextMapName);
         }
     }
 

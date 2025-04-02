@@ -247,4 +247,9 @@ public class GameManager : Singleton<GameManager>
         if (temps.Count >= number) return temps;
         return null;
     }
+
+    public void NextMap()
+    {
+        GameData.Instance.NextMap();
+    }
 }
