@@ -61,7 +61,7 @@ public class LocationMachine : LocationBase
 
     void OnDisable()
     {
-        Clear();
+       // Clear();
     }
 
     public void AddChef(GameObject obj)

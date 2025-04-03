@@ -25,7 +25,7 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 37e6d21f7395a084e8fc47af88da4a13, type: 3}
     price: 0
   - locationId: 5
-    icon: {fileID: 21300000, guid: 40ae14dcd3c862a408d8ad1808ba26be, type: 3}
+    icon: {fileID: 21300000, guid: 03c243f6468ea1748af3ecb51fdd55e3, type: 3}
     price: 0
   - locationId: 4
     icon: {fileID: 21300000, guid: be4474468fe854e468dcfeb8b54df901, type: 3}
@@ -46,28 +46,28 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: a75a163bbf5a3d84cb6056eb83f89fdd, type: 3}
     price: 0
   - locationId: 5
-    icon: {fileID: 21300000, guid: 7037ac4b442b27c45bb301b3ea7da4cc, type: 3}
-    price: 0
-  - locationId: 5
     icon: {fileID: 21300000, guid: 5f995329e8737464fa2045e1a152a00e, type: 3}
     price: 0
   - locationId: 3
     icon: {fileID: 21300000, guid: 099b6c8f6d211b04090487b7555329af, type: 3}
     price: 0
   - locationId: 5
-    icon: {fileID: 21300000, guid: 40ae14dcd3c862a408d8ad1808ba26be, type: 3}
+    icon: {fileID: 21300000, guid: 7037ac4b442b27c45bb301b3ea7da4cc, type: 3}
     price: 0
   - locationId: 5
-    icon: {fileID: 21300000, guid: 4fc32eff0cbd14042ba05da562550ba2, type: 3}
+    icon: {fileID: 21300000, guid: 03c243f6468ea1748af3ecb51fdd55e3, type: 3}
     price: 0
   - locationId: 4
     icon: {fileID: 21300000, guid: be4474468fe854e468dcfeb8b54df901, type: 3}
     price: 0
   - locationId: 5
-    icon: {fileID: 21300000, guid: 7037ac4b442b27c45bb301b3ea7da4cc, type: 3}
+    icon: {fileID: 21300000, guid: 4fc32eff0cbd14042ba05da562550ba2, type: 3}
     price: 0
   - locationId: 3
     icon: {fileID: 21300000, guid: 934057994e7902649b5c34fb199a3167, type: 3}
+    price: 0
+  - locationId: 5
+    icon: {fileID: 21300000, guid: 4fc32eff0cbd14042ba05da562550ba2, type: 3}
     price: 0
   - locationId: 4
     icon: {fileID: 21300000, guid: be4474468fe854e468dcfeb8b54df901, type: 3}
