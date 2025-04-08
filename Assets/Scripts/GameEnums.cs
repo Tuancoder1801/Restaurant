@@ -33,7 +33,9 @@ public enum ItemId
     Udon = 26,
     Meat = 27,
     Egg = 28,
-    UdonNoodles = 29
+    UdonNoodles = 29,
+    GlassSake = 30,
+    SakeWire = 31
 }
 
 public enum TableId

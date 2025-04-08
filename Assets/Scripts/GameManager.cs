@@ -27,7 +27,6 @@ public class GameManager : Singleton<GameManager>
     public LocationLineUp lineUp;
 
     public List<LocationBase> AllLocation;
-
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
 
@@ -92,7 +91,10 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        Debug.Log("item config: " + GameDataConstant.itemConfig);
+        for (int i = 0; i < items.Count; i++)
+        {
+            Debug.Log($"Item {i}: {items[i]}");
+        }
 
         int count = GameDataConstant.itemConfig.GetItemCountBuy(items.Count);
         int productPerCus = isVip ? UnityEngine.Random.Range(GameDataConstant.itemConfig.sVipMin, GameDataConstant.itemConfig.sVipMax) : UnityEngine.Random.Range(GameDataConstant.itemConfig.sMin, GameDataConstant.itemConfig.sMax);
@@ -105,7 +107,6 @@ public class GameManager : Singleton<GameManager>
 
         if (count > items.Count)
         {
-            Debug.LogError($"Lỗi: Số lượng item cần ({count}) lớn hơn số lượng item hiện có ({items.Count})");
             count = items.Count; // Giới hạn tránh lỗi
         }
 

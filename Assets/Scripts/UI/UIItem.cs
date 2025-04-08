@@ -26,12 +26,13 @@ public class UIItem : MonoBehaviour
     public void LoadProduct(ItemId itemId)
     {
         this.item = itemId;
+        List<ItemData> itemDatas = GameDataConstant.itemConfig.items;
 
-        for (int i = 0; i < GameDataConstant.products.Count; i++)
+        for (int i = 0; i < itemDatas.Count; i++)
         {
-            if (itemId == GameDataConstant.products[i].itemId)
+            if (itemId == itemDatas[i].itemId)
             {
-                imgIcon.sprite = GameDataConstant.products[i].icon;
+                imgIcon.sprite = itemDatas[i].icon;
                 //imgIcon.SetNativeSize();
             }
         }

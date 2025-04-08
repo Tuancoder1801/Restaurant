@@ -342,8 +342,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.807557, y: 1.8097568, z: 5.042699}
-  m_Center: {x: -0.014816761, y: 0.9354068, z: 0.00006723404}
+  m_Size: {x: 3.5564194, y: 1.8097568, z: 5.321741}
+  m_Center: {x: -0.0008649826, y: 0.9354068, z: -0.041789055}
 --- !u!1 &2057758032675239602
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,8 +396,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.3953276, y: 0.71709037, z: 1.2352333}
-  m_Center: {x: -2.0784326, y: 0.39618552, z: -0.8947954}
+  m_Size: {x: 1.3953276, y: 0.71709037, z: 1.2937455}
+  m_Center: {x: -2.0784326, y: 0.39618552, z: -0.99719214}
 --- !u!208 &245130707190667499
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -408,11 +408,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.697664, y: 0.3585452, z: 0.6176165}
+  m_Extents: {x: 0.697664, y: 0.3585452, z: 0.646873}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -2.078433, y: 0.3961855, z: -0.8947954}
+  m_Center: {x: -2.078433, y: 0.3961855, z: -0.9971921}
   m_TimeToStationary: 0.5
 --- !u!1 &2062176675874648771
 GameObject:
@@ -503,7 +503,7 @@ Transform:
   m_GameObject: {fileID: 2451301673888389103}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2, y: 0.9, z: 0}
+  m_LocalPosition: {x: 2, y: 1, z: 0}
   m_LocalScale: {x: 0.9655148, y: 1.3001208, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -587,7 +587,7 @@ Transform:
   m_GameObject: {fileID: 2513132611076464123}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 0.9, z: 0}
+  m_LocalPosition: {x: -2, y: 1, z: 0}
   m_LocalScale: {x: 0.9655148, y: 1.3001208, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -758,8 +758,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4274073, y: 0.71709037, z: 1.2856694}
-  m_Center: {x: 2.057342, y: 0.39618552, z: 0.90539056}
+  m_Size: {x: 1.4274073, y: 0.71709037, z: 1.3157139}
+  m_Center: {x: 2.057342, y: 0.39618552, z: 0.999279}
 --- !u!208 &2507637201008034588
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -770,11 +770,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.7137035, y: 0.3585452, z: 0.6428345}
+  m_Extents: {x: 0.7137035, y: 0.3585452, z: 0.657857}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 2.057342, y: 0.3961855, z: 0.9053906}
+  m_Center: {x: 2.057342, y: 0.3961855, z: 0.999279}
   m_TimeToStationary: 0.5
 --- !u!1 &3709692348825843802
 GameObject:
@@ -986,7 +986,7 @@ Transform:
   m_GameObject: {fileID: 4159956780364031191}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2, y: -0.9, z: 0}
+  m_LocalPosition: {x: 2, y: -1, z: 0}
   m_LocalScale: {x: 0.9655148, y: 1.3001208, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1264,7 +1264,7 @@ Transform:
   m_GameObject: {fileID: 6567697567329729472}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: -0.9, z: 0}
+  m_LocalPosition: {x: -2, y: -1, z: 0}
   m_LocalScale: {x: 0.9655148, y: 1.3001208, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1404,8 +1404,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4274077, y: 0.71709037, z: 1.2513154}
-  m_Center: {x: 2.0573423, y: 0.39618552, z: -0.89820564}
+  m_Size: {x: 1.4274077, y: 0.71709037, z: 1.3033457}
+  m_Center: {x: 2.0573423, y: 0.39618552, z: -0.998549}
 --- !u!208 &4533594699746055154
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1416,11 +1416,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.713704, y: 0.3585452, z: 0.6256575}
+  m_Extents: {x: 0.713704, y: 0.3585452, z: 0.651673}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 2.057342, y: 0.3961855, z: -0.8982056}
+  m_Center: {x: 2.057342, y: 0.3961855, z: -0.998549}
   m_TimeToStationary: 0.5
 --- !u!1 &7613081435203129926
 GameObject:
@@ -1567,8 +1567,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4159575, y: 0.71709037, z: 1.2742186}
-  m_Center: {x: -2.0823398, y: 0.39618552, z: 0.8996649}
+  m_Size: {x: 1.4159575, y: 0.71709037, z: 1.2965854}
+  m_Center: {x: -2.0823398, y: 0.39618552, z: 0.99658793}
 --- !u!208 &484818585530450798
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1579,11 +1579,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.7079785, y: 0.3585452, z: 0.6371095}
+  m_Extents: {x: 0.7079785, y: 0.3585452, z: 0.6482925}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -2.08234, y: 0.3961855, z: 0.8996649}
+  m_Center: {x: -2.08234, y: 0.3961855, z: 0.9965879}
   m_TimeToStationary: 0.5
 --- !u!1 &8608568338343790614
 GameObject:
@@ -1729,6 +1729,26 @@ PrefabInstance:
     - target: {fileID: 8894327901302222630, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979807813292169258, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: m_Size.x
+      value: 1.8365074
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979807813292169258, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: m_Size.z
+      value: 2.691369
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979807813292169258, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: m_Center.x
+      value: 0.559822
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979807813292169258, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: m_Center.y
+      value: 0.45000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979807813292169258, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: m_Center.z
+      value: -0.010366903
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
