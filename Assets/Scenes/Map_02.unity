@@ -204,11 +204,6 @@ MonoBehaviour:
   - {fileID: 2112533993}
   - {fileID: 2014098491}
   lineUp: {fileID: 1320561950}
-  machines:
-  - {fileID: 1035473509}
-  - {fileID: 1487933366}
-  - {fileID: 1394003213}
-  - {fileID: 2131888489}
   AllLocation:
   - {fileID: 566002659}
   - {fileID: 1035473509}
@@ -2200,7 +2195,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2249,13 +2244,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 391516515}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26317838, y: 0.16733266, z: -0.046405442, w: 0.9489908}
-  m_LocalPosition: {x: -13, y: 37.7, z: -49.5}
+  m_LocalRotation: {x: 0.2729581, y: -0.51826537, z: 0.1789591, w: 0.79048634}
+  m_LocalPosition: {x: -30.25, y: 35, z: -42.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 31, y: 20, z: 0}
+  m_LocalEulerAnglesHint: {x: 38.1, y: -66.5, z: 0}
 --- !u!114 &391516519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2270,7 +2265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 391516517}
   tranTarget: {fileID: 828595122}
-  distance: {x: -18, y: 37, z: -50}
+  distance: {x: 38, y: 35, z: -17}
   normalSize: 18
   zoomInSize: 16
   zoomOutSize: 21

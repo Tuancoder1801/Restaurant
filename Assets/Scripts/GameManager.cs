@@ -21,7 +21,6 @@ public class GameManager : Singleton<GameManager>
     [Header("Transform")]
     [Space(20)]
     public List<Transform> transCustomers;
-    public Transform playerPos;
     public List<Transform> transColectorWayPoints;
 
     public LocationLineUp lineUp;

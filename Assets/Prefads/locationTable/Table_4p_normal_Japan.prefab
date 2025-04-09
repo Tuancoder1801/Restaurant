@@ -1490,11 +1490,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
+      objectReference: {fileID: 2100000, guid: b71f2354873952748aca1c8d9870a9b8, type: 2}
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b51bd9df9b14cec44a948088d89f6ce3, type: 2}
+      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
     - target: {fileID: 919132149155446097, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Name
       value: ghe Japanese
@@ -1560,11 +1560,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
+      objectReference: {fileID: 2100000, guid: b71f2354873952748aca1c8d9870a9b8, type: 2}
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b51bd9df9b14cec44a948088d89f6ce3, type: 2}
+      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
     - target: {fileID: 919132149155446097, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Name
       value: ghe Japanese (2)
@@ -1630,11 +1630,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
+      objectReference: {fileID: 2100000, guid: b71f2354873952748aca1c8d9870a9b8, type: 2}
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b51bd9df9b14cec44a948088d89f6ce3, type: 2}
+      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
     - target: {fileID: 919132149155446097, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Name
       value: ghe Japanese (1)
@@ -1700,11 +1700,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a7bea4a37a42ebd4bb6367f6f14c7a0f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a53f3650dda99ad4aa42684ddbd52132, type: 2}
+      objectReference: {fileID: 2100000, guid: f3a2aa2cb2d188e488b6876e6ea8d728, type: 2}
     - target: {fileID: -7511558181221131132, guid: a7bea4a37a42ebd4bb6367f6f14c7a0f, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
+      objectReference: {fileID: 2100000, guid: a0f705153747f8f4c81ac207b015c2f8, type: 2}
     - target: {fileID: 919132149155446097, guid: a7bea4a37a42ebd4bb6367f6f14c7a0f, type: 3}
       propertyPath: m_Name
       value: ban 4 Japanese
@@ -1770,11 +1770,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
+      objectReference: {fileID: 2100000, guid: b71f2354873952748aca1c8d9870a9b8, type: 2}
     - target: {fileID: -7511558181221131132, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: b51bd9df9b14cec44a948088d89f6ce3, type: 2}
+      objectReference: {fileID: 2100000, guid: a2beec81b1ddcb84ab4794aa2216e402, type: 2}
     - target: {fileID: 919132149155446097, guid: f40e97654859f8e49a349812e4cce4ce, type: 3}
       propertyPath: m_Name
       value: ghe Japanese (3)

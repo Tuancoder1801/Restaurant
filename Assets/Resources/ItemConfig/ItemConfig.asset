@@ -18,6 +18,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97da18f0872c8544e9fdb9897b17c264, type: 2}
   - {fileID: 11400000, guid: 9b57bfc3d9f05e748b6623a914cc601a, type: 2}
   - {fileID: 11400000, guid: df1bf31cd67c15143a0f42ec60033d17, type: 2}
+  - {fileID: 11400000, guid: 0525e417722c36b40a992113141d8286, type: 2}
+  - {fileID: 11400000, guid: cc7ba14a6d39f494e9e8431b747d386c, type: 2}
+  - {fileID: 11400000, guid: 94be8f7806edea047868a68e4ed65674, type: 2}
+  - {fileID: 11400000, guid: 1b7dbcb60b68d2643a924170eb6827cd, type: 2}
   rateItemBuys:
   - 40
   - 15
