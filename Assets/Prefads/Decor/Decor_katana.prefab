@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2010311290477211894}
   - component: {fileID: 7239911093809824130}
   - component: {fileID: 6685582360326627474}
+  - component: {fileID: 2877977042536745839}
   m_Layer: 0
   m_Name: Decor_katana
   m_TagString: Untagged
@@ -86,6 +87,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.02473402, y: 1.558261, z: 0.0742029}
   m_TimeToStationary: 0.5
+--- !u!95 &2877977042536745839
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985622239524221953}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a1710381ad7783a41b17c4b037335dad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &9022881904641491309
 PrefabInstance:
   m_ObjectHideFlags: 0

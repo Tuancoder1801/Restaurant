@@ -46,6 +46,8 @@ public class AICustomer : AICharacter
 
         isMoving = false;
         timeEating = 0;
+        eatMoney = 0;
+        goHappy.SetActive(false);
 
         var transform = GameManager.Instance.GetTransformCustomer(-1);
         this.transform.position = transform.position;
@@ -81,6 +83,7 @@ public class AICustomer : AICharacter
                     LineUp();
                     break;
                 case AICustomerState.LINEUP:
+                    LeanTween.cancel(gameObject);
                     LeanTween.rotate(gameObject, trantarget.eulerAngles, 0.3f);
                     break;
                 case AICustomerState.MOVETOTABLE:
@@ -102,7 +105,7 @@ public class AICustomer : AICharacter
                     break;
                 case AICustomerState.FINISH:
                     gameObject.SetActive(false);
-                    GameManager.Instance.DeplayToReActiveCustomer(this);
+                    if (!isVip) GameManager.Instance.DeplayToReActiveCustomer(this);
                     break;
             }
 

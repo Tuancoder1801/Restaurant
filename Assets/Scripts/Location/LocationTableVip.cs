@@ -167,7 +167,7 @@ public class LocationTableVip : LocationBase
         goStatus[0].SetActive(false);
         goStatus[1].SetActive(true);
 
-        if (timeEatCurrent <= 0) timeEatCurrent = 100f;
+        if (timeEatCurrent <= 0) timeEatCurrent = 300f;
         float timeTemp = 1f;
         float timeCheck = 0.8f;
 
@@ -219,13 +219,11 @@ public class LocationTableVip : LocationBase
         {
             //goHappy.SetActive(true);
 
-            // fake UI
             yield return new WaitForSeconds(1.5f);
             TaskEnd(true);
         }
         else
         {
-            // chưa hoàn thành task, khách bỏ đi và không trả tiền
             yield return new WaitForSeconds(1f);
             TaskEnd(false);
         }
@@ -262,7 +260,7 @@ public class LocationTableVip : LocationBase
         }
         money = 0;
 
-        StartCoroutine(IEWaitTaskCreate(300f));
+        StartCoroutine(IEWaitTaskCreate(10f));
     }
 
     public override void CustomerSit()

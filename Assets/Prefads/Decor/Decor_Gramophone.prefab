@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6312105812501160334}
   - component: {fileID: 2261458377435277565}
   - component: {fileID: 183652386493342737}
+  - component: {fileID: 5607033861112442962}
   m_Layer: 0
   m_Name: Decor_Gramophone
   m_TagString: Untagged
@@ -86,6 +87,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.1217678, y: 1.170843, z: 0.009366632}
   m_TimeToStationary: 0.5
+--- !u!95 &5607033861112442962
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8872850267552641764}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a1710381ad7783a41b17c4b037335dad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &8017591393348324773
 PrefabInstance:
   m_ObjectHideFlags: 0

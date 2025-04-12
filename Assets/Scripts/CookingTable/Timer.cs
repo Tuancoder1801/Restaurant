@@ -11,6 +11,12 @@ public class Timer : MonoBehaviour
 
     private bool isCounting = false;
 
+    public void OnEnable()
+    {
+        transform.LookAt(Camera.main.transform);
+        transform.Rotate(0, 180f, 0);
+    }
+
     public void Update()
     {
         if (isCounting)

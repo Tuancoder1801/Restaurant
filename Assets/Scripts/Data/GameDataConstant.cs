@@ -19,11 +19,6 @@ public class GameDataConstant
             items = Resources.LoadAll<ItemData>("ItemData").ToList();
         }
 
-        if (products == null)
-        {
-            products = Resources.LoadAll<ItemData>("ProductData").ToList();
-        }
-
         if (maps == null)
         {
             maps = Resources.LoadAll<MapData>("MapData").ToList();
@@ -37,15 +32,6 @@ public class GameDataConstant
         if (itemConfig == null)
         {
             itemConfig = Resources.Load<ItemConfig>("ItemConfig/ItemConfig");
-
-            if (itemConfig == null)
-            {
-                Debug.LogError("ItemConfig NOT FOUND in Resources!");
-            }
-            else
-            {
-                Debug.Log("ItemConfig Loaded Successfully!");
-            }
         }
     }
 }

@@ -442,6 +442,7 @@ GameObject:
   - component: {fileID: 6843718781210836936}
   - component: {fileID: 343453635335795030}
   - component: {fileID: 726037866166604531}
+  - component: {fileID: 2632053975827696312}
   m_Layer: 0
   m_Name: HotdogTable
   m_TagString: Location
@@ -505,7 +506,7 @@ MonoBehaviour:
   posChef: {fileID: 8362304918733944925}
   keepMaterial: 0
   timeMaking: 3
-  isNeedChef: 0
+  isNeedChef: 1
   posProductCenter: {fileID: 5257843364707908846}
   posMaterialCenter: {fileID: 6833333843622554685}
   goFxWork: {fileID: 6417848525891526704}
@@ -531,6 +532,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.513875, y: 1.2359544, z: 8.589067}
   m_Center: {x: 0.061140656, y: 0.6366425, z: 0.005707741}
+--- !u!95 &2632053975827696312
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167353838166143366}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a1710381ad7783a41b17c4b037335dad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4577606892087094684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,7 +1583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4921678919942390640, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4921678919942390640, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1579,6 +1601,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7168502170831658290, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168502170831658290, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8599081925343472675, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -1587,10 +1617,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8612729737932595503, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8555784621278754781, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2376920102220291632, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1288511802665674810}
   m_SourcePrefab: {fileID: 100100000, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
 --- !u!224 &448999468261358948 stripped
 RectTransform:
@@ -1613,6 +1651,21 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2376920102220291632, guid: b68ff7d7ac3612c4fb88abf24e3ed131, type: 3}
   m_PrefabInstance: {fileID: 4789149694750064148}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1288511802665674810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7100767556736917540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e38640b9372db43ad929ed50cba920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0
+  fill: {fileID: 556814568087834896}
+  max: 3
 --- !u!1001 &4940721215155634713
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class UIGame : Singleton<UIGame>
     public Button btShop; 
     public PopupShop shop;
     
-    private int currentMoney = 0;
+    public double currentMoney = 0;
     private Coroutine moneyCoroutine;
 
     private void Awake()
@@ -25,7 +26,7 @@ public class UIGame : Singleton<UIGame>
 
     #region money
 
-    public void AddMoney(int amount)
+    public void AddMoney(double amount)
     {
         if (amount <= 0) return;
         if (moneyCoroutine != null) StopCoroutine(moneyCoroutine);
@@ -33,16 +34,18 @@ public class UIGame : Singleton<UIGame>
         currentMoney += amount;
     }
 
-    public void SubtractMoney(int amount)
+    public void SubtractMoney(double amount)
     {
         if (amount <= 0) return;
-        int newMoney = Mathf.Max(0, currentMoney - amount); // Không cho tiền âm
+        double newMoney = Mathf.Max(0, (float)currentMoney - (float)amount); // Không cho tiền âm
+        currentMoney = newMoney;
         if (moneyCoroutine != null) StopCoroutine(moneyCoroutine);
         moneyCoroutine = StartCoroutine(AnimateMoneyChange(currentMoney, newMoney));
-        currentMoney = newMoney;
+        //currentMoney = newMoney;
+        Debug.Log($"[SubtractMoney] New Money: {currentMoney}");
     }
 
-    private IEnumerator AnimateMoneyChange(int from, int to)
+    private IEnumerator AnimateMoneyChange(double from, double to)
     {
         float duration = 1f; // thời gian hiệu ứng
         float elapsed = 0f;
@@ -50,7 +53,8 @@ public class UIGame : Singleton<UIGame>
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            int displayMoney = Mathf.RoundToInt(Mathf.Lerp(from, to, elapsed / duration));
+            double t = Mathf.Clamp01(elapsed / duration);
+            double displayMoney = Math.Round(from + (to - from) * t);
             UpdateMoneyText(displayMoney);
             yield return null;
         }
@@ -58,7 +62,7 @@ public class UIGame : Singleton<UIGame>
         UpdateMoneyText(to);
     }
 
-    private void UpdateMoneyText(int value)
+    private void UpdateMoneyText(double value)
     {
         if (value < 1000)
         {
@@ -66,7 +70,7 @@ public class UIGame : Singleton<UIGame>
         }
         else
         {
-            textMoney.text = value.ToString("N0").Replace(",", "."); // Đổi dấu ',' thành '.'
+            textMoney.text = value.ToString("N0").Replace(",", ".");
         }
     }
 

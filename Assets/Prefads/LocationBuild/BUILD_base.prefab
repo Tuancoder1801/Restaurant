@@ -417,9 +417,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locationId: 1
   goPlayer: {fileID: 0}
+  moneyItem: {fileID: 5168172925486931643, guid: 94d0a42b6f2a0d145bb4e92e76eda546, type: 3}
   fillRenderer: {fileID: 4145523620752176210}
   icon: {fileID: 169648115372540621}
   textPrice: {fileID: 6003309810444008672}
+  indexMoneyDrop: {fileID: 7624459418011538291}
+  money: 0
 --- !u!65 &816572003949248045
 BoxCollider:
   m_ObjectHideFlags: 0

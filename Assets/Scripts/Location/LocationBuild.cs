@@ -1,19 +1,29 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class LocationBuild : LocationBase
 {
+    public BaseItem moneyItem;
     public SpriteRenderer fillRenderer;
     public SpriteRenderer icon;
     public TextMeshPro textPrice;
+    public Transform indexMoneyDrop;
 
     private Material material;
     private Transform tranPlayer;
     private IEnumerator ieWaitTakeMoney;
     private Location locationData;
+
+    public double money;
+    private double moneyPer;
+    private bool isWarning;
+
 
     private void OnEnable()
     {
@@ -25,17 +35,23 @@ public class LocationBuild : LocationBase
         Clear();
     }
 
+    private void Update()
+    {
+        money = double.Parse(textPrice.text);
+    }
+
     public void SetData(Location location)
     {
         locationData = location;
         icon.sprite = location.icon;
-        textPrice.text = location.price.ToString();
+        textPrice.text = VKCommon.ConvertStringMoney(location.price, ".");
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
-        {
+        {   
+            isWarning = false;
             tranPlayer = other.transform;
             if (ieWaitTakeMoney != null) StopCoroutine(ieWaitTakeMoney);
             ieWaitTakeMoney = LoadFill(); // Gán coroutine
@@ -46,7 +62,8 @@ public class LocationBuild : LocationBase
     protected override void OnTriggerExit(Collider other)
     {
         if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
-        {
+        {   
+            isWarning = false;
             tranPlayer = null;
             material.SetFloat("_Arc2", 360f);
             fillRenderer.material = material;
@@ -59,23 +76,26 @@ public class LocationBuild : LocationBase
     {
         float fill = 0f;
         float max = 1f;
-        float duration = 2f;
-        float elapsed = 0f;
 
-        while (elapsed < duration)
+        while (true)
         {
-            fill = Mathf.Lerp(0f, max, elapsed / duration);
+            fill += Time.deltaTime;
             material.SetFloat("_Arc2", 360f - ((fill / max) * 360f));
             fillRenderer.material = material;
 
-            elapsed += Time.deltaTime;
-            yield return null;
+            if (fill >= max) break; 
+            yield return new WaitForEndOfFrame();
         }
 
-        material.SetFloat("_Arc2", 0f);
-        fillRenderer.material = material;
+        moneyPer = Mathf.Ceil((float)money * 0.01f);
+        while (money > 0) 
+        {
+            TakeMoney();
+            yield return new WaitForSeconds(0.05f);
+        }
 
-        GameManager.Instance.OnBuildCompleted(this);
+        ieWaitTakeMoney = null;
+        //GameManager.Instance.OnBuildCompleted(this);
     }
 
     private void Clear()
@@ -84,22 +104,52 @@ public class LocationBuild : LocationBase
         fillRenderer.material = material;
     }
 
-    public void SetMoney(double m)
+    private void TakeMoney()
     {
-        //icon.gameObject.SetActive(false);
-        //if (goResult != null)
-        //{
-        //    LocationBase lbase = goResult.GetComponent<LocationBase>();
-        //    if (lbase != null && lbase.sprIcon != null)
-        //    {
-        //        spriteIcon.sprite = lbase.sprIcon;
-        //        spriteIcon.gameObject.SetActive(true);
-        //    }
-        //}
+        if (money <= 0)
+        {
+            StopCoroutine(ieWaitTakeMoney);
+            return;
+        }
 
-        //goMoney.SetActive(true);
+        if (UIGame.Instance.currentMoney <= 0)
+        {
+            if (!isWarning)
+            {
+                isWarning = true;
+            }
+            return;
+        }
 
-        //money = m;
-        //txtMoney.text = VKCommon.ConvertStringMoney(money, ".");
+        double mPer = UIGame.Instance.currentMoney > moneyPer ? moneyPer : UIGame.Instance.currentMoney;
+        if (money < mPer) mPer = money;
+
+        if (!GameManager.Instance.SpendMoney(-mPer, true)) 
+        {
+            return;
+        }
+
+        isWarning = false;
+
+        money -= mPer;
+
+        if (money < 0) textPrice.text = "";
+        else textPrice.text = VKCommon.ConvertStringMoney(money, ".");
+
+        BaseItem iMoney = Instantiate(moneyItem, tranPlayer.position, tranPlayer.rotation, tranPlayer);
+
+        bool isUnlock = money <= 0;
+
+        Tween jumpTween = iMoney.transform.DOJump(transform.position, 2f, 1, 0.5f);
+
+        jumpTween.OnComplete(() =>
+        {
+            Destroy(iMoney.gameObject);
+
+            if (isUnlock)
+            {
+                GameManager.Instance.OnBuildCompleted(this);
+            }
+        });
     }
 }

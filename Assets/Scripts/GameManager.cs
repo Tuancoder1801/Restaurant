@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.FilePathAttribute;
 using static UnityEditor.Progress;
 
@@ -30,10 +32,12 @@ public class GameManager : Singleton<GameManager>
     public List<LocationBase> locations;
 
     private int currentBuildIndex = 0;
+    private int nextCustomerIndex = 0;
+
     private int countCustomer;
     private MapData mapData;
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -46,15 +50,14 @@ public class GameManager : Singleton<GameManager>
 
         CreatePlayer();
 
-        //StartCoroutine(SpawnCustomer(countCustomer));
-
         loadMapData();
+
+        StartCoroutine(SpawnCustomer(countCustomer));
     }
 
     private void CreatePlayer()
     {
         player.gameObject.SetActive(true);
-        //smoothCamera.SetTarget(player.transform);
     }
 
     #region Customer
@@ -63,9 +66,17 @@ public class GameManager : Singleton<GameManager>
     {
         for (int i = 0; i < count; i++)
         {
-            customers[i].gameObject.SetActive(true);
-            if (i < transCustomers.Count) customers[i].posIndex = i;
-            else customers[i].posIndex = Random.Range(0, transCustomers.Count);
+            if (nextCustomerIndex >= customers.Count) yield break;
+
+            var customer = customers[nextCustomerIndex];
+
+            if (!customer.gameObject.activeSelf)
+            {
+                customer.gameObject.SetActive(true);
+                customer.posIndex = nextCustomerIndex % transCustomers.Count;
+            }
+
+            nextCustomerIndex++;
             yield return new WaitForSeconds(2f);
         }
     }
@@ -90,11 +101,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        for (int i = 0; i < items.Count; i++)
-        {
-            Debug.Log($"Item {i}: {items[i]}");
-        }
-
         int count = GameDataConstant.itemConfig.GetItemCountBuy(items.Count);
         int productPerCus = isVip ? UnityEngine.Random.Range(GameDataConstant.itemConfig.sVipMin, GameDataConstant.itemConfig.sVipMax) : UnityEngine.Random.Range(GameDataConstant.itemConfig.sMin, GameDataConstant.itemConfig.sMax);
         int total = tableCount * productPerCus;
@@ -106,7 +112,7 @@ public class GameManager : Singleton<GameManager>
 
         if (count > items.Count)
         {
-            count = items.Count; // Giới hạn tránh lỗi
+            count = items.Count; 
         }
 
         for (int i = 0; i < count; i++)
@@ -175,31 +181,31 @@ public class GameManager : Singleton<GameManager>
 
                 if (locations[i].locationId == LocationId.Table)
                 {
-                    Debug.Log($"Found Table at index {i}");
-
                     LocationTable countChair = (LocationTable)locations[i];
 
                     if (countChair.transChairs == null || countChair.transChairs.Count == 0)
                     {
-                        Debug.LogWarning("Table found but no chairs available.");
                         return;
                     }
 
-                    int max = countCustomer + countChair.transChairs.Count;
-                    Debug.Log("max: " + max);
-                    for (int j = countCustomer; j < max; j++)
+                    int seats = countChair.transChairs.Count;
+                    int max = nextCustomerIndex + seats;
+
+                    for (int j = nextCustomerIndex; j < max; j++)
                     {
-                        if (j < customers.Count)
+                        if (j >= customers.Count) break;
+
+                        var customer = customers[j];
+
+                        if (!customer.gameObject.activeSelf)
                         {
-                            customers[j].gameObject.SetActive(true);
-                            if (i < transCustomers.Count) customers[i].posIndex = i;
-                            else customers[i].posIndex = Random.Range(0, transCustomers.Count);
-                            countCustomer++;
+                            customer.gameObject.SetActive(true);
+                            customer.posIndex = j % transCustomers.Count;
                         }
-                        else
-                            break;
+
+                        nextCustomerIndex++;
+                        countCustomer++;
                     }
-                    
                 }
             }
         }
@@ -251,5 +257,27 @@ public class GameManager : Singleton<GameManager>
     public void NextMap()
     {
         GameData.Instance.NextMap();
+    }
+
+    public bool SpendMoney(double money, bool reduceToZero = false)
+    {
+        double required = Math.Abs(money);
+        Debug.Log($"[SpendMoney] Try spending {required}, current = {UIGame.Instance.currentMoney}");
+
+        if (UIGame.Instance.currentMoney < required)
+        {
+            if (reduceToZero && UIGame.Instance.currentMoney > 0)
+            {
+                UIGame.Instance.SubtractMoney(UIGame.Instance.currentMoney);
+                return true;
+            }
+            //uiGamePlay.vkMoneyShake.ShakeCamera(0.025f, 0.2f);
+            return false;
+        }
+        else
+        {
+            UIGame.Instance.SubtractMoney(required);
+            return true;
+        }
     }
 }
