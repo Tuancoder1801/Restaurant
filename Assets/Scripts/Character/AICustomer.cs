@@ -128,7 +128,7 @@ public class AICustomer : AICharacter
     }
 
     #region LinUp
-    private void StartFoodTour()
+    public void StartFoodTour()
     {
         state = AICustomerState.START;
         minDistance = 4;
@@ -187,11 +187,17 @@ public class AICustomer : AICharacter
         TakeItems(item.transform);
     }
 
-    public void TableEnd()
-    {
+    public void TableEnd(bool isHappy = true)
+    {   
+        isVip = false;
+
+        goHappy.SetActive(true);
+        goHappies[0].SetActive(isHappy);
+        goHappies[1].SetActive(!isHappy);
+
         state = AICustomerState.FINISH;
-        var transform = GameManager.Instance.GetTransformCustomer();
-        MoveToTarget(transform.position);
+        var transForm = GameManager.Instance.GetTransformCustomer();
+        MoveToTarget(transForm.position);
     }
 
     public void TableEndVIP(bool isHappy = true)

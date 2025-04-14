@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
     public List<LocationBase> locations;
 
     private int currentBuildIndex = 0;
-    private int nextCustomerIndex = 0;
+    public int nextCustomerIndex = 0;
 
     private int countCustomer;
     private MapData mapData;
@@ -68,14 +68,8 @@ public class GameManager : Singleton<GameManager>
         {
             if (nextCustomerIndex >= customers.Count) yield break;
 
-            var customer = customers[nextCustomerIndex];
-
-            if (!customer.gameObject.activeSelf)
-            {
-                customer.gameObject.SetActive(true);
-                customer.posIndex = nextCustomerIndex % transCustomers.Count;
-            }
-
+            customers[nextCustomerIndex].gameObject.SetActive(true);
+            
             nextCustomerIndex++;
             yield return new WaitForSeconds(2f);
         }

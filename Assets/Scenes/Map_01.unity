@@ -3612,7 +3612,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1331467085108715880, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.85
+      value: 3.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552613743530071652, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
+      propertyPath: m_Size.x
+      value: 2.329745
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552613743530071652, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
+      propertyPath: m_Size.z
+      value: 2.4444315
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552613743530071652, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
+      propertyPath: m_Center.x
+      value: 0.4497594
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552613743530071652, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
+      propertyPath: m_Center.y
+      value: 0.45000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552613743530071652, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
+      propertyPath: m_Center.z
+      value: -0.017025474
       objectReference: {fileID: 0}
     - target: {fileID: 2004892424588820657, guid: ace8a2453b9cc1e42854de5b07a86256, type: 3}
       propertyPath: m_Name
