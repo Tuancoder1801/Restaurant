@@ -46,6 +46,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: uiMaking
+    uniqueID: 1249089471
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
