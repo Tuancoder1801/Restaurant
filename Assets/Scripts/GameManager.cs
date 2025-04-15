@@ -2,11 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.FilePathAttribute;
-using static UnityEditor.Progress;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -19,6 +16,7 @@ public class GameManager : Singleton<GameManager>
     public List<AICharacter> customerVips;
 
     public SmoothCamera smoothCamera;
+    public BoxCollider box;
 
     [Header("Transform")]
     [Space(20)]
@@ -31,8 +29,9 @@ public class GameManager : Singleton<GameManager>
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
 
+    private float boxRange = -99;
     private int currentBuildIndex = 0;
-    public int nextCustomerIndex = 0;
+    private int nextCustomerIndex = 0;
 
     private int countCustomer;
     private MapData mapData;
@@ -46,13 +45,11 @@ public class GameManager : Singleton<GameManager>
     {
         mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
 
-        countCustomer = 8;
-
         CreatePlayer();
 
         loadMapData();
 
-        StartCoroutine(SpawnCustomer(countCustomer));
+        StartCoroutine(SpawnCustomer(6));
     }
 
     private void CreatePlayer()
@@ -66,11 +63,15 @@ public class GameManager : Singleton<GameManager>
     {
         for (int i = 0; i < count; i++)
         {
-            if (nextCustomerIndex >= customers.Count) yield break;
+            if (i >= customers.Count) break;
 
-            customers[nextCustomerIndex].gameObject.SetActive(true);
-            
+            var customer = customers[i];
+            customer.gameObject.SetActive(true);
+            customer.posIndex = i;
+
             nextCustomerIndex++;
+            countCustomer++;
+
             yield return new WaitForSeconds(2f);
         }
     }
@@ -177,10 +178,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     LocationTable countChair = (LocationTable)locations[i];
 
-                    if (countChair.transChairs == null || countChair.transChairs.Count == 0)
-                    {
-                        return;
-                    }
+                    if (countChair.transChairs == null || countChair.transChairs.Count == 0) return;
 
                     int seats = countChair.transChairs.Count;
                     int max = nextCustomerIndex + seats;
@@ -190,7 +188,6 @@ public class GameManager : Singleton<GameManager>
                         if (j >= customers.Count) break;
 
                         var customer = customers[j];
-
                         if (!customer.gameObject.activeSelf)
                         {
                             customer.gameObject.SetActive(true);

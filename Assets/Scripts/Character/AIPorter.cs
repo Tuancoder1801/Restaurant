@@ -243,7 +243,7 @@ public class AIPorter : AICharacter
         state = AIPorterState.RAWBIN;
 
         timeCount = timeRequest;
-        minDistance = 1f;
+        minDistance = currentlocation.GetBoxRange();
         MoveToTarget(currentlocation.GetPosRawBin());
     }
 
@@ -251,7 +251,7 @@ public class AIPorter : AICharacter
     {
         state = AIPorterState.MACHINE;
         timeCount = timeRequest;
-        minDistance = 1f;//currentMachine.GetBoxRange();
+        minDistance = currentMachine.GetBoxRange();
         
         MoveToTarget(currentMachine.GetPosRawBin());
     }
@@ -262,7 +262,7 @@ public class AIPorter : AICharacter
         timeCount = timeRequest;
 
         currentTrash = GameManager.Instance.GetLocationNearesByItem(LocationId.Trash, transform.position) as LocationTrash;
-        minDistance = 1f;
+        minDistance = currentTrash.GetBoxRange();
         MoveToTarget(currentTrash.GetPosProduct());
     }
 

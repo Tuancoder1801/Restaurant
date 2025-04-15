@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationId: 4
+  box: {fileID: 4468626572587022631}
   goPlayer: {fileID: 0}
   tableType: 1
   transChairs:
@@ -290,8 +291,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.2777364, y: 1.1292945, z: 2.346187}
-  m_Center: {x: -0.00000035762787, y: 0.597038, z: -0.0038027763}
+  m_Size: {x: 2.437007, y: 1.1292945, z: 2.346187}
+  m_Center: {x: 0.0024132729, y: 0.597038, z: -0.0038027763}
 --- !u!208 &4480122448745491275
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -302,11 +303,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.138868, y: 0.5646475, z: 1.1730936}
+  m_Extents: {x: 1.2185035, y: 0.5646475, z: 1.1730936}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.0000003576279, y: 0.597038, z: -0.003802776}
+  m_Center: {x: 0.002413273, y: 0.597038, z: -0.003802776}
   m_TimeToStationary: 0.5
 --- !u!1001 &570501667907016998
 PrefabInstance:

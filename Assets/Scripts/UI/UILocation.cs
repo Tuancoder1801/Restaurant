@@ -12,9 +12,7 @@ public class UILocation : MonoBehaviour
 
     private void OnEnable()
     {
-        //transform.localEulerAngles = Camera.main.transform.eulerAngles - transform.parent.localEulerAngles;
-        transform.LookAt(Camera.main.transform);
-        transform.Rotate(0, 180f, 0);
+        transform.localRotation = Quaternion.Inverse(transform.parent.rotation) * Camera.main.transform.rotation;
     }
 
     public void LoadItem(List<ItemPosition> materials)

@@ -39,7 +39,7 @@ public class SubLocationMoney : MonoBehaviour
         moneyMax = itemMax * 1;
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected void OnTriggerStay(Collider other)
     {
         if (other.CompareTag(StaticValue.CHARACTER_NAME_TAG))
         {

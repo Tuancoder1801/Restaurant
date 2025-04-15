@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationId: 4
+  box: {fileID: 9075246000839887833}
   goPlayer: {fileID: 0}
   tableType: 4
   transChairs:

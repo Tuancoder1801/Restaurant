@@ -66,7 +66,7 @@ public class AICustomer : AICharacter
         {
             var d = Vector3.Distance(transform.position, targetPos);
 
-            if (d < minDistance || (d < 4f && lastDistance == d))
+            if (d < minDistance || (d < 2f && lastDistance == d))
             {
                 StopMove();
             }

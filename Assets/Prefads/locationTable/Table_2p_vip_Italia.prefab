@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationId: 10
+  box: {fileID: 4468626572587022631}
   goPlayer: {fileID: 0}
   product: {fileID: 1773619591564534708}
   tranChairs:

@@ -229,7 +229,7 @@ public class AIWaiter : AICharacter
     {
         state = AIWaiterState.MACHINE;
         timeCount = timeRequest;
-        minDistance = 1f;
+        minDistance = currentMachine.GetBoxRange();
 
         MoveToTarget(currentMachine.GetPosProduct());
     }
@@ -238,7 +238,7 @@ public class AIWaiter : AICharacter
     {
         state = AIWaiterState.TABLE;
         timeCount = timeRequest;
-        minDistance = 1f;
+        minDistance = currentTable.GetBoxRange();
 
         MoveToTarget(currentTable.GetPosProduct());
     }
@@ -249,7 +249,8 @@ public class AIWaiter : AICharacter
         timeCount = timeRequest;
 
         currentTrash = GameManager.Instance.GetLocationNearesByItem(LocationId.Trash, transform.position) as LocationTrash;
-        minDistance = 1f;
+        minDistance = currentTrash.GetBoxRange();
+
         MoveToTarget(currentTrash.GetPosProduct());
     }
 

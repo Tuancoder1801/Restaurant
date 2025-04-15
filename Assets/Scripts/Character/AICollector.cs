@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,6 +117,15 @@ public class AICollector : AICharacter
                 {
                     ShowTime(timeCurrent);
                 }
+            }
+        }
+        else
+        {
+            // Nếu đang idle mà có location nào có tiền → chuyển sang làm việc luôn
+            if (locationMoneys.Any(x => x.currentMoney > 0 && x.gameObject.activeSelf))
+            {
+                SetWorking(true, 30f);
+                NextTask();
             }
         }
     }

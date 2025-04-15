@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationId: 8
+  box: {fileID: 7650611844596885107}
   goPlayer: {fileID: 0}
   tran: {fileID: 6529268601787581473}
 --- !u!1001 &2970524570283374720

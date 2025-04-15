@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LocationBase : MonoBehaviour
 {
     public LocationId locationId;
+    public Collider box;
 
     [HideInInspector]
     public GameObject goPlayer;
+
+    private float boxRange = -99;
+
 
     public virtual Vector3 GetPosProduct()
     {
@@ -78,4 +83,27 @@ public class LocationBase : MonoBehaviour
     public virtual void CustomerSit()
     {
     }
+
+    public float GetBoxRange()
+    {
+        if (boxRange < 0)
+        {
+            if (box != null)
+            {
+                Vector3 size = box.bounds.size;
+                float max = size.x;
+                if (max < size.y) max = size.y;
+                if (max < size.z) max = size.z;
+
+                boxRange = max / 2f + 0.5f;
+            }
+            else
+            {
+                boxRange = 0.5f;
+            }
+        }
+
+        return boxRange;
+    }
+
 }
