@@ -136,6 +136,7 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
     <Compile Include="Assets\Scripts\Location\SubLocationMachine.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
+    <Compile Include="Assets\Scripts\Popup\PopupSetting\PopupSetting.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline2d.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
