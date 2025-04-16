@@ -95,7 +95,6 @@ public class LocationBuild : LocationBase
         }
 
         ieWaitTakeMoney = null;
-        //GameManager.Instance.OnBuildCompleted(this);
     }
 
     private void Clear()

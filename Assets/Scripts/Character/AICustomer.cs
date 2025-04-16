@@ -66,7 +66,7 @@ public class AICustomer : AICharacter
         {
             var d = Vector3.Distance(transform.position, targetPos);
 
-            if (d < minDistance || (d < 2f && lastDistance == d))
+            if (d < minDistance || (d < 4f && lastDistance == d))
             {
                 StopMove();
             }
@@ -160,7 +160,7 @@ public class AICustomer : AICharacter
         state = AICustomerState.MOVETOTABLE;
         locationTable = table;
         trantarget = tranChair;
-
+        minDistance = 0.2f;
         MoveToTarget(trantarget.position);
     }
 
@@ -188,7 +188,7 @@ public class AICustomer : AICharacter
     }
 
     public void TableEnd(bool isHappy = true)
-    {   
+    {
         isVip = false;
 
         goHappy.SetActive(true);

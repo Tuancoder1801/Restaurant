@@ -13,8 +13,10 @@ public class UIGame : Singleton<UIGame>
 
     [Header("Popups")]
     public Button btShop; 
-    public PopupShop shop;
-    
+    public PopupShop popupShop;
+    public Button btSetting;
+    public PopupSetting popupSetting;
+
     public double currentMoney = 0;
     private Coroutine moneyCoroutine;
 
@@ -22,6 +24,7 @@ public class UIGame : Singleton<UIGame>
     {
         UpdateMoneyText(currentMoney);
         btShop.onClick.AddListener(ClickButtonShop);
+        btSetting.onClick.AddListener(ClickButtonSetting);
     }
 
     #region money
@@ -80,7 +83,12 @@ public class UIGame : Singleton<UIGame>
 
     private void ClickButtonShop()
     {
-        shop.gameObject.SetActive(true);
+        popupShop.gameObject.SetActive(true);
+    }
+
+    private void ClickButtonSetting()
+    {
+        popupSetting.gameObject.SetActive(true);
     }
 
     #endregion
