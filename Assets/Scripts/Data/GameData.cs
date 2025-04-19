@@ -29,6 +29,7 @@ public class GameData : MonoBehaviour
     private void Start()
     {
         GameDataConstant.Load();
+        UserData.Load();
 
         if (SceneManager.GetActiveScene().name == "Start")
         {

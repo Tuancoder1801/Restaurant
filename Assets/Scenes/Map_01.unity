@@ -3205,7 +3205,7 @@ PrefabInstance:
       objectReference: {fileID: 299320796}
     - target: {fileID: 7201538248245365838, guid: 98af972df765af24bb1c8a948c64e8f1, type: 3}
       propertyPath: currentMoney
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7201538248245365838, guid: 98af972df765af24bb1c8a948c64e8f1, type: 3}
       propertyPath: popupSetting

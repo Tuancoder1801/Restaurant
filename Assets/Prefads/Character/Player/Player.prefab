@@ -94,13 +94,22 @@ MonoBehaviour:
   currentMax: 3
   speedBase: 6
   speed: 6
-  skinPlayerId: 0
   joystick: {fileID: 0}
   charactor: {fileID: 2546815399758403378}
   speedRotate: 360
   timeRequest: 0.2
   timeDelayUpdate: 0
-  isUI: 0
+  skinPlayers:
+  - {fileID: 2261382050749913339}
+  - {fileID: 42110220170943002, guid: 92606ab16af6ad447aa5da6b8d139a09, type: 3}
+  - {fileID: 5133375383925800701, guid: d0117780eea0df54d90d2610ce4190c1, type: 3}
+  - {fileID: 2270514525380990232, guid: 78d9147be1101c8438e244eceac94d0c, type: 3}
+  - {fileID: 1860433506195562654, guid: bf449903cd76ca04cbc944913bb2e5d2, type: 3}
+  - {fileID: 3134789707775730720, guid: 4a105646b4ce3b145bcde39ec07b4c6a, type: 3}
+  - {fileID: 2500905998795825813, guid: cddea0b510cb21642b4577fa8695b27b, type: 3}
+  - {fileID: 5465545786147678744, guid: a5e81d1cb95424445afe61c6a522ce59, type: 3}
+  - {fileID: 5195498089871170982, guid: eca0519dd7c094841bdf491ef2060539, type: 3}
+  skinGlasses: []
 --- !u!143 &2546815399758403378
 CharacterController:
   m_ObjectHideFlags: 0
@@ -139,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1698fa5e241e942849a8d37b563dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   tranGlass: {fileID: 8893458993545897909}
 --- !u!1 &546551548727797953
 GameObject:

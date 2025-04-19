@@ -19,7 +19,6 @@ public class Player : Character
     public float timeDelayUpdate;
 
     public List<PlayerEquipment> skinPlayers;
-    public List<GameObject> skinGlasses;
 
     private  PlayerEquipment playerEquipment;
 

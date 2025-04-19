@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class ViewSkinPlayer : MonoBehaviour
 {
@@ -12,14 +13,14 @@ public class ViewSkinPlayer : MonoBehaviour
     private List<SkinPlayerItem> skinPlayers = new List<SkinPlayerItem>();
     private List<int> ownedSkinPlayers = new List<int>();
 
-    private void Awake()
-    {
-        CreateSkinItems();
-    }
-
     private void OnEnable()
     {
+        CreateSkinItems();
 
+        if (ownedSkinPlayers.Contains(UserData.skin.GetEquippedSkin(SkinType.Set)))
+        {
+            Select((SkinPlayerId)UserData.skin.GetEquippedSkin(SkinType.Set));
+        }
     }
 
     private void CreateSkinItems()
@@ -39,7 +40,6 @@ public class ViewSkinPlayer : MonoBehaviour
         if (selectingId != id || selectingId == SkinPlayerId.None)
         {
             selectingId = id;
-            //Highlight();
             UpdateSkin();
         }
     }
@@ -71,6 +71,9 @@ public class ViewSkinPlayer : MonoBehaviour
                     skin.SetPrice(true);
                     skin.SetTick(false);
                 }
+
+                ShopAreaController.Instance.shopCharacter.LoadCharacter(skinData[i].id);
+                GameManager.Instance.player.EquipSkinPlayer(skinData[i].id);
             }
         }
     }
