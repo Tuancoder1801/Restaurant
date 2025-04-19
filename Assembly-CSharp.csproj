@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Character\Player.cs" />
+    <Compile Include="Assets\Scripts\ShowShopArea\ShopAreaController.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingOptionalCancel.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralCameraShake.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Assets\Scripts\Popup\PopupShop\ViewSkinRobot.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
     <Compile Include="Assets\Scripts\CookingTable\AutoSetTrigger.cs" />
+    <Compile Include="Assets\Scripts\UIGameManager.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingIssue2.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothCamera.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Assets\LeanTween\Testing\TestingColorTweening.cs" />
     <Compile Include="Assets\Scripts\Data\SkinData.cs" />
     <Compile Include="Assets\Scripts\CookingTable\Timer.cs" />
+    <Compile Include="Assets\Scripts\ShowShopArea\CollectorEquipment.cs" />
     <Compile Include="Assets\Scripts\Character\Character.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSimpleUI.cs" />
     <Compile Include="Assets\Scripts\Location\LocationLineUp.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="Assets\Scripts\Location\LocationMap.cs" />
     <Compile Include="Assets\Scripts\Data\GameData.cs" />
     <Compile Include="Assets\Scripts\Location\LocationPlayer.cs" />
+    <Compile Include="Assets\Scripts\ShowShopArea\ShopCharacter.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\Following.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingRotate.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing243.cs" />
@@ -106,6 +110,7 @@
     <Compile Include="Assets\Scripts\Popup\BasePopup.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathBezier.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline.cs" />
+    <Compile Include="Assets\Scripts\Data\UserData\UserDataSkin.cs" />
     <Compile Include="Assets\Scripts\GameEnums.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing240.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
@@ -127,7 +132,6 @@
     <Compile Include="Assets\Scripts\Location\LocationNextMap.cs" />
     <Compile Include="Assets\LeanTween\Testing\TestingSceneSwitching.cs" />
     <Compile Include="Assets\LeanTween\Testing\Testing246.cs" />
-    <Compile Include="Assets\Scripts\Character\PlayerEquipment.cs" />
     <Compile Include="Assets\Scripts\Data\ItemConfig.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacyExt.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSequencer.cs" />
@@ -137,15 +141,19 @@
     <Compile Include="Assets\Scripts\Location\SubLocationMachine.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Scripts\Popup\PopupSetting\PopupSetting.cs" />
+    <Compile Include="Assets\Scripts\ShowShopArea\ShopCollector.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline2d.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathBezier2d.cs" />
     <Compile Include="Assets\Scripts\Helper.cs" />
+    <Compile Include="Assets\Scripts\Item\Glass.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplinePerformance.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEasingTypes.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
     <Compile Include="Assets\Scripts\Popup\PopupShop\ViewSkinGlasses.cs" />
+    <Compile Include="Assets\Scripts\Data\UserData\UserData.cs" />
+    <Compile Include="Assets\Scripts\Data\UserData\UserDataMoney.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
     <Compile Include="Assets\Scripts\Location\LocationBase.cs" />
@@ -167,6 +175,7 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralUISpace.cs" />
     <Compile Include="Assets\LeanTween\Testing\FollowingTests.cs" />
     <Compile Include="Assets\Scripts\Location\LocationDecor.cs" />
+    <Compile Include="Assets\Scripts\ShowShopArea\PlayerEquipment.cs" />
     <Compile Include="Assets\Scripts\Character\AIWaiter.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasic.cs" />
     <Compile Include="Assets\Scripts\Location\LocationMachine.cs" />
@@ -572,6 +581,10 @@
     </Reference>
     <Reference Include="DOTween50">
       <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
