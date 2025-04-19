@@ -10,6 +10,7 @@ using System;
 
 public class Player : Character
 {
+    //public SkinPlayerId skinPlayerId;
     public Joystick joystick;
     public CharacterController charactor;
 
@@ -17,10 +18,17 @@ public class Player : Character
     public float timeRequest;
     public float timeDelayUpdate;
 
+    public List<PlayerEquipment> skinPlayers;
+    public List<GameObject> skinGlasses;
+
+    private  PlayerEquipment playerEquipment;
+
     protected void OnEnable()
     {
         timeDelayUpdate = 0.5f;
         joystick = FindAnyObjectByType<Joystick>();
+
+        EquipSkinPlayer((SkinPlayerId)UserData.skin.GetEquippedSkin(SkinType.Set));
     }
 
     protected void Update()
@@ -232,4 +240,26 @@ public class Player : Character
         if(currentAnim.StartsWith("isIdle")) PlayAnimIdle();
         else if(currentAnim.StartsWith("isWalk")) PlayAnimMove();
     }
+
+    #region Skin
+
+    public void EquipSkinPlayer(SkinPlayerId id)
+    {
+        if(skinPlayers != null) return;
+
+        for(int i = 0; i < skinPlayers.Count; i++)
+        {   
+            if(skinPlayers != null && skinPlayers[i].id == id)
+            {
+                if(playerEquipment != null)
+                {
+                    Destroy(playerEquipment.gameObject);
+                }
+
+                playerEquipment = Instantiate(skinPlayers[i], transform.position, transform.rotation);
+            }
+        } 
+    }
+
+    #endregion
 }

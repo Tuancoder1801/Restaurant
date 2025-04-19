@@ -106,3 +106,10 @@ public enum SkinRobotId
     Monster = 2,
     Clown = 3,
 }
+
+public enum SkinType
+{
+    Set = 0,
+    Glass = 1,
+    Robot = 2
+}

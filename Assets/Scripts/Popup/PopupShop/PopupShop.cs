@@ -19,8 +19,9 @@ public class PopupShop : BasePopup
     private SkinTagType currentTab = SkinTagType.Player;
 
     private void OnEnable()
-    {
+    {   
         ShowCurrentView();
+        ShopAreaController.Instance.ShowShop();
     }
 
     public void ShowView(SkinTagType tab)

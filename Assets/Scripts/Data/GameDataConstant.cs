@@ -8,7 +8,7 @@ public class GameDataConstant
     public static List<ItemData> items;
     public static List<ItemData> products;
     public static List<MapData> maps;
-    public static List<SkinData> skins;
+    public static SkinData skin;
 
     public static ItemConfig itemConfig;
 
@@ -24,9 +24,9 @@ public class GameDataConstant
             maps = Resources.LoadAll<MapData>("MapData").ToList();
         }
 
-        if (skins == null)
+        if (skin == null)
         {
-            skins = Resources.LoadAll<SkinData>("SkinData").ToList();
+            skin = Resources.Load<SkinData>("SkinData/SkinData");
         }
 
         if (itemConfig == null)

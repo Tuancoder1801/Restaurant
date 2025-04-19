@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerEquipment : MonoBehaviour
-{
-    public Animator anim;
-
-    public Transform tranHat;
+{       
+    public SkinPlayerId id;
     public Transform tranGlass;
-    public Transform tranBag;
 }

@@ -7,6 +7,7 @@ public class ViewSkinRobot : MonoBehaviour
     public Transform content;
     public SkinRobotItem skin;
 
+    private SkinRobotId selectingId;
     private List<SkinRobotItem> skinRobots = new List<SkinRobotItem>();
 
     private void Awake()
@@ -14,17 +15,50 @@ public class ViewSkinRobot : MonoBehaviour
         CreateSkinItems();
     }
 
+    private void OnEnable()
+    {
+        Select(SkinRobotId.None);
+    }
+
     private void CreateSkinItems()
     {
-        List<SkinData> skinDatas = GameDataConstant.skins;
+        List<SkinRobot> skinDatas = GameDataConstant.skin.skinRobot;
 
-        foreach (var skinData in skinDatas)
+        foreach (var robot in skinDatas)
         {
-            foreach (var robot in skinData.skinRobot)
+            SkinRobotItem skinItem = Instantiate(skin, content);
+            skinItem.Load(robot);
+            skinRobots.Add(skinItem);
+        }
+    }
+
+    public void Select(SkinRobotId id)
+    {
+        if (selectingId != id || selectingId == SkinRobotId.None)
+        {
+            selectingId = id;
+            Highlight();
+            UpdateSkin();
+        }
+    }
+
+    private void Highlight()
+    {
+        for (int i = 0; i < skinRobots.Count; i++)
+        {
+            skinRobots[i].SetTick(selectingId == skinRobots[i].id);
+        }
+    }
+
+    private void UpdateSkin()
+    {
+        var skinData = GameDataConstant.skin.skinRobot;
+
+        for (int i = 0; i < skinData.Count; i++)
+        {
+            if (skinData[i].id == selectingId)
             {
-                SkinRobotItem skinItem = Instantiate(skin, content);
-                skinItem.Load(robot);
-                skinRobots.Add(skinItem);
+                ShopAreaController.Instance.shopCollector.LoadCollector(selectingId);
             }
         }
     }

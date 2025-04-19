@@ -26,8 +26,13 @@ public class SkinGlassesItem : MonoBehaviour
         bt.onClick.AddListener(OnClick);
     }
 
+    public void SetTick(bool isOn)
+    {
+        tickIcon.gameObject.SetActive(isOn);
+    }
+
     private void OnClick()
     {
-        //FindObjectOfType<ViewSkinPlayer>().Select(id);
+        FindObjectOfType<ViewSkinGlasses>().Select(id);
     }
 }

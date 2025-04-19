@@ -41,14 +41,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1329443968950985461}
-  - component: {fileID: 4156031278545681863}
+  - component: {fileID: 400934696210814195}
   m_Layer: 0
   m_Name: collector (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1329443968950985461
 Transform:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ Transform:
   - {fileID: 6600638373376847249}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4156031278545681863
+--- !u!114 &400934696210814195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,13 +74,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6328125268261703568}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2e3ea7a1a1d72438422e087c366018, type: 3}
+  m_Script: {fileID: 11500000, guid: 0115a5046f88a3a48827ce4e844ef768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinRobotId: 2
   anim: {fileID: 3672232931921541594}
-  tranHat: {fileID: 0}
-  tranGlass: {fileID: 0}
-  tranBag: {fileID: 0}
 --- !u!1001 &5166022151900379769
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -41,14 +41,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6348314330163942818}
-  - component: {fileID: 223495983541912230}
+  - component: {fileID: 3099554498298231002}
   m_Layer: 0
   m_Name: collector (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6348314330163942818
 Transform:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ Transform:
   - {fileID: 7089251044140159387}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &223495983541912230
+--- !u!114 &3099554498298231002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,13 +74,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8249839995188539950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2e3ea7a1a1d72438422e087c366018, type: 3}
+  m_Script: {fileID: 11500000, guid: 0115a5046f88a3a48827ce4e844ef768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinRobotId: 3
   anim: {fileID: 5398503454603813508}
-  tranHat: {fileID: 0}
-  tranGlass: {fileID: 0}
-  tranBag: {fileID: 0}
 --- !u!1001 &7479858882474477860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -213,6 +211,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -11.30436
       objectReference: {fileID: 0}
+    - target: {fileID: -5014740381534637082, guid: 714f8d8db36a5be47b3212127e8ba613, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 58003b77c2886b3478d2ca11e879c769, type: 2}
+    - target: {fileID: -5014740381534637082, guid: 714f8d8db36a5be47b3212127e8ba613, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 249d22b8f87c2f845bb631d7f721640a, type: 2}
+    - target: {fileID: -5014740381534637082, guid: 714f8d8db36a5be47b3212127e8ba613, type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: 249d22b8f87c2f845bb631d7f721640a, type: 2}
     - target: {fileID: -3746190272939815206, guid: 714f8d8db36a5be47b3212127e8ba613, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -53.829304

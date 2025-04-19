@@ -25,10 +25,21 @@ public class SkinPlayerItem : MonoBehaviour
     private void Start()
     {
         bt.onClick.AddListener(OnClick);
+        tickIcon.gameObject.SetActive(false);
+    }
+
+    public void SetTick(bool isOn)
+    {
+        tickIcon.gameObject.SetActive(isOn);
+    }
+
+    public void SetPrice(bool isOn)
+    {
+        textPrice.gameObject.SetActive(isOn);
     }
 
     private void OnClick()
     {
-        //FindObjectOfType<ViewSkinPlayer>().Select(id);
+        FindObjectOfType<ViewSkinPlayer>().BuySkin();
     }
 }
