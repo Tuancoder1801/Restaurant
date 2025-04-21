@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,18 +15,14 @@ public class SkinPlayerItem : MonoBehaviour
     public Image tickIcon;
     public TextMeshProUGUI textPrice;
 
+    private Action onClick;
+
     public void Load(SkinPlayer data)
     {
         id = data.id;
         icon.sprite = data.icon;
         icon.SetNativeSize();
         textPrice.text = data.price.ToString();
-    }
-
-    private void Start()
-    {
-        bt.onClick.AddListener(OnClick);
-        tickIcon.gameObject.SetActive(false);
     }
 
     public void SetTick(bool isOn)
@@ -38,8 +35,10 @@ public class SkinPlayerItem : MonoBehaviour
         textPrice.gameObject.SetActive(isOn);
     }
 
-    private void OnClick()
+    public void OnClick(Action action)
     {
-        FindObjectOfType<ViewSkinPlayer>().BuySkin();
+        onClick = action;
+        bt.onClick.RemoveAllListeners();
+        bt.onClick.AddListener(() => onClick?.Invoke());
     }
 }

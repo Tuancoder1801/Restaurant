@@ -7,8 +7,8 @@ public class ShopCharacter : MonoBehaviour
     public List<PlayerEquipment> skinPlayers = new List<PlayerEquipment>();
     public List<Glass> skinGlasses = new List<Glass>();
 
-    private PlayerEquipment equipment;
-    private GameObject currentGlassInstance;
+    public PlayerEquipment equipment;
+    public GameObject currentGlassInstance;
 
     public void LoadCharacter(SkinPlayerId id)
     {

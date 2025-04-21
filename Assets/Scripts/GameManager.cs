@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Player")]
     [Space(20)]
     public Player player;
+    public AICollector collector;
     public List<AICharacter> customers;
     public List<AICharacter> customerVips;
 
@@ -55,6 +56,19 @@ public class GameManager : Singleton<GameManager>
     private void CreatePlayer()
     {
         player.gameObject.SetActive(true);
+        if (UserData.skin.GetOwnedSkins(SkinType.Set).Contains(UserData.skin.GetEquippedSkin(SkinType.Set)))
+        {
+            player.EquipSkinPlayer((SkinPlayerId)UserData.skin.GetEquippedSkin(SkinType.Set));
+        }
+
+        if (UserData.skin.GetOwnedSkins(SkinType.Glass).Contains(UserData.skin.GetEquippedSkin(SkinType.Glass)))
+        {
+            player.EquipSkinGlass((SkinGlassesId)UserData.skin.GetEquippedSkin(SkinType.Glass));
+        }
+        else
+        {
+            player.EquipSkinGlass(SkinGlassesId.None);
+        }
     }
 
     #region Customer
@@ -107,7 +121,7 @@ public class GameManager : Singleton<GameManager>
 
         if (count > items.Count)
         {
-            count = items.Count; 
+            count = items.Count;
         }
 
         for (int i = 0; i < count; i++)
@@ -219,7 +233,7 @@ public class GameManager : Singleton<GameManager>
         {
             float dis = Vector3.Distance(lo.transform.position, pos);
 
-            if(dis < distance)
+            if (dis < distance)
             {
                 location = lo;
                 distance = dis;

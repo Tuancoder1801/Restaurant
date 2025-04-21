@@ -15,6 +15,8 @@ public class AICollector : AICharacter
     public List<GameObject> goIcons;
     public Transform transIdle;
 
+    public List<CollectorEquipment> skinCollectors;
+
     private List<SubLocationMoney> locationMoneys;
     private List<Transform> wayPoints;
     private SubLocationMoney locationCurrent;
@@ -26,8 +28,11 @@ public class AICollector : AICharacter
     private string strTimeFormat = "{0:00}m {1:00}s";
 
     public bool isWorking;
+    public bool isUI = false;
 
     private Transform curWayPoint;
+
+    public CollectorEquipment collectorEquipment;
 
     protected override void OnEnable()
     {
@@ -35,16 +40,22 @@ public class AICollector : AICharacter
 
         isMoving = false;
         isWorking = false;
-        transform.position = transIdle.position;
-        transform.eulerAngles = transIdle.eulerAngles;
-        wayPoints = GameManager.Instance.transColectorWayPoints;
-        curWayPoint = null;
 
-        InitLocationTarget();
+        if (!isUI)
+        {
+            transform.position = transIdle.position;
+            transform.eulerAngles = transIdle.eulerAngles;
+            wayPoints = GameManager.Instance.transColectorWayPoints;
+            curWayPoint = null;
+
+            InitLocationTarget();
+        }
     }
 
     protected void Update()
     {
+        if (isUI) return;
+
         if (isMoving)
         {
             if (isWorking && curWayPoint != null)
@@ -242,4 +253,25 @@ public class AICollector : AICharacter
     {
         if (transIdle == null) transIdle = tran;
     }
+
+    #region Skin
+
+    public void EquipSkinCollector(SkinRobotId id)
+    {
+        for (int i = 0; i < skinCollectors.Count; i++)
+        {
+            if (skinCollectors[i].skinRobotId == id)
+            {
+                skinCollectors[i].gameObject.SetActive(true);
+                animator = skinCollectors[i].anim;
+                collectorEquipment = skinCollectors[i];
+            }
+            else
+            {
+                skinCollectors[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    #endregion
 }

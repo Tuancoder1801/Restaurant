@@ -18,6 +18,10 @@ public class GameData : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            GameDataConstant.Load();
+            UserData.Load();
+            Debug.Log("UserData loaded", this); // trong GameData
         }
         else
         {
@@ -28,9 +32,6 @@ public class GameData : MonoBehaviour
 
     private void Start()
     {
-        GameDataConstant.Load();
-        UserData.Load();
-
         if (SceneManager.GetActiveScene().name == "Start")
         {
             WaitAndLoadMap();

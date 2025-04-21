@@ -15,7 +15,11 @@ public class LocationPlayer : LocationBase
 
             if (playerAi.humanId != HumanId.Player) GameManager.Instance.smoothCamera.ZoomInToTarget(new List<Transform> { playerAi.transform });
 
-            if (playerAi.humanId == HumanId.Collector) { }
+            if (playerAi.humanId == HumanId.Collector)
+            {
+                AICollector collector = playerAi as AICollector;
+                collector.EquipSkinCollector((SkinRobotId)UserData.skin.GetEquippedSkin(SkinType.Robot));
+            }
         }
     }
 }

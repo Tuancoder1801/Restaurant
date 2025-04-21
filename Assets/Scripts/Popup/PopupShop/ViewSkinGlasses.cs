@@ -1,60 +1,105 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ViewSkinGlasses : MonoBehaviour
 {
     public Transform content;
-    public SkinGlassesItem skin;
+    public SkinGlassesItem skinPrefab;
 
     private SkinGlassesId selectingId;
     private List<SkinGlassesItem> skinGlasses = new List<SkinGlassesItem>();
 
-    private void Awake()
+    private void OnEnable()
     {
+        EnsureDefaultSkin();
+
         CreateSkinItems();
+
+        int equipped = UserData.skin.GetEquippedSkin(SkinType.Glass);
+        Select((SkinGlassesId)equipped);
+    }
+
+    private void EnsureDefaultSkin()
+    {
+        var owned = UserData.skin.GetOwnedSkins(SkinType.Glass);
+        var equipped = UserData.skin.GetEquippedSkin(SkinType.Glass);
+
+        if (owned == null || owned.Count == 0 || !owned.Contains(equipped))
+        {
+            UserData.skin.Buy(SkinType.Glass, 0);
+            UserData.skin.Equip(SkinType.Glass, 0);
+        }
     }
 
     private void CreateSkinItems()
     {
-        List<SkinGlasses> skinDatas = GameDataConstant.skin.skinGlasses;
+        foreach (Transform child in content)
+            Destroy(child.gameObject);
+        skinGlasses.Clear();
 
-        foreach (var glasses in skinDatas)
+        var skinDatas = GameDataConstant.skin.skinGlasses;
+
+        foreach (var data in skinDatas)
         {
-            SkinGlassesItem skinItem = Instantiate(skin, content);
-            skinItem.Load(glasses);
-            skinGlasses.Add(skinItem);
+            var item = Instantiate(skinPrefab, content);
+            item.Load(data);
+            item.SetTick(false);
+            item.SetPrice(true);
+            item.OnClick(() => Select(data.id));
+            skinGlasses.Add(item);
         }
     }
 
     public void Select(SkinGlassesId id)
     {
-        if (selectingId != id || selectingId == SkinGlassesId.None)
+        selectingId = id;
+
+        var skinData = GameDataConstant.skin.skinGlasses.Find(s => s.id == id);
+        if (skinData == null) return;
+
+        bool isOwned = UserData.skin.GetOwnedSkins(SkinType.Glass).Contains((int)id);
+
+        if (isOwned)
         {
-            selectingId = id;
-            Highlight();
-            UpdateSkin();
+            EquipSkin(id);
         }
-    }
-
-    private void Highlight()
-    {
-        for (int i = 0; i < skinGlasses.Count; i++)
+        else
         {
-            skinGlasses[i].SetTick(selectingId == skinGlasses[i].id);
-        }
-    }
-
-    private void UpdateSkin()
-    {
-        var skinData = GameDataConstant.skin.skinGlasses;
-
-        for (int i = 0; i < skinData.Count; i++)
-        {
-            if (skinData[i].id == selectingId)
+            if (UIGame.Instance.currentMoney >= skinData.price)
             {
-                ShopAreaController.Instance.shopCharacter.LoadGlass(selectingId);
+                UIGame.Instance.SubtractMoney(skinData.price);
+                UserData.skin.Buy(SkinType.Glass, (int)id);
+                EquipSkin(id);
             }
+            else
+            {
+                Debug.Log("Không đủ tiền mua skin.");
+            }
+        }
+
+        UpdateSkinUI();
+    }
+
+    private void EquipSkin(SkinGlassesId id)
+    {
+        UserData.skin.Equip(SkinType.Glass, (int)id);
+        GameManager.Instance.player.EquipSkinGlass(id);
+        ShopAreaController.Instance.shopCharacter.LoadGlass(id);
+    }
+
+    private void UpdateSkinUI()
+    {
+        var owned = UserData.skin.GetOwnedSkins(SkinType.Glass);
+        var equipped = UserData.skin.GetEquippedSkin(SkinType.Glass);
+
+        foreach (var item in skinGlasses)
+        {
+            bool isOwned = owned.Contains((int)item.id);
+            bool isEquipped = equipped == (int)item.id;
+
+            item.SetTick(isEquipped);
+            item.SetPrice(!isOwned);
         }
     }
 }

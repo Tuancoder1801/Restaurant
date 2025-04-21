@@ -7,10 +7,10 @@ using UnityEngine.TextCore.Text;
 using DG.Tweening.Core.Easing;
 using static UnityEngine.GraphicsBuffer;
 using System;
+using UnityEngine.XR;
 
 public class Player : Character
 {
-    //public SkinPlayerId skinPlayerId;
     public Joystick joystick;
     public CharacterController charactor;
 
@@ -19,8 +19,12 @@ public class Player : Character
     public float timeDelayUpdate;
 
     public List<PlayerEquipment> skinPlayers;
+    public List<Glass> skinGlasses;
 
-    private  PlayerEquipment playerEquipment;
+    public PlayerEquipment playerEquipment;
+    public Glass glass;
+
+    public bool isUI;
 
     protected void OnEnable()
     {
@@ -32,11 +36,13 @@ public class Player : Character
 
     protected void Update()
     {
+        if (isUI) return;
         UpdateStateNormal();
     }
 
     protected void FixedUpdate()
     {
+        if (isUI) return;
         Move();
     }
 
@@ -244,20 +250,47 @@ public class Player : Character
 
     public void EquipSkinPlayer(SkinPlayerId id)
     {
-        if(skinPlayers != null) return;
-
         for(int i = 0; i < skinPlayers.Count; i++)
         {   
-            if(skinPlayers != null && skinPlayers[i].id == id)
+            if(skinPlayers[i].id == id)
             {
-                if(playerEquipment != null)
-                {
-                    Destroy(playerEquipment.gameObject);
-                }
-
-                playerEquipment = Instantiate(skinPlayers[i], transform.position, transform.rotation);
+                skinPlayers[i].gameObject.SetActive(true);
+                animator = skinPlayers[i].animator;
+                playerEquipment = skinPlayers[i];
+            }
+            else
+            {
+                skinPlayers[i].gameObject.SetActive(false);
             }
         } 
+    }
+
+    public void EquipSkinGlass(SkinGlassesId id)
+    {
+        if (id != SkinGlassesId.None)
+        {
+            for (int i = 0; i < skinGlasses.Count; i++)
+            {
+                if (skinGlasses[i] != null && skinGlasses[i].skinGlassesId == id)
+                {
+                    if (glass != null)
+                    {
+                        Destroy(glass.gameObject);
+                    }
+
+                    glass = Instantiate(skinGlasses[i], playerEquipment.tranGlass.position, playerEquipment.tranGlass.rotation);
+                    glass.transform.SetParent(playerEquipment.tranGlass.transform);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            if (glass != null)
+            {
+                Destroy(glass.gameObject);
+            }
+        }
     }
 
     #endregion

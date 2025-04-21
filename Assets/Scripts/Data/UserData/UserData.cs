@@ -15,17 +15,15 @@ public class UserData
     {
         if (skin == null)
         {
-            string weaponPrefs = PlayerPrefs.GetString(USER_DATA_SKIN);
-            if (string.IsNullOrEmpty(weaponPrefs))
+            string skinPrefs = PlayerPrefs.GetString(USER_DATA_SKIN);
+            if (string.IsNullOrEmpty(skinPrefs))
             {
                 skin = new UserDataSkin();
             }
             else
             {
-                skin = JsonConvert.DeserializeObject<UserDataSkin>(weaponPrefs);
+                skin = JsonConvert.DeserializeObject<UserDataSkin>(skinPrefs);
             }
-
-           // Debug.Log("weapon=" + JsonConvert.SerializeObject(weapon));
         }
 
         if (money == null)

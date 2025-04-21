@@ -28,11 +28,6 @@ public class AICharacter : Character
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
-
-        if (animator == null)
-        {
-            Debug.LogError($"{gameObject.name} is missing an Animator component!");
-        }
     }
 
     protected void MoveToTarget(Vector3 pos)

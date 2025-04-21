@@ -1,125 +1,104 @@
-﻿using DG.Tweening.Core.Easing;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class ViewSkinPlayer : MonoBehaviour
 {
     public Transform content;
-    public SkinPlayerItem skin;
+    public SkinPlayerItem skinPrefab;
 
     private SkinPlayerId selectingId;
     private List<SkinPlayerItem> skinPlayers = new List<SkinPlayerItem>();
-    private List<int> ownedSkinPlayers = new List<int>();
 
     private void OnEnable()
     {
+        EnsureDefaultSkin();
+
         CreateSkinItems();
 
-        if (ownedSkinPlayers.Contains(UserData.skin.GetEquippedSkin(SkinType.Set)))
+        int equipped = UserData.skin.GetEquippedSkin(SkinType.Set);
+        Select((SkinPlayerId)equipped);
+    }
+
+    private void EnsureDefaultSkin()
+    {
+        var owned = UserData.skin.GetOwnedSkins(SkinType.Set);
+        var equipped = UserData.skin.GetEquippedSkin(SkinType.Set);
+
+        if (owned == null || owned.Count == 0 || !owned.Contains(equipped))
         {
-            Select((SkinPlayerId)UserData.skin.GetEquippedSkin(SkinType.Set));
+            UserData.skin.Buy(SkinType.Set, 0);
+            UserData.skin.Equip(SkinType.Set, 0);
         }
     }
 
     private void CreateSkinItems()
     {
-        List<SkinPlayer> skinDatas = GameDataConstant.skin.skinPlayer;
+        foreach (Transform child in content)
+            Destroy(child.gameObject);
+        skinPlayers.Clear();
 
-        foreach (var player in skinDatas)
+        var skinDatas = GameDataConstant.skin.skinPlayer;
+
+        foreach (var data in skinDatas)
         {
-            SkinPlayerItem skinItem = Instantiate(skin, content);
-            skinItem.Load(player);
-            skinPlayers.Add(skinItem);
+            var item = Instantiate(skinPrefab, content);
+            item.Load(data);
+            item.SetTick(false);
+            item.SetPrice(true);
+            item.OnClick(() => Select(data.id));
+            skinPlayers.Add(item);
         }
     }
 
     public void Select(SkinPlayerId id)
     {
-        if (selectingId != id || selectingId == SkinPlayerId.None)
+        selectingId = id;
+
+        var skinData = GameDataConstant.skin.skinPlayer.Find(s => s.id == id);
+        if (skinData == null) return;
+
+        bool isOwned = UserData.skin.GetOwnedSkins(SkinType.Set).Contains((int)id);
+
+        if (isOwned)
         {
-            selectingId = id;
-            UpdateSkin();
+            EquipSkin(id);
         }
-    }
-
-    private void UpdateSkin()
-    {
-        var skinData = GameDataConstant.skin.skinPlayer;
-
-        for (int i = 0; i < skinData.Count; i++)
+        else
         {
-            if (skinData[i].id == selectingId)
+            if (UIGame.Instance.currentMoney >= skinData.price)
             {
-                if (ownedSkinPlayers.Contains((int)skinData[i].id))
-                {
-                    skin.SetTick(false);
-                    skin.SetPrice(false);
-
-                    if ((int)skinData[i].id == UserData.skin.GetEquippedSkin(SkinType.Set))
-                    {
-                        skin.SetTick(true);
-                    }
-                    else
-                    {
-                        skin.SetTick(false);
-                    }
-                }
-                else
-                {
-                    skin.SetPrice(true);
-                    skin.SetTick(false);
-                }
-
-                ShopAreaController.Instance.shopCharacter.LoadCharacter(skinData[i].id);
-                GameManager.Instance.player.EquipSkinPlayer(skinData[i].id);
+                UIGame.Instance.SubtractMoney(skinData.price);
+                UserData.skin.Buy(SkinType.Set, (int)id);
+                EquipSkin(id);
             }
-        }
-    }
-
-    public void BuySkin()
-    {
-        var skinData = GameDataConstant.skin.skinPlayer;
-        for (int i = 0; i < skinData.Count; i++)
-        {
-            if (skinData[i].id == selectingId)
+            else
             {
-                var price = skinData[i].price;
-
-                if(UIGame.Instance.currentMoney >= price)
-                {
-                    UIGame.Instance.SubtractMoney(price);
-                }
-
-                if (!ownedSkinPlayers.Contains((int)skinData[i].id))
-                {
-                    ownedSkinPlayers.Add((int)skinData[i].id);
-                    skin.SetTick(true);
-                    skin.SetPrice(false);
-
-                    UserData.skin.Buy(SkinType.Set, (int)skinData[i].id);
-                    EquipSkin();
-                }
+                Debug.Log("Không đủ tiền mua skin.");
             }
         }
+
+        UpdateSkinUI();
     }
 
-    private void EquipSkin()
+    private void EquipSkin(SkinPlayerId id)
     {
-        var skinData = GameDataConstant.skin.skinPlayer;
-        for (int i = 0; i < skinData.Count; i++)
-        {
-            if (skinData[i].id == selectingId)
-            {   
-                ShopAreaController.Instance.shopCharacter.LoadCharacter(skinData[i].id);    
-                GameManager.Instance.player.EquipSkinPlayer(skinData[i].id);
-                skin.SetTick(true);
-                skin.SetPrice(false);
+        UserData.skin.Equip(SkinType.Set, (int)id);
+        GameManager.Instance.player.EquipSkinPlayer(id);
+        ShopAreaController.Instance.shopCharacter.LoadCharacter(id);
+    }
 
-                UserData.skin.Equip(SkinType.Set, (int)skinData[i].id);
-                //UpdateHatInfo();
-            }
+    private void UpdateSkinUI()
+    {
+        var owned = UserData.skin.GetOwnedSkins(SkinType.Set);
+        var equipped = UserData.skin.GetEquippedSkin(SkinType.Set);
+
+        foreach (var item in skinPlayers)
+        {
+            bool isOwned = owned.Contains((int)item.id);
+            bool isEquipped = equipped == (int)item.id;
+
+            item.SetTick(isEquipped);
+            item.SetPrice(!isOwned);
         }
     }
 }

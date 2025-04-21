@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,8 @@ public class SkinRobotItem : MonoBehaviour
     public Image tickIcon;
     public TextMeshProUGUI textPrice;
 
+    private Action onClick;
+
     public void Load(SkinRobot data)
     {
         id = data.id;
@@ -21,18 +24,20 @@ public class SkinRobotItem : MonoBehaviour
         textPrice.text = data.price.ToString();
     }
 
-    private void Start()
-    {
-        bt.onClick.AddListener(OnClick);
-    }
-
     public void SetTick(bool isOn)
     {
         tickIcon.gameObject.SetActive(isOn);
     }
 
-    private void OnClick()
+    public void SetPrice(bool isOn)
     {
-        FindObjectOfType<ViewSkinRobot>().Select(id);
+        textPrice.gameObject.SetActive(isOn);
+    }
+
+    public void OnClick(Action action)
+    {
+        onClick = action;
+        bt.onClick.RemoveAllListeners();
+        bt.onClick.AddListener(() => onClick?.Invoke());
     }
 }
