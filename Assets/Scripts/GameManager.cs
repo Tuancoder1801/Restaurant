@@ -30,7 +30,6 @@ public class GameManager : Singleton<GameManager>
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
 
-    private float boxRange = -99;
     private int currentBuildIndex = 0;
     private int nextCustomerIndex = 0;
 
@@ -43,7 +42,8 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void Init()
-    {
+    {   
+        currentMapIndex = UserData.map.currentMapIndex;
         mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
 
         CreatePlayer();
@@ -159,24 +159,51 @@ public class GameManager : Singleton<GameManager>
             if (i < mapData.locations.Count)
             {
                 builds[i].SetData(mapData.locations[i]);
+
+                bool isUnlocked = UserData.map.unlockedBuildIndexes.Contains(i);
+
                 builds[i].gameObject.SetActive(false);
+                locations[i].gameObject.SetActive(false);
+
+                if (isUnlocked)
+                {
+                    locations[i].gameObject.SetActive(true);
+                }
             }
         }
 
-        if (builds.Count > 0)
+        int nextBuild = UserData.map.unlockedBuildIndexes.Max() + 1;
+        if (nextBuild < builds.Count)
         {
-            builds[0].gameObject.SetActive(true);
+            builds[nextBuild].gameObject.SetActive(true);
         }
+
+        Debug.Log("Unlocked builds: " + string.Join(",", UserData.map.unlockedBuildIndexes));
     }
 
     public void OnBuildCompleted(LocationBuild completedBuild)
     {
+        int buildIndex = builds.IndexOf(completedBuild);
+
         completedBuild.gameObject.SetActive(false);
-        BuildObject();
-        currentBuildIndex++;
-        if (currentBuildIndex < builds.Count)
+
+        if (buildIndex < locations.Count)
         {
-            builds[currentBuildIndex].gameObject.SetActive(true);
+            locations[buildIndex].gameObject.SetActive(true);
+            currentBuildIndex = buildIndex;
+            BuildObject();
+        }
+
+        if (!UserData.map.unlockedBuildIndexes.Contains(buildIndex))
+        {
+            UserData.map.unlockedBuildIndexes.Add(buildIndex);
+            UserData.Save();
+        }
+
+        int nextBuildIndex = buildIndex + 1;
+        if (nextBuildIndex < builds.Count)
+        {
+            builds[nextBuildIndex].gameObject.SetActive(true);
         }
     }
 
@@ -267,7 +294,6 @@ public class GameManager : Singleton<GameManager>
     public bool SpendMoney(double money, bool reduceToZero = false)
     {
         double required = Math.Abs(money);
-        Debug.Log($"[SpendMoney] Try spending {required}, current = {UIGame.Instance.currentMoney}");
 
         if (UIGame.Instance.currentMoney < required)
         {

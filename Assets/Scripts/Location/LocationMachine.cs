@@ -217,10 +217,6 @@ public class LocationMachine : LocationBase
                         sequence.Append(
                         im.transform.DOJump(posMachine.position, 1f, 1, 0.2f).OnComplete(() =>
                         {
-                            //im.transform.SetParent(posMachine);
-                            //im.transform.localPosition = Vector3.zero;
-                            //im.transform.localRotation = Quaternion.identity;
-                            //im.transform.localScale = Vector3.one;
                             Destroy(im.gameObject);
                         }));
                     }
@@ -307,10 +303,5 @@ public class LocationMachine : LocationBase
         }));
 
         product.PushItem(i, index);
-    }
-
-    private void Clear()
-    {
-        StopCoroutine(ieWaitMakeProduct);
     }
 }

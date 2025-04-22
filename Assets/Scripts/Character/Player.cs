@@ -164,8 +164,6 @@ public class Player : Character
             float distancePush = Vector3.Distance(this.transform.position, locationMachine.posMaterialCenter.position);
             float distancePop = Vector3.Distance(this.transform.position, locationMachine.posProductCenter.position);
 
-            Debug.Log($"distancePush: {distancePush}, distancePop: {distancePop}");
-
             if (distancePush < distancePop)
             {
                 locationMachine.goPlayer = null;

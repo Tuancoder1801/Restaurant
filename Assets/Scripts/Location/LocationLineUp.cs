@@ -24,26 +24,22 @@ public class LocationLineUp : MonoBehaviour
 
     public List<AICustomer> TakeCustomer(int number)
     {
-        if (takeLock) return null;
+        if (takeLock || customers.Count < number) return null;
 
         takeLock = true;
 
-        List<AICustomer> temps = null;
-        if(customers.Count >= number)
+        List<AICustomer> temps = new List<AICustomer>();
+
+        for (int i = 0; i < number; i++)
         {
-            temps = new List<AICustomer>();
+            var cs = customers[0];
+            temps.Add(cs);
+            customers.RemoveAt(0);
+        }
 
-            for(int i = 0; i < number; i++)
-            {
-                var cs = customers[0]; // lấy đầu danh sách
-                temps.Add(cs);
-                customers.RemoveAt(0);
-            }
-
-            for (int i = 0; i < customers.Count; i++)
-            {
-                customers[i].LineUpNext(queuePos[i]);
-            }
+        for (int i = 0; i < customers.Count; i++)
+        {
+            customers[i].LineUpNext(queuePos[i]);
         }
 
         takeLock = false;

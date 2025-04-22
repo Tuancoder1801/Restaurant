@@ -8,6 +8,7 @@ public class MapData : ScriptableObject
 {
     public int MapId;
     public string nameMap;
+    public string nameRestaurant; 
     public List<Location> locations;
 }
 
@@ -15,7 +16,6 @@ public class MapData : ScriptableObject
 public class Location
 {
     public LocationId locationId;
-    //public string name;
     public Sprite icon;
     public float price;
 }
