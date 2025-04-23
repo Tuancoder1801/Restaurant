@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemId: 20
-  height: 0.55
+  height: 0.35
 --- !u!1001 &3893718115270832346
 PrefabInstance:
   m_ObjectHideFlags: 0
