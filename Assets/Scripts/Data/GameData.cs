@@ -21,7 +21,7 @@ public class GameData : MonoBehaviour
 
             GameDataConstant.Load();
             UserData.Load();
-            Debug.Log("UserData loaded", this); // trong GameData
+            Debug.Log("UserData loaded", this);
         }
         else
         {
@@ -32,6 +32,8 @@ public class GameData : MonoBehaviour
 
     private void Start()
     {
+        currentMapIndex = UserData.map.currentMapIndex;
+
         if (SceneManager.GetActiveScene().name == "Start")
         {
             WaitAndLoadMap();
@@ -53,19 +55,19 @@ public class GameData : MonoBehaviour
 
     public void NextMap()
     {
-        if(currentMapIndex + 1 < GameDataConstant.maps.Count)
+        int next = UserData.map.currentMapIndex + 1;
+        if (next < GameDataConstant.maps.Count)
         {
-            currentMapIndex++;
-            isLoadingMap = true;
+            UserData.map.currentMapIndex = next;
+            UserData.PrepareMapSave(next);
+            UserData.Save(); 
+
             SceneManager.LoadScene("Start");
-            //LoadCurrentMap();
         }
     }
 
     private void WaitAndLoadMap()
     {
-        //yield return new WaitForSeconds(1f); // Chờ 2 giây trước khi load map mới
-
         if (isLoadingMap)
         {
             isLoadingMap = false;
@@ -93,8 +95,7 @@ public class GameData : MonoBehaviour
 
     public string GetNameMap()
     {
-        if (currentMapIndex >= GameDataConstant.maps.Count) return null;
-        return GameDataConstant.maps[currentMapIndex].nameMap;
+        return GameDataConstant.maps[UserData.map.currentMapIndex].nameMap;
     }
 
     #endregion

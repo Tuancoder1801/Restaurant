@@ -14,6 +14,7 @@ public class StaticValue
 
     public static string CHARACTER_NAME_TAG = "Player";
     public static string COLLECCTOR_NAME_TAG = "Collector";
+    public static string CHEF_NAME_TAG = "Chef";
     public static string OBSTACLE_NAME_TAG = "Obstacle";
     public static string LOCATION_NAME_TAG = "Location";
 

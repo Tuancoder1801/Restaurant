@@ -15,7 +15,7 @@ public class SubLocationMachine : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
+        if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG) || other.tag.Equals(StaticValue.CHEF_NAME_TAG))
         {
             machine.AddChef(other.gameObject);
             fxIndexCook.gameObject.SetActive(false);
@@ -24,7 +24,7 @@ public class SubLocationMachine : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
+        if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG) || other.tag.Equals(StaticValue.CHEF_NAME_TAG))
         { 
             machine.RemoveChef(other.gameObject);
             fxIndexCook.gameObject.SetActive(true);

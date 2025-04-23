@@ -1362,6 +1362,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerWitch 1
       objectReference: {fileID: 0}
+    - target: {fileID: 526613245059717917, guid: a500f6cc34210d944a3700c395280291, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2261382050749913339, guid: a500f6cc34210d944a3700c395280291, type: 3}
       propertyPath: id
       value: 5
@@ -1378,6 +1382,10 @@ PrefabInstance:
       propertyPath: skinPlayerId
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3210232884567379636, guid: a500f6cc34210d944a3700c395280291, type: 3}
+      propertyPath: skinPlayers.Array.data[8]
+      value: 
+      objectReference: {fileID: 5195498089871170982}
     - target: {fileID: 3239795508806675018, guid: a500f6cc34210d944a3700c395280291, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1431,6 +1439,17 @@ PrefabInstance:
       addedObject: {fileID: 3221616256497509503}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a500f6cc34210d944a3700c395280291, type: 3}
+--- !u!114 &5195498089871170982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2261382050749913339, guid: a500f6cc34210d944a3700c395280291, type: 3}
+  m_PrefabInstance: {fileID: 6302812976694510941}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1698fa5e241e942849a8d37b563dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8903062153469800215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3239795508806675018, guid: a500f6cc34210d944a3700c395280291, type: 3}

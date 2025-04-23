@@ -130,15 +130,6 @@ public class AICollector : AICharacter
                 }
             }
         }
-        else
-        {
-            // Nếu đang idle mà có location nào có tiền → chuyển sang làm việc luôn
-            if (locationMoneys.Any(x => x.currentMoney > 0 && x.gameObject.activeSelf))
-            {
-                SetWorking(true, 30f);
-                NextTask();
-            }
-        }
     }
 
     private void InitLocationTarget()

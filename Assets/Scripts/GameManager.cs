@@ -35,6 +35,7 @@ public class GameManager : Singleton<GameManager>
 
     private int countCustomer;
     private MapData mapData;
+    private UserMapData mapSave => UserData.map.allMapData[UserData.map.currentMapIndex];
 
     private void Awake()
     {
@@ -42,8 +43,10 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void Init()
-    {   
+    {
         currentMapIndex = UserData.map.currentMapIndex;
+        UserData.PrepareMapSave(currentMapIndex);
+
         mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
 
         CreatePlayer();
@@ -154,13 +157,16 @@ public class GameManager : Singleton<GameManager>
     {
         if (mapData == null) return;
 
+        nextCustomerIndex = 0;
+        countCustomer = 0;
+
         for (int i = 0; i < builds.Count; i++)
         {
             if (i < mapData.locations.Count)
             {
                 builds[i].SetData(mapData.locations[i]);
 
-                bool isUnlocked = UserData.map.unlockedBuildIndexes.Contains(i);
+                bool isUnlocked = mapSave.unlockedBuildIndexes.Contains(i);
 
                 builds[i].gameObject.SetActive(false);
                 locations[i].gameObject.SetActive(false);
@@ -168,17 +174,35 @@ public class GameManager : Singleton<GameManager>
                 if (isUnlocked)
                 {
                     locations[i].gameObject.SetActive(true);
+
+                    if (locations[i].locationId == LocationId.Table)
+                    {
+                        LocationTable table = (LocationTable)locations[i];
+                        if (mapSave.customersPerBuild.TryGetValue(i, out int customerCount))
+                        {
+                            int max = nextCustomerIndex + customerCount;
+                            for (int j = nextCustomerIndex; j < max; j++)
+                            {
+                                if (j >= customers.Count) break;
+
+                                var customer = customers[j];
+                                customer.gameObject.SetActive(true);
+                                customer.posIndex = j % transCustomers.Count;
+
+                                nextCustomerIndex++;
+                                countCustomer++;
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        int nextBuild = UserData.map.unlockedBuildIndexes.Max() + 1;
+        int nextBuild = mapSave.unlockedBuildIndexes.Max() + 1;
         if (nextBuild < builds.Count)
         {
             builds[nextBuild].gameObject.SetActive(true);
         }
-
-        Debug.Log("Unlocked builds: " + string.Join(",", UserData.map.unlockedBuildIndexes));
     }
 
     public void OnBuildCompleted(LocationBuild completedBuild)
@@ -194,11 +218,19 @@ public class GameManager : Singleton<GameManager>
             BuildObject();
         }
 
-        if (!UserData.map.unlockedBuildIndexes.Contains(buildIndex))
+        if (!mapSave.unlockedBuildIndexes.Contains(buildIndex))
         {
-            UserData.map.unlockedBuildIndexes.Add(buildIndex);
-            UserData.Save();
+            mapSave.unlockedBuildIndexes.Add(buildIndex);
         }
+
+        if (locations[buildIndex].locationId == LocationId.Table)
+        {
+            LocationTable table = (LocationTable)locations[buildIndex];
+            int seats = table.transChairs?.Count ?? 0;
+            mapSave.customersPerBuild[buildIndex] = seats;
+        }
+
+        UserData.Save();
 
         int nextBuildIndex = buildIndex + 1;
         if (nextBuildIndex < builds.Count)
@@ -209,6 +241,9 @@ public class GameManager : Singleton<GameManager>
 
     private void BuildObject()
     {
+        int mapId = UserData.map.currentMapIndex;
+        var mapSave = UserData.map.allMapData[mapId];
+
         for (int i = 0; i < locations.Count; i++)
         {
             if (i == currentBuildIndex)
@@ -217,13 +252,19 @@ public class GameManager : Singleton<GameManager>
 
                 if (locations[i].locationId == LocationId.Table)
                 {
-                    LocationTable countChair = (LocationTable)locations[i];
+                    LocationTable table = (LocationTable)locations[i];
+                    if (table.transChairs == null || table.transChairs.Count == 0) return;
 
-                    if (countChair.transChairs == null || countChair.transChairs.Count == 0) return;
+                    int customerCount = table.transChairs.Count;
 
-                    int seats = countChair.transChairs.Count;
-                    int max = nextCustomerIndex + seats;
+                    // 🔒 CHỈ THÊM MỚI nếu chưa có
+                    if (!mapSave.customersPerBuild.ContainsKey(i))
+                    {
+                        mapSave.customersPerBuild[i] = customerCount;
+                        UserData.Save();
+                    }
 
+                    int max = nextCustomerIndex + customerCount;
                     for (int j = nextCustomerIndex; j < max; j++)
                     {
                         if (j >= customers.Count) break;
@@ -242,6 +283,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
 
     #endregion
 

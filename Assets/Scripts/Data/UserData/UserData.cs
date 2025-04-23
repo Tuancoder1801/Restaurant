@@ -34,18 +34,25 @@ public class UserData
             if (string.IsNullOrEmpty(mapPrefs))
             {
                 map = new UserDataMap();
-                map.unlockedBuildIndexes.Add(-1);
+                map.currentMapIndex = 0;
+                map.allMapData[0] = new UserMapData();
+                map.allMapData[0].unlockedBuildIndexes.Add(-1);
                 Save();
             }
             else
             {
                 map = JsonConvert.DeserializeObject<UserDataMap>(mapPrefs);
             }
+
+            if (PlayerPrefs.HasKey("last_map_index"))
+            {
+                map.currentMapIndex = PlayerPrefs.GetInt("last_map_index");
+            }
         }
 
         if (money == null)
         {
-            money = new UserDataMoney(); // Khởi tạo UserDataCoins nếu chưa được tạo
+            money = new UserDataMoney();
         }
     }
 
@@ -53,6 +60,24 @@ public class UserData
     {
         string json = JsonConvert.SerializeObject(map);
         PlayerPrefs.SetString(USER_DATA_MAP, json);
+
+        PlayerPrefs.SetInt("last_map_index", map.currentMapIndex);
+
         PlayerPrefs.Save();
+    }
+
+    public static void PrepareMapSave(int mapId)
+    {
+        if (map == null)
+        {
+            map = new UserDataMap();
+        }
+
+        if (!map.allMapData.ContainsKey(mapId))
+        {
+            map.allMapData[mapId] = new UserMapData();
+            map.allMapData[mapId].unlockedBuildIndexes.Add(-1); // mặc định ban đầu
+            Save();
+        }
     }
 }

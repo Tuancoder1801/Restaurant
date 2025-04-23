@@ -23,8 +23,9 @@ public class AIChef : AICharacter
     {
         if (isMoving)
         {
-            Debug.Log("isMoving");
-            if(Vector3.Distance(transform.position, targetPos) < 0.1f)
+            if (agent.pathPending) return;
+
+            if (agent.remainingDistance <= 0.1f && agent.hasPath)
             {
                 StopMove();
                 LeanTween.rotate(gameObject, machine.posChef.eulerAngles, 0.3f);

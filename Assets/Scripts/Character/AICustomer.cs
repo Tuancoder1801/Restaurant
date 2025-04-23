@@ -64,15 +64,11 @@ public class AICustomer : AICharacter
     {
         if (isMoving)
         {
-            var d = Vector3.Distance(transform.position, targetPos);
+            if (agent.pathPending) return;
 
-            if (d < minDistance || (d < 4f && lastDistance == d))
+            if (agent.remainingDistance <= minDistance && agent.hasPath)
             {
                 StopMove();
-            }
-            else
-            {
-                lastDistance = d;
             }
         }
         else
