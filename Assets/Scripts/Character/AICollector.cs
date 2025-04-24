@@ -96,7 +96,7 @@ public class AICollector : AICharacter
                 if (timeCurrent <= 0)
                 {  
                     LeanTween.rotate(gameObject, transIdle.transform.eulerAngles, 0.3f);
-                    SetWorking(false, 10f);
+                    SetWorking(false, 120f);
                 }
             }
         }
@@ -120,7 +120,7 @@ public class AICollector : AICharacter
                     }
                     else
                     {
-                        SetWorking(true, 30f);
+                        SetWorking(true, 60f);
                         NextTask();
                     }
                 }

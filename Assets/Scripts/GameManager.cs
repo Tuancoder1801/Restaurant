@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,21 +40,19 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        Init();
-    }
-
-    private void Init()
-    {
         currentMapIndex = UserData.map.currentMapIndex;
         UserData.PrepareMapSave(currentMapIndex);
 
         mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
 
-        CreatePlayer();
-
         loadMapData();
 
         StartCoroutine(SpawnCustomer(6));
+    }
+
+    private void Start()
+    {
+        CreatePlayer();
     }
 
     private void CreatePlayer()
@@ -198,8 +197,11 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        int nextBuild = mapSave.unlockedBuildIndexes.Max() + 1;
-        if (nextBuild < builds.Count)
+        int nextBuild = (mapSave.unlockedBuildIndexes?.Count > 0)
+        ? mapSave.unlockedBuildIndexes.Max() + 1
+        : 0;
+
+        if (nextBuild < builds.Count && !mapSave.unlockedBuildIndexes.Contains(nextBuild))
         {
             builds[nextBuild].gameObject.SetActive(true);
         }

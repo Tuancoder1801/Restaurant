@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PopupSetting : MonoBehaviour
+public class PopupSetting : BasePopup
 {
     // Start is called before the first frame update
     void Start()

@@ -43,6 +43,7 @@ public class Player : Character
     protected void FixedUpdate()
     {
         if (isUI) return;
+
         Move();
     }
 

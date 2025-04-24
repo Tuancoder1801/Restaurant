@@ -3,19 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIGame : Singleton<UIGame>
-{   
+{
+    public Transform bg;
+
     [Header("Money")]
     public TextMeshProUGUI textMoney;
 
     [Header("Popups")]
-    public Button btShop; 
+    public Button btShop;
     public PopupShop popupShop;
     public Button btSetting;
     public PopupSetting popupSetting;
+    public Button btMart;
+    public PopupMart popupMart;
 
     public double currentMoney = 0;
     private Coroutine moneyCoroutine;
@@ -25,6 +30,7 @@ public class UIGame : Singleton<UIGame>
         UpdateMoneyText(currentMoney);
         btShop.onClick.AddListener(ClickButtonShop);
         btSetting.onClick.AddListener(ClickButtonSetting);
+        btMart.onClick.AddListener(ClickButtonMart);
     }
 
     #region money
@@ -44,8 +50,6 @@ public class UIGame : Singleton<UIGame>
         currentMoney = newMoney;
         if (moneyCoroutine != null) StopCoroutine(moneyCoroutine);
         moneyCoroutine = StartCoroutine(AnimateMoneyChange(currentMoney, newMoney));
-        //currentMoney = newMoney;
-        Debug.Log($"[SubtractMoney] New Money: {currentMoney}");
     }
 
     private IEnumerator AnimateMoneyChange(double from, double to)
@@ -84,11 +88,35 @@ public class UIGame : Singleton<UIGame>
     private void ClickButtonShop()
     {
         popupShop.gameObject.SetActive(true);
+        HideButtons();
     }
 
     private void ClickButtonSetting()
     {
         popupSetting.gameObject.SetActive(true);
+        HideButtons();
+    }
+
+    private void ClickButtonMart()
+    {
+        popupMart.gameObject.SetActive(true);
+        HideButtons();
+    }
+
+    private void HideButtons()
+    {
+        bg.gameObject.SetActive(true);
+        btSetting.gameObject.SetActive(false);
+        btShop.gameObject.SetActive(false);
+        btMart.gameObject.SetActive(false);
+    }
+
+    public void ShowButtons()
+    {
+        bg.gameObject.SetActive(false);
+        btSetting.gameObject.SetActive(true);
+        btShop.gameObject.SetActive(true);
+        btMart.gameObject.SetActive(true);
     }
 
     #endregion

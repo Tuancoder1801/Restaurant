@@ -101,14 +101,7 @@ public class SubLocationMoney : MonoBehaviour
         }
 
         ieWaitPaymentMoney = null;
-        if (goPlayer != null)
-        {
-            TakeMoney(goPlayer.transform); // ưu tiên player
-        }
-        else if (goCollector != null)
-        {
-            TakeMoney(goCollector.transform);
-        }
+        if (goPlayer != null) TakeMoney(goPlayer.transform);
     }
 
     private Vector3 GetMoneyPosition()

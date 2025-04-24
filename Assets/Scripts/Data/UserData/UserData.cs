@@ -35,13 +35,13 @@ public class UserData
             {
                 map = new UserDataMap();
                 map.currentMapIndex = 0;
-                map.allMapData[0] = new UserMapData();
-                map.allMapData[0].unlockedBuildIndexes.Add(-1);
+                map.InitDefault();
                 Save();
             }
             else
             {
                 map = JsonConvert.DeserializeObject<UserDataMap>(mapPrefs);
+                map.InitDefault();
             }
 
             if (PlayerPrefs.HasKey("last_map_index"))
@@ -68,10 +68,7 @@ public class UserData
 
     public static void PrepareMapSave(int mapId)
     {
-        if (map == null)
-        {
-            map = new UserDataMap();
-        }
+        map.UnlockMap(mapId);
 
         if (!map.allMapData.ContainsKey(mapId))
         {
@@ -79,5 +76,11 @@ public class UserData
             map.allMapData[mapId].unlockedBuildIndexes.Add(-1); // mặc định ban đầu
             Save();
         }
+    }
+
+    public static void CompleteCurrentMap()
+    {
+        map.CompleteMap(map.currentMapIndex);
+        Save();
     }
 }

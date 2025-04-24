@@ -45,14 +45,22 @@ public class LocationNextMap : LocationBase
         if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
         {
             Clear();
-            StopCoroutine(ieWaitProgress);
+            if (ieWaitProgress != null)
+            {
+                StopCoroutine(ieWaitProgress);
+                ieWaitProgress = null;
+            }
         }
     }
 
     private void Clear()
     {
         LeanTween.cancel(goUI);
-        StopCoroutine(ieWaitProgress);
+        if (ieWaitProgress != null)
+        {
+            StopCoroutine(ieWaitProgress);
+            ieWaitProgress = null;
+        }
         LeanTween.scale(goUI, new Vector3(-0.015f, 0.015f, 1f), 0.5f);
         imgProgress.fillAmount = 0;
     }
@@ -77,6 +85,7 @@ public class LocationNextMap : LocationBase
 
         yield return new WaitForSeconds(1f);
 
+        UserData.CompleteCurrentMap();
         GameManager.Instance.NextMap();
     }
 }

@@ -16,6 +16,7 @@ public class BasePopup : MonoBehaviour
     protected void ClickExit()
     {
         gameObject.SetActive(false);
+        UIGame.Instance.ShowButtons();
         ShopAreaController.Instance.Hide();
     }
 }

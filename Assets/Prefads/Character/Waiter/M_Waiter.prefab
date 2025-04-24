@@ -1035,6 +1035,9 @@ MonoBehaviour:
   timeRequest: 0.2
   locationTables: []
   locationMachines: []
+  currentTable: {fileID: 0}
+  currentMachine: {fileID: 0}
+  currentTrash: {fileID: 0}
 --- !u!136 &6347629302810317524
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1094,7 +1097,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 617593966196983438}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Speed: 4.5
   m_Acceleration: 100
   avoidancePriority: 40
