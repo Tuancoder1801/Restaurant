@@ -12,6 +12,7 @@ TagManager:
   - Location
   - Customer
   - Collector
+  - UICamera
   layers:
   - Default
   - TransparentFX
