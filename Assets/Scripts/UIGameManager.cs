@@ -1,31 +1,22 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIGameManager : MonoBehaviour
 {
     public static UIGameManager Instance;
 
     public Canvas canvas;
+    public UIGame UIGame;
+    public Joystick joystick;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            Camera cam = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
-            if (cam != null)
-            {
-                Camera uiCamera = cam;
-
-                if (canvas != null)
-                {
-                    canvas.worldCamera = uiCamera;
-                    
-                }   
-            }         
+            DontDestroyOnLoad(gameObject);    
         }
         else
         {

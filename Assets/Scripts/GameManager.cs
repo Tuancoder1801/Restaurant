@@ -45,6 +45,8 @@ public class GameManager : Singleton<GameManager>
 
         mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
 
+        ShowUI();
+
         loadMapData();
 
         StartCoroutine(SpawnCustomer(6));
@@ -53,6 +55,22 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         CreatePlayer();
+    }
+
+    private void ShowUI()
+    {
+        UIGameManager.Instance.gameObject.SetActive(true);
+        UIGame.Instance.HidePopups();
+        Camera cam = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
+        if (cam != null)
+        {
+            Camera uiCamera = cam;
+
+            if (UIGameManager.Instance.canvas != null)
+            {
+                UIGameManager.Instance.canvas.worldCamera = uiCamera;
+            }
+        }
     }
 
     private void CreatePlayer()
@@ -259,7 +277,6 @@ public class GameManager : Singleton<GameManager>
 
                     int customerCount = table.transChairs.Count;
 
-                    // 🔒 CHỈ THÊM MỚI nếu chưa có
                     if (!mapSave.customersPerBuild.ContainsKey(i))
                     {
                         mapSave.customersPerBuild[i] = customerCount;

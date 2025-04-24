@@ -41,21 +41,24 @@ public class PopupMart : BasePopup
                 item.txtlock.gameObject.SetActive(false);
                 item.btnGoTo.gameObject.SetActive(false);
             }
-
-            if (isCompleted)
+            else
             {
-                item.btnGoTo.gameObject.SetActive(true);
-                item.txtLocation.gameObject.SetActive(false);
-                item.txtlock.gameObject.SetActive(false);
-
-                int capturedIndex = i;
-                item.btnGoTo.onClick.AddListener(() =>
+                if (isCompleted || isUnlocked)
                 {
-                    UserData.map.currentMapIndex = capturedIndex;
-                    UserData.Save();
+                    item.btnGoTo.gameObject.SetActive(true);
+                    item.txtLocation.gameObject.SetActive(false);
+                    item.txtlock.gameObject.SetActive(false);
 
-                    SceneManager.LoadScene("Start");
-                });
+                    int capturedIndex = i;
+                    item.btnGoTo.onClick.AddListener(() =>
+                    {
+                        UserData.map.currentMapIndex = capturedIndex;
+                        UserData.Save();
+
+                        UIGameManager.Instance.gameObject.SetActive(false);
+                        SceneManager.LoadScene("Start");
+                    });
+                }
             }
         }
     }

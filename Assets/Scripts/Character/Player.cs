@@ -29,8 +29,7 @@ public class Player : Character
     protected void OnEnable()
     {
         timeDelayUpdate = 0.5f;
-        joystick = FindAnyObjectByType<Joystick>();
-
+        joystick = UIGameManager.Instance.joystick;
         EquipSkinPlayer((SkinPlayerId)UserData.skin.GetEquippedSkin(SkinType.Set));
     }
 

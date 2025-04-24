@@ -111,6 +111,14 @@ public class UIGame : Singleton<UIGame>
         btMart.gameObject.SetActive(false);
     }
 
+    public void HidePopups()
+    {
+        ShowButtons();
+        popupSetting.gameObject.SetActive(false);
+        popupMart.gameObject.SetActive(false);
+        popupShop.gameObject.SetActive(false);  
+    }
+
     public void ShowButtons()
     {
         bg.gameObject.SetActive(false);

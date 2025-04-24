@@ -34,7 +34,7 @@ public class LocationTableVip : LocationBase
     public float timeWait;
     private TimeSpan timeSpan;
     private string strTimeFormat = "{0:00}m {1:00}s";
-    private float bonus = 1f;
+    private float bonus = 2f;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class LocationTableVip : LocationBase
         product.Init();
         uiLocation.transform.localScale = new Vector3(0.02f, 0.02f, 1f);
 
-        StartCoroutine(IEWaitTaskCreate(isJustUnlock ? -1f : 10f));
+        StartCoroutine(IEWaitTaskCreate(isJustUnlock ? -1f : 120f));
         if (isJustUnlock) isJustUnlock = false;
     }
 
@@ -260,7 +260,7 @@ public class LocationTableVip : LocationBase
         }
         money = 0;
 
-        StartCoroutine(IEWaitTaskCreate(10f));
+        StartCoroutine(IEWaitTaskCreate(120f));
     }
 
     public override void CustomerSit()

@@ -85,6 +85,7 @@ public class LocationNextMap : LocationBase
 
         yield return new WaitForSeconds(1f);
 
+        UIGameManager.Instance.gameObject.SetActive(false);
         UserData.CompleteCurrentMap();
         GameManager.Instance.NextMap();
     }
