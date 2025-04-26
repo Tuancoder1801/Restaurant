@@ -314,6 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locationId: 4
   box: {fileID: 9075246000839887833}
+  buildIndex: 0
   goPlayer: {fileID: 0}
   tableType: 4
   transChairs:
@@ -1379,6 +1380,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: posMoney
       objectReference: {fileID: 0}
+    - target: {fileID: 3683870353032845103, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: sfxCash
+      value: 
+      objectReference: {fileID: 8300000, guid: f81f68879c592514080255e95ee358c6, type: 3}
+    - target: {fileID: 3683870353032845103, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
+      propertyPath: sfxDolaFry
+      value: 
+      objectReference: {fileID: 8300000, guid: 08eb9ccd46687ec44b5f4af28c0d9eb7, type: 3}
     - target: {fileID: 8894327901302222630, guid: 726f1fb950cfa1847b3ae7cbd79f31e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

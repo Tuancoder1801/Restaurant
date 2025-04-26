@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build.Content;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoadingScene : MonoBehaviour
 {
-    private AsyncOperation async;
-
-    //public UnityEvent<float> Onloading;
     public Image imgProgress;
+    public GameData gameData;
 
     private string nameMap;
 
@@ -25,13 +19,7 @@ public class LoadingScene : MonoBehaviour
         {
             imgProgress.fillAmount = 1f;
         });
-        async = SceneManager.LoadSceneAsync("DataHolder", LoadSceneMode.Additive);
         StartCoroutine(IEWaitNextScene());
-    }
-
-    private void Update()
-    {
-        
     }
 
     public IEnumerator IEWaitNextScene()
@@ -40,7 +28,7 @@ public class LoadingScene : MonoBehaviour
 
         yield return new WaitUntil(() => GameData.Instance != null);
 
-        yield return new WaitUntil(() => imgProgress.fillAmount == 1);
+        yield return new WaitUntil(() => imgProgress.fillAmount >= 1);
 
         nameMap = GameData.Instance.GetNameMap();
 

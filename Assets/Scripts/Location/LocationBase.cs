@@ -7,6 +7,7 @@ public class LocationBase : MonoBehaviour
 {
     public LocationId locationId;
     public Collider box;
+    public int buildIndex;
 
     [HideInInspector]
     public GameObject goPlayer;

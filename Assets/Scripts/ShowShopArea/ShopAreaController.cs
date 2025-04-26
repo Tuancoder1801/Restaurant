@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShopAreaController : Singleton<ShopAreaController>
 {
-    //public static ShopAreaController Instance;
+    public static ShopAreaController Instance;
 
     public GameObject goContent;
     public ShopCharacter shopCharacter;
@@ -12,15 +12,15 @@ public class ShopAreaController : Singleton<ShopAreaController>
 
     private void Awake()
     {
-        //if (Instance == null)
-        //{
-        //    Instance = this;
-        //    DontDestroyOnLoad(gameObject);  
-        //}
-        //else
-        //{
-        //    Destroy(gameObject);
-        //}
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         goContent.SetActive(false);
     }

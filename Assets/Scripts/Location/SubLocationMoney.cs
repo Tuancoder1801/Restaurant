@@ -16,6 +16,10 @@ public class SubLocationMoney : MonoBehaviour
     public int zMax;
 
     [Space(10)]
+    public AudioClip sfxCash;
+    public AudioClip sfxDolaFry;  
+ 
+    [Space(10)]
     public bool isSuitcase;
 
     private GameObject goPlayer;
@@ -70,6 +74,8 @@ public class SubLocationMoney : MonoBehaviour
 
     public void PaymentMoney(double money, Vector3 pos)
     {
+        AudioManager.Instance.audioSFX.PlayOneShot(sfxCash);
+
         currentMoney += money;
 
         if (money > moneyMax) money = moneyMax;
@@ -194,7 +200,7 @@ public class SubLocationMoney : MonoBehaviour
         }
 
         currentMoney = 0;
-
+        AudioManager.Instance.audioSFX.PlayOneShot(sfxDolaFry);
         ieWaitTakeMoney = null;
     }
 

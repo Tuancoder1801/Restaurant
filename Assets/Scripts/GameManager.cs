@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Playables;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -31,16 +31,23 @@ public class GameManager : Singleton<GameManager>
     public List<LocationBuild> builds;
     public List<LocationBase> locations;
 
+    [Space(10)]
+    public AudioClip sfxBuildUnlock;
+
     private int currentBuildIndex = 0;
     private int nextCustomerIndex = 0;
 
     private int countCustomer;
     private MapData mapData;
-    private UserMapData mapSave => UserData.map.allMapData[UserData.map.currentMapIndex];
+    public UserMapData mapSave => UserData.map.GetMapData(UserData.map.currentMapIndex);
 
     private void Awake()
     {
+        GameObject.Find("GameData").GetComponent<GameData>().Init();
+        GameObject.Find("UIGameManager").GetComponent<UIGameManager>().Init();
+
         currentMapIndex = UserData.map.currentMapIndex;
+
         UserData.PrepareMapSave(currentMapIndex);
 
         mapData = GameData.Instance.GetCurrentMapData(currentMapIndex);
@@ -50,10 +57,7 @@ public class GameManager : Singleton<GameManager>
         loadMapData();
 
         StartCoroutine(SpawnCustomer(6));
-    }
 
-    private void Start()
-    {
         CreatePlayer();
     }
 
@@ -69,6 +73,8 @@ public class GameManager : Singleton<GameManager>
             if (UIGameManager.Instance.canvas != null)
             {
                 UIGameManager.Instance.canvas.worldCamera = uiCamera;
+
+                Debug.Log("worldCamera: " + UIGameManager.Instance.canvas.worldCamera);
             }
         }
     }
@@ -195,7 +201,8 @@ public class GameManager : Singleton<GameManager>
                     if (locations[i].locationId == LocationId.Table)
                     {
                         LocationTable table = (LocationTable)locations[i];
-                        if (mapSave.customersPerBuild.TryGetValue(i, out int customerCount))
+                        int customerCount = mapSave.GetCustomerCount(i);
+                        if (customerCount > 0)
                         {
                             int max = nextCustomerIndex + customerCount;
                             for (int j = nextCustomerIndex; j < max; j++)
@@ -227,8 +234,9 @@ public class GameManager : Singleton<GameManager>
 
     public void OnBuildCompleted(LocationBuild completedBuild)
     {
-        int buildIndex = builds.IndexOf(completedBuild);
+        AudioManager.Instance.audioSFX.PlayOneShot(sfxBuildUnlock);
 
+        int buildIndex = builds.IndexOf(completedBuild);
         completedBuild.gameObject.SetActive(false);
 
         if (buildIndex < locations.Count)
@@ -247,7 +255,7 @@ public class GameManager : Singleton<GameManager>
         {
             LocationTable table = (LocationTable)locations[buildIndex];
             int seats = table.transChairs?.Count ?? 0;
-            mapSave.customersPerBuild[buildIndex] = seats;
+            mapSave.SetCustomerCount(buildIndex, seats);
         }
 
         UserData.Save();
@@ -277,9 +285,9 @@ public class GameManager : Singleton<GameManager>
 
                     int customerCount = table.transChairs.Count;
 
-                    if (!mapSave.customersPerBuild.ContainsKey(i))
+                    if (mapSave.data.GetCustomerCount(i) == 0)
                     {
-                        mapSave.customersPerBuild[i] = customerCount;
+                        mapSave.data.SetCustomerCount(i, customerCount);
                         UserData.Save();
                     }
 

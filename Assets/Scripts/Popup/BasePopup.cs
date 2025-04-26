@@ -8,13 +8,15 @@ public class BasePopup : MonoBehaviour
 {
     public Button btExit;
 
-    protected void Awake()
+    protected virtual void Start()
     {
         btExit.onClick.AddListener(ClickExit);
     }
 
     protected void ClickExit()
     {
+        AudioManager.Instance.TurnOnButtonSound();
+
         gameObject.SetActive(false);
         UIGame.Instance.ShowButtons();
         ShopAreaController.Instance.Hide();

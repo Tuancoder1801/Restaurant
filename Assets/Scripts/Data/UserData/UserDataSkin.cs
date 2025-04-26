@@ -1,16 +1,30 @@
-﻿using Newtonsoft.Json;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class UserDataSkin
 {
-    public Dictionary<int, int> equippedSkins = new Dictionary<int, int>();
-    public Dictionary<int, List<int>> ownedSkins = new Dictionary<int, List<int>>();
+    public List<SkinEquipEntry> equippedSkins = new List<SkinEquipEntry>();
+    public List<SkinOwnedEntry> ownedSkins = new List<SkinOwnedEntry>();
+
+    [Serializable]
+    public class SkinEquipEntry
+    {
+        public int skinType;   // int = (int)SkinType
+        public int skinId;
+    }
+
+    [Serializable]
+    public class SkinOwnedEntry
+    {
+        public int skinType;
+        public List<int> ownedIds = new List<int>();
+    }
 
     private void Save()
     {
-        string json = JsonConvert.SerializeObject(this);
+        string json = JsonUtility.ToJson(this);
         PlayerPrefs.SetString(UserData.USER_DATA_SKIN, json);
         PlayerPrefs.Save();
     }
@@ -18,44 +32,58 @@ public class UserDataSkin
     public int GetEquippedSkin(SkinType type)
     {
         int key = (int)type;
-        if (equippedSkins.ContainsKey(key))
+        foreach (var entry in equippedSkins)
         {
-            return equippedSkins[key];
+            if (entry.skinType == key)
+                return entry.skinId;
         }
 
-        return 0;
+        return 0; // default skin
     }
 
     public List<int> GetOwnedSkins(SkinType type)
     {
         int key = (int)type;
-        if (ownedSkins.ContainsKey(key))
+        foreach (var entry in ownedSkins)
         {
-            return ownedSkins[key];
+            if (entry.skinType == key)
+                return entry.ownedIds;
         }
+
         return new List<int>();
     }
 
     public void Buy(SkinType type, int id)
     {
-        List<int> owned = GetOwnedSkins(type);
-        if (owned.Contains(id) == false)
+        int key = (int)type;
+        var entry = ownedSkins.Find(e => e.skinType == key);
+        if (entry == null)
         {
-            owned.Add(id);
-            ownedSkins[(int)type] = owned;
-            Save();
+            entry = new SkinOwnedEntry { skinType = key };
+            ownedSkins.Add(entry);
         }
 
+        if (!entry.ownedIds.Contains(id))
+        {
+            entry.ownedIds.Add(id);
+            Save();
+        }
     }
 
     public void Equip(SkinType type, int id)
     {
-        int typeInt = (int)type;
+        int key = (int)type;
+        var owned = GetOwnedSkins(type);
+        if (!owned.Contains(id)) return;
 
-        if (ownedSkins.ContainsKey(typeInt) && ownedSkins[typeInt].Contains(id))
+        var equip = equippedSkins.Find(e => e.skinType == key);
+        if (equip == null)
         {
-            equippedSkins[typeInt] = id;
-            Save();
+            equip = new SkinEquipEntry { skinType = key };
+            equippedSkins.Add(equip);
         }
+
+        equip.skinId = id;
+        Save();
     }
 }

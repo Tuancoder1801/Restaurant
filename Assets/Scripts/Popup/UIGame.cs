@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIGame : Singleton<UIGame>
@@ -25,9 +22,12 @@ public class UIGame : Singleton<UIGame>
     public double currentMoney = 0;
     private Coroutine moneyCoroutine;
 
-    private void Awake()
+    private void OnEnable()
     {
-        UpdateMoneyText(currentMoney);
+        Debug.Log("✅ OnEnable " + nameof(gameObject));
+
+        LoadMoney();
+        bg.gameObject.SetActive(false);
         btShop.onClick.AddListener(ClickButtonShop);
         btSetting.onClick.AddListener(ClickButtonSetting);
         btMart.onClick.AddListener(ClickButtonMart);
@@ -41,6 +41,8 @@ public class UIGame : Singleton<UIGame>
         if (moneyCoroutine != null) StopCoroutine(moneyCoroutine);
         moneyCoroutine = StartCoroutine(AnimateMoneyChange(currentMoney, currentMoney + amount));
         currentMoney += amount;
+
+        UserData.money.SaveCoins(currentMoney);
     }
 
     public void SubtractMoney(double amount)
@@ -50,6 +52,8 @@ public class UIGame : Singleton<UIGame>
         currentMoney = newMoney;
         if (moneyCoroutine != null) StopCoroutine(moneyCoroutine);
         moneyCoroutine = StartCoroutine(AnimateMoneyChange(currentMoney, newMoney));
+
+        UserData.money.SaveCoins(currentMoney);
     }
 
     private IEnumerator AnimateMoneyChange(double from, double to)
@@ -67,6 +71,22 @@ public class UIGame : Singleton<UIGame>
         }
 
         UpdateMoneyText(to);
+    }
+
+    private void LoadMoney()
+    {
+        double currentCoins = UserData.money.LoadCoins();
+        Debug.Log("💰 LoadCoins = " + currentCoins + " | Raw = " + PlayerPrefs.GetString(UserData.USER_DATA_MONEY));
+        currentMoney = currentCoins;    
+
+        if (currentCoins < 1000)
+        {
+            textMoney.text = currentCoins.ToString();
+        }
+        else
+        {
+            textMoney.text = currentCoins.ToString("N0").Replace(",", ".");
+        }
     }
 
     private void UpdateMoneyText(double value)
@@ -87,25 +107,39 @@ public class UIGame : Singleton<UIGame>
 
     private void ClickButtonShop()
     {
+        Debug.Log("🛒 ClickButtonShop called!");
         popupShop.gameObject.SetActive(true);
-        HideButtons();
+        AudioManager.Instance.TurnOnButtonSound();
+        HideButtonShop();
     }
 
     private void ClickButtonSetting()
     {
+        Debug.Log("🛒 ClickButtonSetting called!");
         popupSetting.gameObject.SetActive(true);
+        AudioManager.Instance.TurnOnButtonSound();
         HideButtons();
     }
 
     private void ClickButtonMart()
     {
+        Debug.Log("🛒 ClickButtonMart called!");
         popupMart.gameObject.SetActive(true);
+        AudioManager.Instance.TurnOnButtonSound();
         HideButtons();
     }
 
     private void HideButtons()
     {
         bg.gameObject.SetActive(true);
+        btSetting.gameObject.SetActive(false);
+        btShop.gameObject.SetActive(false);
+        btMart.gameObject.SetActive(false);
+    }
+
+    private void HideButtonShop()
+    {
+        bg.gameObject.SetActive(false);
         btSetting.gameObject.SetActive(false);
         btShop.gameObject.SetActive(false);
         btMart.gameObject.SetActive(false);

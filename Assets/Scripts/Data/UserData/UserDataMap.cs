@@ -1,16 +1,45 @@
-using Newtonsoft.Json;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class UserMapData
 {
     public List<int> unlockedBuildIndexes = new List<int>();
-    public Dictionary<int, int> customersPerBuild = new Dictionary<int, int>();
+    public List<BuildCustomerEntry> customersPerBuild = new List<BuildCustomerEntry>();
+
+    public int GetCustomerCount(int buildIndex)
+    {
+        foreach (var entry in customersPerBuild)
+        {
+            if (entry.buildIndex == buildIndex)
+                return entry.customerCount;
+        }
+        return 0;
+    }
+
+    public void SetCustomerCount(int buildIndex, int count)
+    {
+        var entry = customersPerBuild.Find(e => e.buildIndex == buildIndex);
+        if (entry == null)
+        {
+            customersPerBuild.Add(new BuildCustomerEntry { buildIndex = buildIndex, customerCount = count });
+        }
+        else
+        {
+            entry.customerCount = count;
+        }
+    }
+
+    [Serializable]
+    public class BuildCustomerEntry
+    {
+        public int buildIndex;
+        public int customerCount;
+    }
 }
 
-[System.Serializable]
+[Serializable]
 public class UserDataMap
 {
     public int currentMapIndex;
@@ -18,19 +47,20 @@ public class UserDataMap
     public List<int> unlockedMapIndexes = new List<int>();
     public List<int> completedMapIndexes = new List<int>();
 
-    public Dictionary<int, UserMapData> allMapData = new Dictionary<int, UserMapData>();
+    public List<MapDataEntry> allMapData = new List<MapDataEntry>();
 
     public void InitDefault()
     {
-        if(unlockedMapIndexes == null || unlockedMapIndexes.Count == 0)
-        {
+        if (unlockedMapIndexes == null || unlockedMapIndexes.Count == 0)
             unlockedMapIndexes = new List<int> { 0 };
-        }
 
-        if (!allMapData.ContainsKey(0))
+        if (!HasMapData(0))
         {
-            allMapData[0] = new UserMapData();
-            allMapData[0].unlockedBuildIndexes.Add(0);
+            allMapData.Add(new MapDataEntry
+            {
+                mapIndex = 0,
+                data = new UserMapData()
+            });
         }
     }
 
@@ -39,8 +69,8 @@ public class UserDataMap
         if (!unlockedMapIndexes.Contains(mapIndex))
             unlockedMapIndexes.Add(mapIndex);
 
-        if (!allMapData.ContainsKey(mapIndex))
-            allMapData[mapIndex] = new UserMapData();
+        if (!HasMapData(mapIndex))
+            allMapData.Add(new MapDataEntry { mapIndex = mapIndex, data = new UserMapData() });
     }
 
     public void CompleteMap(int mapIndex)
@@ -49,8 +79,30 @@ public class UserDataMap
             completedMapIndexes.Add(mapIndex);
     }
 
-    public bool IsMapUnlocked(int mapIndex) => unlockedMapIndexes.Contains(mapIndex);
-    public bool IsMapCompleted(int mapIndex) => completedMapIndexes.Contains(mapIndex);
-    public bool IsCurrentMap(int mapIndex) => currentMapIndex == mapIndex;
+    public UserMapData GetMapData(int mapIndex)
+    {
+        return allMapData.Find(entry => entry.mapIndex == mapIndex)?.data;
+    }
+
+    public bool HasMapData(int mapIndex)
+    {
+        return allMapData.Exists(entry => entry.mapIndex == mapIndex);
+    }
+
+    public bool IsBuildUnlocked(int mapIndex, int buildIndex)
+    {
+        var mapData = GetMapData(mapIndex);
+        if (mapData != null)
+        {
+            return mapData.unlockedBuildIndexes.Contains(buildIndex);
+        }
+        return false;
+    }
 }
 
+[Serializable]
+public class MapDataEntry
+{
+    public int mapIndex;
+    public UserMapData data;
+}

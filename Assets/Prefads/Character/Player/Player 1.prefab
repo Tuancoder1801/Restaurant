@@ -800,6 +800,8 @@ MonoBehaviour:
   - {fileID: 6785466459581055362, guid: f94668428f5a33d4c90aa2cc5f5c4a36, type: 3}
   playerEquipment: {fileID: 0}
   glass: {fileID: 0}
+  sfxDopItem: {fileID: 8300000, guid: 2b2cb29008a54644e997339ecb9b5c1b, type: 3}
+  sfxPushItem: {fileID: 8300000, guid: b82d19dfaf6bf634b954b23f9cf878d9, type: 3}
   isUI: 0
 --- !u!143 &2546815399758403378
 CharacterController:

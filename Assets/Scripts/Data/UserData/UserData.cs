@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 
 public class UserData
 {
@@ -18,36 +16,19 @@ public class UserData
         if (skin == null)
         {
             string skinPrefs = PlayerPrefs.GetString(USER_DATA_SKIN);
-            if (string.IsNullOrEmpty(skinPrefs))
-            {
-                skin = new UserDataSkin();
-            }
-            else
-            {
-                skin = JsonConvert.DeserializeObject<UserDataSkin>(skinPrefs);
-            }
+            skin = string.IsNullOrEmpty(skinPrefs) ? new UserDataSkin() : JsonUtility.FromJson<UserDataSkin>(skinPrefs);
         }
 
         if (map == null)
         {
             string mapPrefs = PlayerPrefs.GetString(USER_DATA_MAP);
-            if (string.IsNullOrEmpty(mapPrefs))
-            {
-                map = new UserDataMap();
-                map.currentMapIndex = 0;
-                map.InitDefault();
-                Save();
-            }
-            else
-            {
-                map = JsonConvert.DeserializeObject<UserDataMap>(mapPrefs);
-                map.InitDefault();
-            }
+            map = string.IsNullOrEmpty(mapPrefs) ? new UserDataMap() : JsonUtility.FromJson<UserDataMap>(mapPrefs);
+            map.InitDefault();
+        }
 
-            if (PlayerPrefs.HasKey("last_map_index"))
-            {
-                map.currentMapIndex = PlayerPrefs.GetInt("last_map_index");
-            }
+        if (PlayerPrefs.HasKey("last_map_index"))
+        {
+            map.currentMapIndex = PlayerPrefs.GetInt("last_map_index");
         }
 
         if (money == null)
@@ -58,11 +39,9 @@ public class UserData
 
     public static void Save()
     {
-        string json = JsonConvert.SerializeObject(map);
+        string json = JsonUtility.ToJson(map);
         PlayerPrefs.SetString(USER_DATA_MAP, json);
-
         PlayerPrefs.SetInt("last_map_index", map.currentMapIndex);
-
         PlayerPrefs.Save();
     }
 
@@ -70,10 +49,10 @@ public class UserData
     {
         map.UnlockMap(mapId);
 
-        if (!map.allMapData.ContainsKey(mapId))
+        if (!map.HasMapData(mapId))
         {
-            map.allMapData[mapId] = new UserMapData();
-            map.allMapData[mapId].unlockedBuildIndexes.Add(-1); // mặc định ban đầu
+            var data = new UserMapData();
+            map.allMapData.Add(new MapDataEntry { mapIndex = mapId, data = data });
             Save();
         }
     }

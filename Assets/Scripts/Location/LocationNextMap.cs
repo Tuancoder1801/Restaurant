@@ -19,7 +19,11 @@ public class LocationNextMap : LocationBase
 
     private void OnEnable()
     {
-        GameManager.Instance.smoothCamera.ZoomInToTarget(new List<Transform> {goFocus.transform}, 3f);
+        int currentMap = UserData.map.currentMapIndex;
+        if (!UserData.map.IsBuildUnlocked(currentMap, buildIndex))
+        {
+            GameManager.Instance.smoothCamera.ZoomInToTarget(new List<Transform> { goFocus.transform }, 3f);
+        }
     }
 
     private void OnDisable()
@@ -33,7 +37,6 @@ public class LocationNextMap : LocationBase
 
         if (other.tag.Equals(StaticValue.CHARACTER_NAME_TAG))
         {
-            //LeanTween.scale(goUI, new Vector3(-0.017f, 0.017f, 1f), 0.5f);
             ieWaitProgress = StartCoroutine(IEWaitProgress());
         }
     }

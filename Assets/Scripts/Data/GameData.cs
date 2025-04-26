@@ -10,10 +10,23 @@ public class GameData : MonoBehaviour
     public int currentMapIndex = 0;
     public static MapData currentMap;
 
-    private bool isLoadingMap = false;  
+    private bool isLoadingMap = false;
+
+    private bool isInit = false;
 
     private void Awake()
     {
+        Debug.Log("✅ Awake " + nameof(gameObject));
+        Init();
+    }
+
+    public void Init()
+    {
+        if (isInit)
+            return;
+
+        isInit = true;
+
         if (Instance == null)
         {
             Instance = this;
@@ -21,7 +34,6 @@ public class GameData : MonoBehaviour
 
             GameDataConstant.Load();
             UserData.Load();
-            Debug.Log("UserData loaded", this);
         }
         else
         {
@@ -34,14 +46,14 @@ public class GameData : MonoBehaviour
     {
         currentMapIndex = UserData.map.currentMapIndex;
 
-        if (SceneManager.GetActiveScene().name == "Start")
-        {
-            WaitAndLoadMap();
-        }
-        else
-        {
-            LoadCurrentMap();
-        }
+        //if (SceneManager.GetActiveScene().name == "Start")
+        //{
+        //    WaitAndLoadMap();
+        //}
+        //else
+        //{
+        //    LoadCurrentMap();
+        //}
     }
 
     #region DataMap
@@ -68,9 +80,10 @@ public class GameData : MonoBehaviour
 
     private void WaitAndLoadMap()
     {
+        LoadNextMap();
+
         if (isLoadingMap)
         {
-            isLoadingMap = false;
             LoadNextMap();
         }
     }

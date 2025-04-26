@@ -15,7 +15,7 @@ public class ButtonTab : MonoBehaviour
     }
 
     private void OnClicḳ()
-    {
+    {   
         FindObjectOfType<PopupShop>().ShowView(type);
     }
 }

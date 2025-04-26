@@ -1,11 +1,7 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class LocationBuild : LocationBase
 {
@@ -15,6 +11,8 @@ public class LocationBuild : LocationBase
     public TextMeshPro textPrice;
     public Transform indexMoneyDrop;
 
+    public AudioClip sfxDolaFry;
+
     private Material material;
     private Transform tranPlayer;
     private IEnumerator ieWaitTakeMoney;
@@ -23,6 +21,7 @@ public class LocationBuild : LocationBase
     public double money;
     private double moneyPer;
     private bool isWarning;
+    private float timeMoneySound;
 
 
     private void OnEnable()
@@ -129,6 +128,12 @@ public class LocationBuild : LocationBase
         }
 
         isWarning = false;
+
+        if(timeMoneySound <= 0)
+        {
+            AudioManager.Instance.audioSFX.PlayOneShot(sfxDolaFry);
+            timeMoneySound = 0.1f;
+        }
 
         money -= mPer;
 

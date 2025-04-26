@@ -1,13 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using static UnityEditor.Progress;
-using UnityEngine.TextCore.Text;
-using DG.Tweening.Core.Easing;
-using static UnityEngine.GraphicsBuffer;
 using System;
-using UnityEngine.XR;
+
 
 public class Player : Character
 {
@@ -23,6 +17,9 @@ public class Player : Character
 
     public PlayerEquipment playerEquipment;
     public Glass glass;
+
+    public AudioClip sfxDopItem;
+    public AudioClip sfxPushItem;
 
     public bool isUI;
 
@@ -187,7 +184,9 @@ public class Player : Character
             {
                 var item = PopItem(itemType);
                 if (item != null)
-                {
+                {   
+                    AudioManager.Instance.audioSFX.PlayOneShot(sfxDopItem);
+
                     location.PushItem(item);
                 }
             }
@@ -203,6 +202,8 @@ public class Player : Character
         ReplayAnim();
         if (item != null)
         {
+            AudioManager.Instance.audioSFX.PlayOneShot(sfxDopItem);
+
             location.PushItem(item);
         }
     }
@@ -217,6 +218,8 @@ public class Player : Character
                 var item = PopItem(itemType);
                 if (item != null)
                 {
+                    AudioManager.Instance.audioSFX.PlayOneShot(sfxDopItem);
+
                     location.PushItem(item);
                 }
             }
@@ -231,6 +234,8 @@ public class Player : Character
 
             if(item != null)
             {
+                AudioManager.Instance.audioSFX.PlayOneShot(sfxPushItem);
+
                 PushItem(item);
             }
         }

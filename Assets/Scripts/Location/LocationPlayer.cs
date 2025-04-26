@@ -13,7 +13,14 @@ public class LocationPlayer : LocationBase
             playerAi.SetIdleTransform(transform);
             playerAi.gameObject.SetActive(true);
 
-            if (playerAi.humanId != HumanId.Player) GameManager.Instance.smoothCamera.ZoomInToTarget(new List<Transform> { playerAi.transform });
+            if (playerAi.humanId != HumanId.Player)
+            {
+                int currentMap = UserData.map.currentMapIndex;
+                if (!UserData.map.IsBuildUnlocked(currentMap, buildIndex))
+                {
+                    GameManager.Instance.smoothCamera.ZoomInToTarget(new List<Transform> { playerAi.transform });
+                }
+            }
 
             if (playerAi.humanId == HumanId.Collector)
             {
