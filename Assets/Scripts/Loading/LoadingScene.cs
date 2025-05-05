@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class LoadingScene : MonoBehaviour
 {
     public Image imgProgress;
-    public GameData gameData;
 
     private string nameMap;
 
     private void Start()
     {
+        Screen.SetResolution(540, 810, false);
+
         LeanTween.value(gameObject, (value) =>
         {
             imgProgress.fillAmount = value;

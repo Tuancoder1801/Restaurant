@@ -43,6 +43,8 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+        Screen.SetResolution(540, 810, false);
+
         GameObject.Find("GameData").GetComponent<GameData>().Init();
         GameObject.Find("UIGameManager").GetComponent<UIGameManager>().Init();
 
