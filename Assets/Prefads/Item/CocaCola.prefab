@@ -74,8 +74,8 @@ Transform:
   m_GameObject: {fileID: 5545794670251910815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0032, y: 0.271, z: 0.0011}
-  m_LocalScale: {x: 0.44280776, y: 0.00678, z: 0.44704595}
+  m_LocalPosition: {x: 0.0032, y: 0.408, z: 0.0011}
+  m_LocalScale: {x: 0.56, y: 0.00678, z: 0.57}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6110064608183911663}
@@ -178,13 +178,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4670864309877145211, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.102
+      objectReference: {fileID: 0}
+    - target: {fileID: -4213095278256315787, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4213095278256315787, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4213095278256315787, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4213095278256315787, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3110277826067337916, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.003
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
       propertyPath: m_Name
       value: cup OBJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548212967037259458, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.081
       objectReference: {fileID: 0}
     - target: {fileID: 2572107867188898577, guid: 382bd4741e8a1824d933682bc32e623d, type: 3}
       propertyPath: m_Materials.Array.data[0]
